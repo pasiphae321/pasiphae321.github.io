@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="pasiphae&#39;s blog">
+  <link 
+    rel="icon" 
+    href="/images/favicon.png">
+  <title>SQL注入基本原理实验</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="SQL注入基本原理实验">
+    
+    
+      <meta 
+        property="og:url" 
+        content="https://www.pasiphae.top/2022/11/02/SQL%E6%B3%A8%E5%85%A5%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="https://q1.qlogo.cn/g?b=qq&amp;nk=1318952043&amp;s=640">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2022-11-02">
+      <meta 
+        property="og:article:modified_time" 
+        content="2024-08-07">
+      <meta 
+        property="og:article:author" 
+        content="pasiphae">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="SQL注入">
+        
+          <meta 
+            property="og:article:tag" 
+            content="MySQL">
+        
+          <meta 
+            property="og:article:tag" 
+            content="PHP">
+        
+      
+    
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  <link rel="preload" href="/css/main.css" as="style" >
+  
+  <link rel="modulepreload" href="//instant.page/5.1.0">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4627722_8afulm2ucfb.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+  
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <a class="navbar-logo-main" href="/">
+      
+        <img 
+          class="navbar-logo-img"
+          width="32"
+          height="32"
+          src="/images/favicon.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">pasiphae's blog</span>
+      </a>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+    <button 
+      class="navbar-menu-item darknavbar navbar-menu-btn" 
+      aria-label="Toggle dark mode"
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </button>
+    <button 
+      class="navbar-menu-item searchnavbar navbar-menu-btn" 
+      aria-label="Toggle search"
+      id="search">
+      <!-- <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i> -->
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+        class="iconify iconify--ion" width="28" height="28" preserveAspectRatio="xMidYMid meet" viewBox="0 0 512 512">
+        <path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="28"
+          d="M256 80a176 176 0 1 0 176 176A176 176 0 0 0 256 80Z"></path>
+        <path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="28"
+          d="M232 160a72 72 0 1 0 72 72a72 72 0 0 0-72-72Z"></path>
+        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="28"
+          d="M283.64 283.64L336 336"></path>
+      </svg>
+    </button>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="https://q1.qlogo.cn/g?b=qq&nk=1318952043&s=640" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">pasiphae</p>
+<p class="author-description">Welcome to my blog.</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>5</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>0</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>9</span>
+    <span>标签</span>
+  </a>
+</div>
+
+  <div class="author-card-society">
+    
+      <div class="author-card-society-icon">
+        <a href="/images/WeChat.jpg">
+          <i class="iconfont icon-weixin1 society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a href="/images/DouYin.jpg">
+          <i class="iconfont icon-douyin1 society-icon"></i>
+        </a>
+      </div>
+    
+  </div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C"><span class="toc-text">SQL注入基本原理实验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%9C%AC%E5%AE%9E%E9%AA%8C%E5%9F%BA%E4%BA%8E%E6%88%91%E7%BC%96%E5%86%99%E7%9A%84%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B9%A6%E5%BA%97%E7%B3%BB%E7%BB%9F%EF%BC%8C%E5%85%B6%E5%B7%B2%E8%A2%AB%E6%88%91%E4%B8%8A%E4%BC%A0%E5%88%B0%E4%BA%86GitHub"><span class="toc-text">一、本实验基于我编写的一个简单的书店系统，其已被我上传到了GitHub</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%9C%AC%E6%9D%A5%E6%98%AF%E7%94%A8%E4%BA%86PDO%E7%9A%84prepare%E6%96%B9%E6%B3%95%E5%92%8CbindParam%E6%96%B9%E6%B3%95%E5%AF%B9SQL%E6%B3%A8%E5%85%A5%E8%BF%9B%E8%A1%8C%E4%BA%86%E9%98%B2%E5%BE%A1%EF%BC%8C%E4%B9%9F%E5%B0%B1%E6%98%AF%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%9C%88%E4%B8%AD%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%8C%E4%B8%BA%E4%BA%86%E8%BF%9B%E8%A1%8CSQL%E6%B3%A8%E5%85%A5%E7%9A%84%E5%AE%9E%E9%AA%8C%EF%BC%8C%E6%88%91%E6%9A%82%E6%97%B6%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%BA%8C%E4%B8%AA%E5%9C%88%E4%B8%AD%E7%9A%84%E5%85%B7%E6%9C%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-text">二、本来是用了PDO的prepare方法和bindParam方法对SQL注入进行了防御，也就是第一个圈中的内容，为了进行SQL注入的实验，我暂时使用第二个圈中的具有SQL注入漏洞的代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E8%BF%9B%E8%A1%8CSQL%E6%B3%A8%E5%85%A5%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C"><span class="toc-text">三、进行SQL注入基本原理实验</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BB%A5%E4%BB%BB%E4%BD%95%E4%B8%80%E4%B8%AA%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%B3%BB%E7%BB%9F%EF%BC%8C%E8%AE%BF%E9%97%AE%E4%B9%A6%E7%B1%8D%E6%90%9C%E7%B4%A2%E9%A1%B5%E9%9D%A2"><span class="toc-text">1.以任何一个用户登录系统，访问书籍搜索页面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%BF%9B%E8%A1%8C%E6%AD%A3%E5%B8%B8%E6%90%9C%E7%B4%A2"><span class="toc-text">2.进行正常搜索</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%8E%A2%E6%B5%8B%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E"><span class="toc-text">3.探测是否存在SQL注入漏洞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%8E%A2%E6%B5%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B1%BB%E5%9E%8B"><span class="toc-text">4.探测数据库类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E6%8E%A2%E6%B5%8Bselect%E7%9A%84%E5%AD%97%E6%AE%B5%E6%95%B0%E9%87%8F"><span class="toc-text">5.探测select的字段数量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E8%8E%B7%E5%8F%96MySQL%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%95%B0%E6%8D%AE"><span class="toc-text">6.获取MySQL中的所有数据</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E9%98%B2%E8%8C%83SQL%E6%B3%A8%E5%85%A5%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">四、防范SQL注入的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%8F%82%E6%95%B0%E5%8C%96%E6%9F%A5%E8%AF%A2-parameterized-query"><span class="toc-text">1.参数化查询(parameterized query)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8ORM%E6%A1%86%E6%9E%B6"><span class="toc-text">2.使用ORM框架</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%9C%A8%E5%90%8E%E7%AB%AF%E8%BF%9B%E8%A1%8C%E5%85%B3%E9%94%AE%E5%AD%97%E8%BF%87%E6%BB%A4"><span class="toc-text">3.在后端进行关键字过滤</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/SQL%E6%B3%A8%E5%85%A5/" 
+        title="SQL注入">
+        <div class="tags-list-item">SQL注入</div>
+      </a>
+    
+      <a 
+        href="/tags/MySQL/" 
+        title="MySQL">
+        <div class="tags-list-item">MySQL</div>
+      </a>
+    
+      <a 
+        href="/tags/PHP/" 
+        title="PHP">
+        <div class="tags-list-item">PHP</div>
+      </a>
+    
+      <a 
+        href="/tags/test/" 
+        title="test">
+        <div class="tags-list-item">test</div>
+      </a>
+    
+      <a 
+        href="/tags/NAT/" 
+        title="NAT">
+        <div class="tags-list-item">NAT</div>
+      </a>
+    
+      <a 
+        href="/tags/iptables/" 
+        title="iptables">
+        <div class="tags-list-item">iptables</div>
+      </a>
+    
+      <a 
+        href="/tags/VMWare-Workstation/" 
+        title="VMWare Workstation">
+        <div class="tags-list-item">VMWare Workstation</div>
+      </a>
+    
+      <a 
+        href="/tags/OpenWRt/" 
+        title="OpenWRt">
+        <div class="tags-list-item">OpenWRt</div>
+      </a>
+    
+      <a 
+        href="/tags/%E9%9F%B3%E4%B9%90/" 
+        title="音乐">
+        <div class="tags-list-item">音乐</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <main class="main-column">
+              
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      SQL注入基本原理实验
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-11-02T07:23:36.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2022-11-02</span>
+    </time>
+    
+    
+      <span class="dot"></span>
+      <span>942 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/tags/SQL%E6%B3%A8%E5%85%A5/" 
+            class="post-meta-link">
+            SQL注入
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/MySQL/" 
+            class="post-meta-link">
+            MySQL
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/PHP/" 
+            class="post-meta-link">
+            PHP
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h2 id="SQL注入基本原理实验"><a href="#SQL注入基本原理实验" class="headerlink" title="SQL注入基本原理实验"></a>SQL注入基本原理实验</h2><h3 id="一、本实验基于我编写的一个简单的书店系统，其已被我上传到了GitHub"><a href="#一、本实验基于我编写的一个简单的书店系统，其已被我上传到了GitHub" class="headerlink" title="一、本实验基于我编写的一个简单的书店系统，其已被我上传到了GitHub"></a>一、本实验基于我编写的一个简单的书店系统，其已被我上传到了GitHub</h3><p>链接 <a target="_blank" rel="noopener" href="https://github.com/pasiphae321/BookstoreSystem">https://github.com/pasiphae321/BookstoreSystem</a><br>预览链接 </p>
+<h3 id="二、本来是用了PDO的prepare方法和bindParam方法对SQL注入进行了防御，也就是第一个圈中的内容，为了进行SQL注入的实验，我暂时使用第二个圈中的具有SQL注入漏洞的代码"><a href="#二、本来是用了PDO的prepare方法和bindParam方法对SQL注入进行了防御，也就是第一个圈中的内容，为了进行SQL注入的实验，我暂时使用第二个圈中的具有SQL注入漏洞的代码" class="headerlink" title="二、本来是用了PDO的prepare方法和bindParam方法对SQL注入进行了防御，也就是第一个圈中的内容，为了进行SQL注入的实验，我暂时使用第二个圈中的具有SQL注入漏洞的代码"></a>二、本来是用了PDO的prepare方法和bindParam方法对SQL注入进行了防御，也就是第一个圈中的内容，为了进行SQL注入的实验，我暂时使用第二个圈中的具有SQL注入漏洞的代码</h3><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/1.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/1.png" class="lozad post-image"></p>
+<h3 id="三、进行SQL注入基本原理实验"><a href="#三、进行SQL注入基本原理实验" class="headerlink" title="三、进行SQL注入基本原理实验"></a>三、进行SQL注入基本原理实验</h3><h4 id="1-以任何一个用户登录系统，访问书籍搜索页面"><a href="#1-以任何一个用户登录系统，访问书籍搜索页面" class="headerlink" title="1.以任何一个用户登录系统，访问书籍搜索页面"></a>1.以任何一个用户登录系统，访问书籍搜索页面</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/2.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/2.png" class="lozad post-image"></p>
+<h4 id="2-进行正常搜索"><a href="#2-进行正常搜索" class="headerlink" title="2.进行正常搜索"></a>2.进行正常搜索</h4><p>由下面两图可以看到，正常搜索无论是否存在对应书籍都会有回显<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/3.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/3.png" class="lozad post-image"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/4.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/4.png" class="lozad post-image"></p>
+<h4 id="3-探测是否存在SQL注入漏洞"><a href="#3-探测是否存在SQL注入漏洞" class="headerlink" title="3.探测是否存在SQL注入漏洞"></a>3.探测是否存在SQL注入漏洞</h4><p>BookName这种一看在mysql中的字段类型就是字符串，那么其在后端对应的SQL语句应该就是</p>
+<pre class="highlight"><span class="line">select xxx from xxx where BookName = &#x27;后端所用语言的某个变量名&#x27;;</span><br></pre>
+
+<p>通过输入<code>1&#39;</code>，将SQL语句中的第一个<code>&#39;</code>与<code>1</code>后面的<code>&#39;</code>构成一对，那么其后的<code>&#39;;</code>就会造成SQL的语法错误，执行这个SQL语句MySQL就会报错，那么后端在得到报错后可能就不会设置回显或者设置不同的回显</p>
+<p>由下图可以看到，因为MySQL的报错，后端返回了不同的回显，说明存在SQL注入漏洞<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/5.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/5.png" class="lozad post-image"></p>
+<h4 id="4-探测数据库类型"><a href="#4-探测数据库类型" class="headerlink" title="4.探测数据库类型"></a>4.探测数据库类型</h4><p>常见数据库有MySQL、PostgreSQL、SQLServer、oracle，只有MySQL有##注释</p>
+<p>尝试输入<code>&#39; ##</code>看数据库是否报错，由下图可以看到并未出现查询失败的回显，说明数据库并未报错，那么数据库就是MySQL<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/6.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/6.png" class="lozad post-image"></p>
+<p>关于其它三个数据库的区分，可以查阅网络上的资料</p>
+<h4 id="5-探测select的字段数量"><a href="#5-探测select的字段数量" class="headerlink" title="5.探测select的字段数量"></a>5.探测select的字段数量</h4><p>虽然前端的表格只有两个字段，但是后端的SQL语句有可能select了不止两个字段，那么我们通过union select进行探测</p>
+<p>输入<code>为什么&#39; union select 1,2;##</code>，可以看到回显有1和2，说明后端的SQL语句select了两个字段<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/7.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/7.png" class="lozad post-image"></p>
+<p>输入<code>为什么&#39; union select 1,2,3;##</code>，可以看到MySQL报错了，说明union前后的两个select的字段数量不一致，验证了后端的SQL语句确实select了两个字段<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/8.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/8.png" class="lozad post-image"></p>
+<h4 id="6-获取MySQL中的所有数据"><a href="#6-获取MySQL中的所有数据" class="headerlink" title="6.获取MySQL中的所有数据"></a>6.获取MySQL中的所有数据</h4><p>MySQL中有一个名为information_schema的库，库中有个名为COLUMNS的表，表中存在三个字段TABLE_SCHEMA、TABLE_NAME、COLUMN_NAME，分别表示库名、表名、列名，可通过此表查询整个MySQL的信息<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/9.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/9.png" class="lozad post-image"></p>
+<p>例如，查询整个MySQL的所有数据库名</p>
+<pre class="highlight"><span class="line">为什么&#x27; union select TABLE_SCHEMA, 1 from information_schema.COLUMNS group by TABLE_SCHEMA;##</span><br></pre>
+<p>可以看到查到了所有数据库名<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/10.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/10.png" class="lozad post-image"></p>
+<p>查询BookstoreSystem库的所有表名</p>
+<pre class="highlight"><span class="line">为什么&#x27; union select TABLE_NAME, 1 from information_schema.COLUMNS where TABLE_SCHEMA = &#x27;BookstoreSystem&#x27;group by TABLE_NAME;##</span><br></pre>
+<p>可以看到，查出了所有的表名<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/11.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/11.png" class="lozad post-image"></p>
+<p>查询users表的所有字段名</p>
+<pre class="highlight"><span class="line">为什么&#x27; union select COLUMN_NAME, 1 from information_schema.COLUMNS where TABLE_SCHEMA = &#x27;BookstoreSystem&#x27; and TABLE_NAME = &#x27;users&#x27;;##</span><br></pre>
+<p>可以看到，查出了所有字段名<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/12.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/12.png" class="lozad post-image"></p>
+<p>查询username和password字段的所有值</p>
+<pre class="highlight"><span class="line">为什么&#x27; union select username, password from BookstoreSystem.users;##</span><br></pre>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/13.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/13.png" class="lozad post-image"></p>
+<p>通过如上方式，整个MySQL的数据一览无余</p>
+<h3 id="四、防范SQL注入的方法"><a href="#四、防范SQL注入的方法" class="headerlink" title="四、防范SQL注入的方法"></a>四、防范SQL注入的方法</h3><h4 id="1-参数化查询-parameterized-query"><a href="#1-参数化查询-parameterized-query" class="headerlink" title="1.参数化查询(parameterized query)"></a>1.参数化查询(parameterized query)</h4><p>通过将SQL的代码和数据相分离，例如使用PHP的PDO的prepare方法和bindParam方法，本实验使用的书店系统就采用的此方式</p>
+<h4 id="2-使用ORM框架"><a href="#2-使用ORM框架" class="headerlink" title="2.使用ORM框架"></a>2.使用ORM框架</h4><p>ORM即Obejct Relationship Mapping对象关系映射，具体原理可查阅网络上的资料</p>
+<h4 id="3-在后端进行关键字过滤"><a href="#3-在后端进行关键字过滤" class="headerlink" title="3.在后端进行关键字过滤"></a>3.在后端进行关键字过滤</h4><p>后端过滤掉能够引起SQL注入的关键字如<code>&#39;/##/;/--/union/select</code>等等，但这种方式会在一定程度上影响正常搜索</p>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/about">
+            pasiphae
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="https://www.pasiphae.top/2022/11/02/SQL%E6%B3%A8%E5%85%A5%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C/">
+            https://www.pasiphae.top/2022/11/02/SQL%E6%B3%A8%E5%85%A5%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2022/08/20/%E5%9C%A8VMWare-Workstation%E4%B8%8A%E5%AE%89%E8%A3%85OpenWRt/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">在VMWare Workstation上安装OpenWRt </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C"><span class="toc-text">SQL注入基本原理实验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%9C%AC%E5%AE%9E%E9%AA%8C%E5%9F%BA%E4%BA%8E%E6%88%91%E7%BC%96%E5%86%99%E7%9A%84%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B9%A6%E5%BA%97%E7%B3%BB%E7%BB%9F%EF%BC%8C%E5%85%B6%E5%B7%B2%E8%A2%AB%E6%88%91%E4%B8%8A%E4%BC%A0%E5%88%B0%E4%BA%86GitHub"><span class="toc-text">一、本实验基于我编写的一个简单的书店系统，其已被我上传到了GitHub</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%9C%AC%E6%9D%A5%E6%98%AF%E7%94%A8%E4%BA%86PDO%E7%9A%84prepare%E6%96%B9%E6%B3%95%E5%92%8CbindParam%E6%96%B9%E6%B3%95%E5%AF%B9SQL%E6%B3%A8%E5%85%A5%E8%BF%9B%E8%A1%8C%E4%BA%86%E9%98%B2%E5%BE%A1%EF%BC%8C%E4%B9%9F%E5%B0%B1%E6%98%AF%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%9C%88%E4%B8%AD%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%8C%E4%B8%BA%E4%BA%86%E8%BF%9B%E8%A1%8CSQL%E6%B3%A8%E5%85%A5%E7%9A%84%E5%AE%9E%E9%AA%8C%EF%BC%8C%E6%88%91%E6%9A%82%E6%97%B6%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%BA%8C%E4%B8%AA%E5%9C%88%E4%B8%AD%E7%9A%84%E5%85%B7%E6%9C%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-text">二、本来是用了PDO的prepare方法和bindParam方法对SQL注入进行了防御，也就是第一个圈中的内容，为了进行SQL注入的实验，我暂时使用第二个圈中的具有SQL注入漏洞的代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E8%BF%9B%E8%A1%8CSQL%E6%B3%A8%E5%85%A5%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C"><span class="toc-text">三、进行SQL注入基本原理实验</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BB%A5%E4%BB%BB%E4%BD%95%E4%B8%80%E4%B8%AA%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%B3%BB%E7%BB%9F%EF%BC%8C%E8%AE%BF%E9%97%AE%E4%B9%A6%E7%B1%8D%E6%90%9C%E7%B4%A2%E9%A1%B5%E9%9D%A2"><span class="toc-text">1.以任何一个用户登录系统，访问书籍搜索页面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%BF%9B%E8%A1%8C%E6%AD%A3%E5%B8%B8%E6%90%9C%E7%B4%A2"><span class="toc-text">2.进行正常搜索</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%8E%A2%E6%B5%8B%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E"><span class="toc-text">3.探测是否存在SQL注入漏洞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%8E%A2%E6%B5%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B1%BB%E5%9E%8B"><span class="toc-text">4.探测数据库类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E6%8E%A2%E6%B5%8Bselect%E7%9A%84%E5%AD%97%E6%AE%B5%E6%95%B0%E9%87%8F"><span class="toc-text">5.探测select的字段数量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E8%8E%B7%E5%8F%96MySQL%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%95%B0%E6%8D%AE"><span class="toc-text">6.获取MySQL中的所有数据</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E9%98%B2%E8%8C%83SQL%E6%B3%A8%E5%85%A5%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">四、防范SQL注入的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%8F%82%E6%95%B0%E5%8C%96%E6%9F%A5%E8%AF%A2-parameterized-query"><span class="toc-text">1.参数化查询(parameterized query)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8ORM%E6%A1%86%E6%9E%B6"><span class="toc-text">2.使用ORM框架</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%9C%A8%E5%90%8E%E7%AB%AF%E8%BF%9B%E8%A1%8C%E5%85%B3%E9%94%AE%E5%AD%97%E8%BF%87%E6%BB%A4"><span class="toc-text">3.在后端进行关键字过滤</span></a></li></ol></li></ol></li></ol>
+</div>
+            </main>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C"><span class="toc-text">SQL注入基本原理实验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%9C%AC%E5%AE%9E%E9%AA%8C%E5%9F%BA%E4%BA%8E%E6%88%91%E7%BC%96%E5%86%99%E7%9A%84%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B9%A6%E5%BA%97%E7%B3%BB%E7%BB%9F%EF%BC%8C%E5%85%B6%E5%B7%B2%E8%A2%AB%E6%88%91%E4%B8%8A%E4%BC%A0%E5%88%B0%E4%BA%86GitHub"><span class="toc-text">一、本实验基于我编写的一个简单的书店系统，其已被我上传到了GitHub</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%9C%AC%E6%9D%A5%E6%98%AF%E7%94%A8%E4%BA%86PDO%E7%9A%84prepare%E6%96%B9%E6%B3%95%E5%92%8CbindParam%E6%96%B9%E6%B3%95%E5%AF%B9SQL%E6%B3%A8%E5%85%A5%E8%BF%9B%E8%A1%8C%E4%BA%86%E9%98%B2%E5%BE%A1%EF%BC%8C%E4%B9%9F%E5%B0%B1%E6%98%AF%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%9C%88%E4%B8%AD%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%8C%E4%B8%BA%E4%BA%86%E8%BF%9B%E8%A1%8CSQL%E6%B3%A8%E5%85%A5%E7%9A%84%E5%AE%9E%E9%AA%8C%EF%BC%8C%E6%88%91%E6%9A%82%E6%97%B6%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%BA%8C%E4%B8%AA%E5%9C%88%E4%B8%AD%E7%9A%84%E5%85%B7%E6%9C%89SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-text">二、本来是用了PDO的prepare方法和bindParam方法对SQL注入进行了防御，也就是第一个圈中的内容，为了进行SQL注入的实验，我暂时使用第二个圈中的具有SQL注入漏洞的代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E8%BF%9B%E8%A1%8CSQL%E6%B3%A8%E5%85%A5%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C"><span class="toc-text">三、进行SQL注入基本原理实验</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BB%A5%E4%BB%BB%E4%BD%95%E4%B8%80%E4%B8%AA%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%B3%BB%E7%BB%9F%EF%BC%8C%E8%AE%BF%E9%97%AE%E4%B9%A6%E7%B1%8D%E6%90%9C%E7%B4%A2%E9%A1%B5%E9%9D%A2"><span class="toc-text">1.以任何一个用户登录系统，访问书籍搜索页面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%BF%9B%E8%A1%8C%E6%AD%A3%E5%B8%B8%E6%90%9C%E7%B4%A2"><span class="toc-text">2.进行正常搜索</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%8E%A2%E6%B5%8B%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E"><span class="toc-text">3.探测是否存在SQL注入漏洞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%8E%A2%E6%B5%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B1%BB%E5%9E%8B"><span class="toc-text">4.探测数据库类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E6%8E%A2%E6%B5%8Bselect%E7%9A%84%E5%AD%97%E6%AE%B5%E6%95%B0%E9%87%8F"><span class="toc-text">5.探测select的字段数量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E8%8E%B7%E5%8F%96MySQL%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%95%B0%E6%8D%AE"><span class="toc-text">6.获取MySQL中的所有数据</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E9%98%B2%E8%8C%83SQL%E6%B3%A8%E5%85%A5%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">四、防范SQL注入的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%8F%82%E6%95%B0%E5%8C%96%E6%9F%A5%E8%AF%A2-parameterized-query"><span class="toc-text">1.参数化查询(parameterized query)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8ORM%E6%A1%86%E6%9E%B6"><span class="toc-text">2.使用ORM框架</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%9C%A8%E5%90%8E%E7%AB%AF%E8%BF%9B%E8%A1%8C%E5%85%B3%E9%94%AE%E5%AD%97%E8%BF%87%E6%BB%A4"><span class="toc-text">3.在后端进行关键字过滤</span></a></li></ol></li></ol></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-11-02</div>
+        <a href="/2022/11/02/SQL%E6%B3%A8%E5%85%A5%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C/"><div class="recent-posts-item-content">SQL注入基本原理实验</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-08-20</div>
+        <a href="/2022/08/20/%E5%9C%A8VMWare-Workstation%E4%B8%8A%E5%AE%89%E8%A3%85OpenWRt/"><div class="recent-posts-item-content">在VMWare Workstation上安装OpenWRt</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-07-11</div>
+        <a href="/2022/07/11/%E9%9D%92%E5%9F%8E%E5%B1%B1%E4%B8%8B%E7%99%BD%E7%B4%A0%E8%B4%9E/"><div class="recent-posts-item-content">青城山下白素贞</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-02-15</div>
+        <a href="/2022/02/15/%E4%BD%BF%E7%94%A8iptables%E5%AE%9E%E7%8E%B0NAT/"><div class="recent-posts-item-content">使用iptables实现NAT</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020
+          
+          
+                - 
+                2024
+          
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          pasiphae's blog
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+</footer>
+ 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+    
+    <script src="//instant.page/5.1.0" type="module"
+      integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>

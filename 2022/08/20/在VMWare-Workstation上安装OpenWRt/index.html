@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="pasiphae&#39;s blog">
+  <link 
+    rel="icon" 
+    href="/images/favicon.png">
+  <title>在VMWare Workstation上安装OpenWRt</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="在VMWare Workstation上安装OpenWRt">
+    
+    
+      <meta 
+        property="og:url" 
+        content="https://www.pasiphae.top/2022/08/20/%E5%9C%A8VMWare-Workstation%E4%B8%8A%E5%AE%89%E8%A3%85OpenWRt/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="https://q1.qlogo.cn/g?b=qq&amp;nk=1318952043&amp;s=640">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2022-08-20">
+      <meta 
+        property="og:article:modified_time" 
+        content="2024-08-07">
+      <meta 
+        property="og:article:author" 
+        content="pasiphae">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="VMWare Workstation">
+        
+          <meta 
+            property="og:article:tag" 
+            content="OpenWRt">
+        
+      
+    
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  <link rel="preload" href="/css/main.css" as="style" >
+  
+  <link rel="modulepreload" href="//instant.page/5.1.0">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4627722_8afulm2ucfb.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+  
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <a class="navbar-logo-main" href="/">
+      
+        <img 
+          class="navbar-logo-img"
+          width="32"
+          height="32"
+          src="/images/favicon.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">pasiphae's blog</span>
+      </a>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+    <button 
+      class="navbar-menu-item darknavbar navbar-menu-btn" 
+      aria-label="Toggle dark mode"
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </button>
+    <button 
+      class="navbar-menu-item searchnavbar navbar-menu-btn" 
+      aria-label="Toggle search"
+      id="search">
+      <!-- <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i> -->
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+        class="iconify iconify--ion" width="28" height="28" preserveAspectRatio="xMidYMid meet" viewBox="0 0 512 512">
+        <path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="28"
+          d="M256 80a176 176 0 1 0 176 176A176 176 0 0 0 256 80Z"></path>
+        <path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="28"
+          d="M232 160a72 72 0 1 0 72 72a72 72 0 0 0-72-72Z"></path>
+        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="28"
+          d="M283.64 283.64L336 336"></path>
+      </svg>
+    </button>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="https://q1.qlogo.cn/g?b=qq&nk=1318952043&s=640" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">pasiphae</p>
+<p class="author-description">Welcome to my blog.</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>5</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>0</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>9</span>
+    <span>标签</span>
+  </a>
+</div>
+
+  <div class="author-card-society">
+    
+      <div class="author-card-society-icon">
+        <a href="/images/WeChat.jpg">
+          <i class="iconfont icon-weixin1 society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a href="/images/DouYin.jpg">
+          <i class="iconfont icon-douyin1 society-icon"></i>
+        </a>
+      </div>
+    
+  </div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8VMWare-Workstation%E4%B8%8A%E5%AE%89%E8%A3%85OpenWRt"><span class="toc-text">在VMWare Workstation上安装OpenWRt</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%8B%E8%BD%BDOpenWRt%E9%95%9C%E5%83%8F%E6%96%87%E4%BB%B6"><span class="toc-text">一、下载OpenWRt镜像文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-OpenWRt%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80"><span class="toc-text">1.OpenWRt下载地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%80%89%E6%8B%A9%E7%89%88%E6%9C%AC"><span class="toc-text">2.选择版本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%A7%A3%E5%8E%8B%E4%B8%8B%E8%BD%BD%E7%9A%84%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6%EF%BC%8C%E5%BE%97%E5%88%B0%E9%95%9C%E5%83%8F%E6%96%87%E4%BB%B6openwrt-21-02-7-x86-64-generic-ext4-combined-efi-img"><span class="toc-text">3.解压下载的压缩文件，得到镜像文件openwrt-21.02.7-x86-64-generic-ext4-combined-efi.img</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AE%89%E8%A3%85StarWindV2VConverter"><span class="toc-text">二、安装StarWindV2VConverter</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80"><span class="toc-text">1.下载地址</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E8%BD%AC%E6%8D%A2-img%E6%96%87%E4%BB%B6%E4%B8%BA-vmdk%E8%99%9A%E6%8B%9F%E7%A3%81%E7%9B%98%E6%96%87%E4%BB%B6"><span class="toc-text">三、转换.img文件为.vmdk虚拟磁盘文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%90%AF%E5%8A%A8StarWindV2VConverter"><span class="toc-text">1.启动StarWindV2VConverter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%BA%90%E6%96%87%E4%BB%B6%E9%80%89%E6%8B%A9local-file"><span class="toc-text">2.源文件选择local file</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E5%90%8C%E6%A0%B7%E9%80%89%E6%8B%A9local-file"><span class="toc-text">3.目标文件同样选择local file</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%80%89%E6%8B%A9VMDK"><span class="toc-text">4.目标文件格式选择VMDK</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E6%9C%80%E7%BB%88%E7%94%9F%E6%88%90-vmdk%E6%96%87%E4%BB%B6"><span class="toc-text">5.最终生成.vmdk文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">四、创建虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E9%80%89%E6%8B%A9%E7%A8%8D%E5%90%8E%E5%AE%89%E8%A3%85%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-text">1.选择稍后安装操作系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%BF%99%E9%87%8C%E6%88%91%E9%80%89%E6%8B%A9%E7%9A%84%E6%98%AF%E5%85%B6%E5%AE%83linux-5-x%E5%86%85%E6%A0%B864%E4%BD%8D"><span class="toc-text">2.这里我选择的是其它linux 5.x内核64位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%BF%99%E9%87%8C%E8%A6%81%E7%89%B9%E5%88%AB%E6%B3%A8%E6%84%8F%EF%BC%8C%E5%88%9B%E5%BB%BA%E5%A5%BD%E5%92%8C%E4%BD%A0%E9%80%89%E6%8B%A9%E7%9A%84%E4%BD%8D%E7%BD%AE%E4%B8%80%E8%87%B4%E7%9A%84%E7%9B%AE%E5%BD%95%EF%BC%8C%E5%90%8C%E6%97%B6%E5%90%91%E7%9B%AE%E5%BD%95%E4%B8%AD%E5%A4%8D%E5%88%B6%E4%B8%8A%E4%B8%80%E6%AD%A5%E7%94%9F%E6%88%90%E7%9A%84-vmdk%E6%96%87%E4%BB%B6"><span class="toc-text">3.这里要特别注意，创建好和你选择的位置一致的目录，同时向目录中复制上一步生成的.vmdk文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%A4%84%E7%90%86%E5%99%A8%E5%92%8C%E5%86%85%E5%AD%98%E6%88%91%E9%80%89%E7%9A%84%E6%98%AF2%E6%A0%B81G"><span class="toc-text">4.处理器和内存我选的是2核1G</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E6%9A%82%E6%97%B6%E4%B8%8D%E4%BD%BF%E7%94%A8%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5"><span class="toc-text">5.暂时不使用网络连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E9%80%89%E6%8B%A9%E4%BD%BF%E7%94%A8%E7%8E%B0%E6%9C%89%E8%99%9A%E6%8B%9F%E7%A3%81%E7%9B%98%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%89%E6%8B%A9%E7%AC%AC3%E6%AD%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BD%8D%E7%BD%AE%E9%87%8C%E7%9A%84-vmdk%E6%96%87%E4%BB%B6%EF%BC%8C%E6%88%91%E8%BF%99%E9%87%8C%E5%B0%B1%E6%98%AFC-VirtualMachines-OpenWRt5-openwrt-21-02-7-x86-64-generic-ext4-combined-efi-vmdk"><span class="toc-text">6.选择使用现有虚拟磁盘，然后选择第3步虚拟机位置里的.vmdk文件，我这里就是C:\VirtualMachines\OpenWRt5\openwrt-21.02.7-x86-64-generic-ext4-combined-efi.vmdk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-%E8%BF%99%E9%87%8C%E5%8F%AF%E8%83%BD%E4%BC%9A%E6%A0%B9%E6%8D%AE%E4%BD%A0%E4%BD%BF%E7%94%A8%E7%9A%84VMWare-Workstation%E7%89%88%E6%9C%AC%E7%9A%84%E4%B8%8D%E5%90%8C%E5%BC%B9%E5%87%BA%E6%9B%B4%E6%96%B0%E6%A0%BC%E5%BC%8F%E7%9A%84%E6%8F%90%E7%A4%BA%EF%BC%8C%E6%88%91%E9%80%89%E6%8B%A9%E7%9A%84%E6%98%AF%E4%BF%9D%E6%8C%81%E7%8E%B0%E6%9C%89%E6%A0%BC%E5%BC%8F"><span class="toc-text">7.这里可能会根据你使用的VMWare Workstation版本的不同弹出更新格式的提示，我选择的是保持现有格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-%E5%88%9B%E5%BB%BA%E5%A5%BD%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%90%8E%EF%BC%8C%E6%B7%BB%E5%8A%A0%E4%B8%A4%E4%B8%AA%E7%BD%91%E5%8D%A1%E9%80%82%E9%85%8D%E5%99%A8%EF%BC%8C%E5%8F%AF%E9%80%89%E6%8B%A9%E7%A7%BB%E9%99%A4CD-DVD%E3%80%81USB%E6%8E%A7%E5%88%B6%E5%99%A8%E3%80%81%E5%A3%B0%E5%8D%A1%E3%80%81%E6%89%93%E5%8D%B0%E6%9C%BA%EF%BC%8C%E6%9C%80%E7%BB%88%E7%9A%84%E8%AE%BE%E5%A4%87%E5%88%97%E8%A1%A8%E5%A6%82%E4%B8%8B%E5%9B%BE"><span class="toc-text">8.创建好虚拟机后，添加两个网卡适配器，可选择移除CD&#x2F;DVD、USB控制器、声卡、打印机，最终的设备列表如下图</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E9%85%8D%E7%BD%AEOpenWRt"><span class="toc-text">五、配置OpenWRt</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%90%AF%E5%8A%A8OpenWRt"><span class="toc-text">1.启动OpenWRt</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%BC%96%E8%BE%91%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%B9%B6%E9%87%8D%E5%90%AF"><span class="toc-text">2.编辑网络配置文件并重启</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8OpenWRt%E7%9A%84web%E6%8E%A5%E5%8F%A3%E8%BF%9B%E8%A1%8C%E7%AE%80%E5%8D%95%E7%9A%84%E5%90%8E%E7%BB%AD%E9%85%8D%E7%BD%AE"><span class="toc-text">3.使用OpenWRt的web接口进行简单的后续配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%88%9D%E5%A7%8B%E5%AF%86%E7%A0%81%E4%B8%BA%E7%A9%BA"><span class="toc-text">(1)初始密码为空</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E7%82%B9%E5%87%BB%E5%AF%BC%E8%88%AA%E6%A0%8F%E7%9A%84System-Administration%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81"><span class="toc-text">(2)点击导航栏的System-&gt;Administration设置密码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E7%82%B9%E5%87%BB%E5%AF%BC%E8%88%AA%E6%A0%8F%E7%9A%84Network-Interfaces%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="toc-text">(3)点击导航栏的Network-&gt;Interfaces进行网络配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E9%98%B2%E7%81%AB%E5%A2%99%E6%9A%82%E6%97%B6%E5%B0%B1%E7%94%A8%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE"><span class="toc-text">(4)防火墙暂时就用默认配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-%E6%9B%B4%E5%A4%9A%E5%85%B3%E4%BA%8EOpenWRt%E7%9A%84%E9%85%8D%E7%BD%AE%E8%A7%81%E6%96%87%E7%AB%A0-%E6%AD%A4%E5%A4%84%E9%A2%84%E7%95%99"><span class="toc-text">(5)更多关于OpenWRt的配置见文章(此处预留)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E7%AE%80%E5%8D%95%E6%B5%8B%E8%AF%95"><span class="toc-text">六、简单测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%B0%86%E4%B8%BB%E6%9C%BAvenus-192-168-12-21-%E7%9A%84%E9%BB%98%E8%AE%A4%E7%BD%91%E5%85%B3%E8%AE%BE%E7%BD%AE%E4%B8%BA192-168-12-23%EF%BC%8C%E5%8D%B3OpenWRt%E7%9A%84Lan%E6%8E%A5%E5%8F%A3%E7%9A%84IP"><span class="toc-text">1.将主机venus(192.168.12.21)的默认网关设置为192.168.12.23，即OpenWRt的Lan接口的IP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%BB%8Evenus-PING-kali1%E5%92%8C223-5-5-5-%E9%98%BF%E9%87%8C%E4%BA%91%E7%9A%84%E5%85%AC%E5%85%B1DNS-%EF%BC%8C%E5%8F%AF%E4%BB%A5PING%E9%80%9A"><span class="toc-text">2.从venus PING kali1和223.5.5.5(阿里云的公共DNS)，可以PING通</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BB%8Ekali1-PING-OpenWRt%EF%BC%8CPING%E4%B8%8D%E9%80%9A"><span class="toc-text">3.从kali1 PING OpenWRt，PING不通</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/SQL%E6%B3%A8%E5%85%A5/" 
+        title="SQL注入">
+        <div class="tags-list-item">SQL注入</div>
+      </a>
+    
+      <a 
+        href="/tags/MySQL/" 
+        title="MySQL">
+        <div class="tags-list-item">MySQL</div>
+      </a>
+    
+      <a 
+        href="/tags/PHP/" 
+        title="PHP">
+        <div class="tags-list-item">PHP</div>
+      </a>
+    
+      <a 
+        href="/tags/test/" 
+        title="test">
+        <div class="tags-list-item">test</div>
+      </a>
+    
+      <a 
+        href="/tags/NAT/" 
+        title="NAT">
+        <div class="tags-list-item">NAT</div>
+      </a>
+    
+      <a 
+        href="/tags/iptables/" 
+        title="iptables">
+        <div class="tags-list-item">iptables</div>
+      </a>
+    
+      <a 
+        href="/tags/VMWare-Workstation/" 
+        title="VMWare Workstation">
+        <div class="tags-list-item">VMWare Workstation</div>
+      </a>
+    
+      <a 
+        href="/tags/OpenWRt/" 
+        title="OpenWRt">
+        <div class="tags-list-item">OpenWRt</div>
+      </a>
+    
+      <a 
+        href="/tags/%E9%9F%B3%E4%B9%90/" 
+        title="音乐">
+        <div class="tags-list-item">音乐</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <main class="main-column">
+              
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      在VMWare Workstation上安装OpenWRt
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-08-20T07:10:29.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2022-08-20</span>
+    </time>
+    
+    
+      <span class="dot"></span>
+      <span>716 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/tags/VMWare-Workstation/" 
+            class="post-meta-link">
+            VMWare Workstation
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/OpenWRt/" 
+            class="post-meta-link">
+            OpenWRt
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h2 id="在VMWare-Workstation上安装OpenWRt"><a href="#在VMWare-Workstation上安装OpenWRt" class="headerlink" title="在VMWare Workstation上安装OpenWRt"></a>在VMWare Workstation上安装OpenWRt</h2><h3 id="一、下载OpenWRt镜像文件"><a href="#一、下载OpenWRt镜像文件" class="headerlink" title="一、下载OpenWRt镜像文件"></a>一、下载OpenWRt镜像文件</h3><h4 id="1-OpenWRt下载地址"><a href="#1-OpenWRt下载地址" class="headerlink" title="1.OpenWRt下载地址"></a>1.OpenWRt下载地址</h4><pre class="highlight"><span class="line">https://downloads.openwrt.org/releases/</span><br></pre>
+
+<h4 id="2-选择版本"><a href="#2-选择版本" class="headerlink" title="2.选择版本"></a>2.选择版本</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V1.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V1.png" class="lozad post-image"><br>这里我选择的是21.02.7<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V2.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V2.png" class="lozad post-image"></p>
+<h4 id="3-解压下载的压缩文件，得到镜像文件openwrt-21-02-7-x86-64-generic-ext4-combined-efi-img"><a href="#3-解压下载的压缩文件，得到镜像文件openwrt-21-02-7-x86-64-generic-ext4-combined-efi-img" class="headerlink" title="3.解压下载的压缩文件，得到镜像文件openwrt-21.02.7-x86-64-generic-ext4-combined-efi.img"></a>3.解压下载的压缩文件，得到镜像文件openwrt-21.02.7-x86-64-generic-ext4-combined-efi.img</h4><h3 id="二、安装StarWindV2VConverter"><a href="#二、安装StarWindV2VConverter" class="headerlink" title="二、安装StarWindV2VConverter"></a>二、安装StarWindV2VConverter</h3><h4 id="1-下载地址"><a href="#1-下载地址" class="headerlink" title="1.下载地址"></a>1.下载地址</h4><pre class="highlight"><span class="line">https://www.starwindsoftware.com/starwind-v2v-converter#download</span><br></pre>
+
+<h3 id="三、转换-img文件为-vmdk虚拟磁盘文件"><a href="#三、转换-img文件为-vmdk虚拟磁盘文件" class="headerlink" title="三、转换.img文件为.vmdk虚拟磁盘文件"></a>三、转换.img文件为.vmdk虚拟磁盘文件</h3><h4 id="1-启动StarWindV2VConverter"><a href="#1-启动StarWindV2VConverter" class="headerlink" title="1.启动StarWindV2VConverter"></a>1.启动StarWindV2VConverter</h4><h4 id="2-源文件选择local-file"><a href="#2-源文件选择local-file" class="headerlink" title="2.源文件选择local file"></a>2.源文件选择local file</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V3.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V3.png" class="lozad post-image"></p>
+<h4 id="3-目标文件同样选择local-file"><a href="#3-目标文件同样选择local-file" class="headerlink" title="3.目标文件同样选择local file"></a>3.目标文件同样选择local file</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V4.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V4.png" class="lozad post-image"></p>
+<h4 id="4-目标文件格式选择VMDK"><a href="#4-目标文件格式选择VMDK" class="headerlink" title="4.目标文件格式选择VMDK"></a>4.目标文件格式选择VMDK</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V5.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V5.png" class="lozad post-image"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V6.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V6.png" class="lozad post-image"></p>
+<h4 id="5-最终生成-vmdk文件"><a href="#5-最终生成-vmdk文件" class="headerlink" title="5.最终生成.vmdk文件"></a>5.最终生成.vmdk文件</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V7.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V7.png" class="lozad post-image"></p>
+<h3 id="四、创建虚拟机"><a href="#四、创建虚拟机" class="headerlink" title="四、创建虚拟机"></a>四、创建虚拟机</h3><h4 id="1-选择稍后安装操作系统"><a href="#1-选择稍后安装操作系统" class="headerlink" title="1.选择稍后安装操作系统"></a>1.选择稍后安装操作系统</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V8.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V8.png" class="lozad post-image"></p>
+<h4 id="2-这里我选择的是其它linux-5-x内核64位"><a href="#2-这里我选择的是其它linux-5-x内核64位" class="headerlink" title="2.这里我选择的是其它linux 5.x内核64位"></a>2.这里我选择的是其它linux 5.x内核64位</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V9.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V9.png" class="lozad post-image"></p>
+<h4 id="3-这里要特别注意，创建好和你选择的位置一致的目录，同时向目录中复制上一步生成的-vmdk文件"><a href="#3-这里要特别注意，创建好和你选择的位置一致的目录，同时向目录中复制上一步生成的-vmdk文件" class="headerlink" title="3.这里要特别注意，创建好和你选择的位置一致的目录，同时向目录中复制上一步生成的.vmdk文件"></a>3.这里要特别注意，创建好和你选择的位置一致的目录，同时向目录中复制上一步生成的.vmdk文件</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V10.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V10.png" class="lozad post-image"><br>这时会弹出如下提示，这是因为VMWare检测到你选择的位置已经存在一个我们刚刚复制的.vmdk文件，我们点击继续<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V15.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V15.png" class="lozad post-image"></p>
+<h4 id="4-处理器和内存我选的是2核1G"><a href="#4-处理器和内存我选的是2核1G" class="headerlink" title="4.处理器和内存我选的是2核1G"></a>4.处理器和内存我选的是2核1G</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V11.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V11.png" class="lozad post-image"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V12.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V12.png" class="lozad post-image"></p>
+<h4 id="5-暂时不使用网络连接"><a href="#5-暂时不使用网络连接" class="headerlink" title="5.暂时不使用网络连接"></a>5.暂时不使用网络连接</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V13.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V13.png" class="lozad post-image"></p>
+<h4 id="6-选择使用现有虚拟磁盘，然后选择第3步虚拟机位置里的-vmdk文件，我这里就是C-VirtualMachines-OpenWRt5-openwrt-21-02-7-x86-64-generic-ext4-combined-efi-vmdk"><a href="#6-选择使用现有虚拟磁盘，然后选择第3步虚拟机位置里的-vmdk文件，我这里就是C-VirtualMachines-OpenWRt5-openwrt-21-02-7-x86-64-generic-ext4-combined-efi-vmdk" class="headerlink" title="6.选择使用现有虚拟磁盘，然后选择第3步虚拟机位置里的.vmdk文件，我这里就是C:\VirtualMachines\OpenWRt5\openwrt-21.02.7-x86-64-generic-ext4-combined-efi.vmdk"></a>6.选择使用现有虚拟磁盘，然后选择第3步虚拟机位置里的.vmdk文件，我这里就是C:\VirtualMachines\OpenWRt5\openwrt-21.02.7-x86-64-generic-ext4-combined-efi.vmdk</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V14.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V14.png" class="lozad post-image"></p>
+<h4 id="7-这里可能会根据你使用的VMWare-Workstation版本的不同弹出更新格式的提示，我选择的是保持现有格式"><a href="#7-这里可能会根据你使用的VMWare-Workstation版本的不同弹出更新格式的提示，我选择的是保持现有格式" class="headerlink" title="7.这里可能会根据你使用的VMWare Workstation版本的不同弹出更新格式的提示，我选择的是保持现有格式"></a>7.这里可能会根据你使用的VMWare Workstation版本的不同弹出更新格式的提示，我选择的是保持现有格式</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V16.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V16.png" class="lozad post-image"></p>
+<h4 id="8-创建好虚拟机后，添加两个网卡适配器，可选择移除CD-DVD、USB控制器、声卡、打印机，最终的设备列表如下图"><a href="#8-创建好虚拟机后，添加两个网卡适配器，可选择移除CD-DVD、USB控制器、声卡、打印机，最终的设备列表如下图" class="headerlink" title="8.创建好虚拟机后，添加两个网卡适配器，可选择移除CD&#x2F;DVD、USB控制器、声卡、打印机，最终的设备列表如下图"></a>8.创建好虚拟机后，添加两个网卡适配器，可选择移除CD&#x2F;DVD、USB控制器、声卡、打印机，最终的设备列表如下图</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V17.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V17.png" class="lozad post-image"></p>
+<h3 id="五、配置OpenWRt"><a href="#五、配置OpenWRt" class="headerlink" title="五、配置OpenWRt"></a>五、配置OpenWRt</h3><h4 id="1-启动OpenWRt"><a href="#1-启动OpenWRt" class="headerlink" title="1.启动OpenWRt"></a>1.启动OpenWRt</h4><h4 id="2-编辑网络配置文件并重启"><a href="#2-编辑网络配置文件并重启" class="headerlink" title="2.编辑网络配置文件并重启"></a>2.编辑网络配置文件并重启</h4><pre class="highlight"><span class="line">vim /etc/config/network</span><br></pre>
+<p>这里我们只修改eth0(也就是添加的连接到VMNet12的网络适配器)的IP，然后输入reboot重启<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V18.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V18.png" class="lozad post-image"></p>
+<p>重启后OpenWRt就能够从192.168.12.1(也就是win11物理机)访问，之后我们就可以在物理机上通过web接口对OpenWRt进行配置了<br>但要注意，要让物理机接入VMNet12<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V30.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V30.png" class="lozad post-image"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V29.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V29.png" class="lozad post-image"></p>
+<h4 id="3-使用OpenWRt的web接口进行简单的后续配置"><a href="#3-使用OpenWRt的web接口进行简单的后续配置" class="headerlink" title="3.使用OpenWRt的web接口进行简单的后续配置"></a>3.使用OpenWRt的web接口进行简单的后续配置</h4><h5 id="1-初始密码为空"><a href="#1-初始密码为空" class="headerlink" title="(1)初始密码为空"></a>(1)初始密码为空</h5><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V19.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V19.png" class="lozad post-image"></p>
+<h5 id="2-点击导航栏的System-Administration设置密码"><a href="#2-点击导航栏的System-Administration设置密码" class="headerlink" title="(2)点击导航栏的System-&gt;Administration设置密码"></a>(2)点击导航栏的System-&gt;Administration设置密码</h5><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V20.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V20.png" class="lozad post-image"></p>
+<h5 id="3-点击导航栏的Network-Interfaces进行网络配置"><a href="#3-点击导航栏的Network-Interfaces进行网络配置" class="headerlink" title="(3)点击导航栏的Network-&gt;Interfaces进行网络配置"></a>(3)点击导航栏的Network-&gt;Interfaces进行网络配置</h5><p>下图是初始状态<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V21.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V21.png" class="lozad post-image"></p>
+<p>因为我的VMNet8即NAT模式使用的是静态IP，同时我想要禁用IPv6，那我就要修改WAN interface、删除WAN6 interface<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V22.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V22.png" class="lozad post-image"></p>
+<p>修改后的状态<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V23.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V23.png" class="lozad post-image"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V24.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V24.png" class="lozad post-image"></p>
+<h5 id="4-防火墙暂时就用默认配置"><a href="#4-防火墙暂时就用默认配置" class="headerlink" title="(4)防火墙暂时就用默认配置"></a>(4)防火墙暂时就用默认配置</h5><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V26.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V26.png" class="lozad post-image"></p>
+<h5 id="5-更多关于OpenWRt的配置见文章-此处预留"><a href="#5-更多关于OpenWRt的配置见文章-此处预留" class="headerlink" title="(5)更多关于OpenWRt的配置见文章(此处预留)"></a>(5)更多关于OpenWRt的配置见文章(此处预留)</h5><h3 id="六、简单测试"><a href="#六、简单测试" class="headerlink" title="六、简单测试"></a>六、简单测试</h3><h4 id="1-将主机venus-192-168-12-21-的默认网关设置为192-168-12-23，即OpenWRt的Lan接口的IP"><a href="#1-将主机venus-192-168-12-21-的默认网关设置为192-168-12-23，即OpenWRt的Lan接口的IP" class="headerlink" title="1.将主机venus(192.168.12.21)的默认网关设置为192.168.12.23，即OpenWRt的Lan接口的IP"></a>1.将主机venus(192.168.12.21)的默认网关设置为192.168.12.23，即OpenWRt的Lan接口的IP</h4><h4 id="2-从venus-PING-kali1和223-5-5-5-阿里云的公共DNS-，可以PING通"><a href="#2-从venus-PING-kali1和223-5-5-5-阿里云的公共DNS-，可以PING通" class="headerlink" title="2.从venus PING kali1和223.5.5.5(阿里云的公共DNS)，可以PING通"></a>2.从venus PING kali1和223.5.5.5(阿里云的公共DNS)，可以PING通</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V25.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V25.png" class="lozad post-image"></p>
+<h4 id="3-从kali1-PING-OpenWRt，PING不通"><a href="#3-从kali1-PING-OpenWRt，PING不通" class="headerlink" title="3.从kali1 PING OpenWRt，PING不通"></a>3.从kali1 PING OpenWRt，PING不通</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V27.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V27.png" class="lozad post-image"><br>原因是防火墙默认配置的此处为reject<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V28.png" alt="这里有一个图片" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V28.png" class="lozad post-image"></p>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/about">
+            pasiphae
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="https://www.pasiphae.top/2022/08/20/%E5%9C%A8VMWare-Workstation%E4%B8%8A%E5%AE%89%E8%A3%85OpenWRt/">
+            https://www.pasiphae.top/2022/08/20/%E5%9C%A8VMWare-Workstation%E4%B8%8A%E5%AE%89%E8%A3%85OpenWRt/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/2022/11/02/SQL%E6%B3%A8%E5%85%A5%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">上一篇</div>
+          
+            <div class="nav-title">SQL注入基本原理实验 </div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2022/07/11/%E9%9D%92%E5%9F%8E%E5%B1%B1%E4%B8%8B%E7%99%BD%E7%B4%A0%E8%B4%9E/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">青城山下白素贞 </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8VMWare-Workstation%E4%B8%8A%E5%AE%89%E8%A3%85OpenWRt"><span class="toc-text">在VMWare Workstation上安装OpenWRt</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%8B%E8%BD%BDOpenWRt%E9%95%9C%E5%83%8F%E6%96%87%E4%BB%B6"><span class="toc-text">一、下载OpenWRt镜像文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-OpenWRt%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80"><span class="toc-text">1.OpenWRt下载地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%80%89%E6%8B%A9%E7%89%88%E6%9C%AC"><span class="toc-text">2.选择版本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%A7%A3%E5%8E%8B%E4%B8%8B%E8%BD%BD%E7%9A%84%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6%EF%BC%8C%E5%BE%97%E5%88%B0%E9%95%9C%E5%83%8F%E6%96%87%E4%BB%B6openwrt-21-02-7-x86-64-generic-ext4-combined-efi-img"><span class="toc-text">3.解压下载的压缩文件，得到镜像文件openwrt-21.02.7-x86-64-generic-ext4-combined-efi.img</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AE%89%E8%A3%85StarWindV2VConverter"><span class="toc-text">二、安装StarWindV2VConverter</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80"><span class="toc-text">1.下载地址</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E8%BD%AC%E6%8D%A2-img%E6%96%87%E4%BB%B6%E4%B8%BA-vmdk%E8%99%9A%E6%8B%9F%E7%A3%81%E7%9B%98%E6%96%87%E4%BB%B6"><span class="toc-text">三、转换.img文件为.vmdk虚拟磁盘文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%90%AF%E5%8A%A8StarWindV2VConverter"><span class="toc-text">1.启动StarWindV2VConverter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%BA%90%E6%96%87%E4%BB%B6%E9%80%89%E6%8B%A9local-file"><span class="toc-text">2.源文件选择local file</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E5%90%8C%E6%A0%B7%E9%80%89%E6%8B%A9local-file"><span class="toc-text">3.目标文件同样选择local file</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%80%89%E6%8B%A9VMDK"><span class="toc-text">4.目标文件格式选择VMDK</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E6%9C%80%E7%BB%88%E7%94%9F%E6%88%90-vmdk%E6%96%87%E4%BB%B6"><span class="toc-text">5.最终生成.vmdk文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">四、创建虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E9%80%89%E6%8B%A9%E7%A8%8D%E5%90%8E%E5%AE%89%E8%A3%85%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-text">1.选择稍后安装操作系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%BF%99%E9%87%8C%E6%88%91%E9%80%89%E6%8B%A9%E7%9A%84%E6%98%AF%E5%85%B6%E5%AE%83linux-5-x%E5%86%85%E6%A0%B864%E4%BD%8D"><span class="toc-text">2.这里我选择的是其它linux 5.x内核64位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%BF%99%E9%87%8C%E8%A6%81%E7%89%B9%E5%88%AB%E6%B3%A8%E6%84%8F%EF%BC%8C%E5%88%9B%E5%BB%BA%E5%A5%BD%E5%92%8C%E4%BD%A0%E9%80%89%E6%8B%A9%E7%9A%84%E4%BD%8D%E7%BD%AE%E4%B8%80%E8%87%B4%E7%9A%84%E7%9B%AE%E5%BD%95%EF%BC%8C%E5%90%8C%E6%97%B6%E5%90%91%E7%9B%AE%E5%BD%95%E4%B8%AD%E5%A4%8D%E5%88%B6%E4%B8%8A%E4%B8%80%E6%AD%A5%E7%94%9F%E6%88%90%E7%9A%84-vmdk%E6%96%87%E4%BB%B6"><span class="toc-text">3.这里要特别注意，创建好和你选择的位置一致的目录，同时向目录中复制上一步生成的.vmdk文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%A4%84%E7%90%86%E5%99%A8%E5%92%8C%E5%86%85%E5%AD%98%E6%88%91%E9%80%89%E7%9A%84%E6%98%AF2%E6%A0%B81G"><span class="toc-text">4.处理器和内存我选的是2核1G</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E6%9A%82%E6%97%B6%E4%B8%8D%E4%BD%BF%E7%94%A8%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5"><span class="toc-text">5.暂时不使用网络连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E9%80%89%E6%8B%A9%E4%BD%BF%E7%94%A8%E7%8E%B0%E6%9C%89%E8%99%9A%E6%8B%9F%E7%A3%81%E7%9B%98%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%89%E6%8B%A9%E7%AC%AC3%E6%AD%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BD%8D%E7%BD%AE%E9%87%8C%E7%9A%84-vmdk%E6%96%87%E4%BB%B6%EF%BC%8C%E6%88%91%E8%BF%99%E9%87%8C%E5%B0%B1%E6%98%AFC-VirtualMachines-OpenWRt5-openwrt-21-02-7-x86-64-generic-ext4-combined-efi-vmdk"><span class="toc-text">6.选择使用现有虚拟磁盘，然后选择第3步虚拟机位置里的.vmdk文件，我这里就是C:\VirtualMachines\OpenWRt5\openwrt-21.02.7-x86-64-generic-ext4-combined-efi.vmdk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-%E8%BF%99%E9%87%8C%E5%8F%AF%E8%83%BD%E4%BC%9A%E6%A0%B9%E6%8D%AE%E4%BD%A0%E4%BD%BF%E7%94%A8%E7%9A%84VMWare-Workstation%E7%89%88%E6%9C%AC%E7%9A%84%E4%B8%8D%E5%90%8C%E5%BC%B9%E5%87%BA%E6%9B%B4%E6%96%B0%E6%A0%BC%E5%BC%8F%E7%9A%84%E6%8F%90%E7%A4%BA%EF%BC%8C%E6%88%91%E9%80%89%E6%8B%A9%E7%9A%84%E6%98%AF%E4%BF%9D%E6%8C%81%E7%8E%B0%E6%9C%89%E6%A0%BC%E5%BC%8F"><span class="toc-text">7.这里可能会根据你使用的VMWare Workstation版本的不同弹出更新格式的提示，我选择的是保持现有格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-%E5%88%9B%E5%BB%BA%E5%A5%BD%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%90%8E%EF%BC%8C%E6%B7%BB%E5%8A%A0%E4%B8%A4%E4%B8%AA%E7%BD%91%E5%8D%A1%E9%80%82%E9%85%8D%E5%99%A8%EF%BC%8C%E5%8F%AF%E9%80%89%E6%8B%A9%E7%A7%BB%E9%99%A4CD-DVD%E3%80%81USB%E6%8E%A7%E5%88%B6%E5%99%A8%E3%80%81%E5%A3%B0%E5%8D%A1%E3%80%81%E6%89%93%E5%8D%B0%E6%9C%BA%EF%BC%8C%E6%9C%80%E7%BB%88%E7%9A%84%E8%AE%BE%E5%A4%87%E5%88%97%E8%A1%A8%E5%A6%82%E4%B8%8B%E5%9B%BE"><span class="toc-text">8.创建好虚拟机后，添加两个网卡适配器，可选择移除CD&#x2F;DVD、USB控制器、声卡、打印机，最终的设备列表如下图</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E9%85%8D%E7%BD%AEOpenWRt"><span class="toc-text">五、配置OpenWRt</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%90%AF%E5%8A%A8OpenWRt"><span class="toc-text">1.启动OpenWRt</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%BC%96%E8%BE%91%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%B9%B6%E9%87%8D%E5%90%AF"><span class="toc-text">2.编辑网络配置文件并重启</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8OpenWRt%E7%9A%84web%E6%8E%A5%E5%8F%A3%E8%BF%9B%E8%A1%8C%E7%AE%80%E5%8D%95%E7%9A%84%E5%90%8E%E7%BB%AD%E9%85%8D%E7%BD%AE"><span class="toc-text">3.使用OpenWRt的web接口进行简单的后续配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%88%9D%E5%A7%8B%E5%AF%86%E7%A0%81%E4%B8%BA%E7%A9%BA"><span class="toc-text">(1)初始密码为空</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E7%82%B9%E5%87%BB%E5%AF%BC%E8%88%AA%E6%A0%8F%E7%9A%84System-Administration%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81"><span class="toc-text">(2)点击导航栏的System-&gt;Administration设置密码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E7%82%B9%E5%87%BB%E5%AF%BC%E8%88%AA%E6%A0%8F%E7%9A%84Network-Interfaces%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="toc-text">(3)点击导航栏的Network-&gt;Interfaces进行网络配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E9%98%B2%E7%81%AB%E5%A2%99%E6%9A%82%E6%97%B6%E5%B0%B1%E7%94%A8%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE"><span class="toc-text">(4)防火墙暂时就用默认配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-%E6%9B%B4%E5%A4%9A%E5%85%B3%E4%BA%8EOpenWRt%E7%9A%84%E9%85%8D%E7%BD%AE%E8%A7%81%E6%96%87%E7%AB%A0-%E6%AD%A4%E5%A4%84%E9%A2%84%E7%95%99"><span class="toc-text">(5)更多关于OpenWRt的配置见文章(此处预留)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E7%AE%80%E5%8D%95%E6%B5%8B%E8%AF%95"><span class="toc-text">六、简单测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%B0%86%E4%B8%BB%E6%9C%BAvenus-192-168-12-21-%E7%9A%84%E9%BB%98%E8%AE%A4%E7%BD%91%E5%85%B3%E8%AE%BE%E7%BD%AE%E4%B8%BA192-168-12-23%EF%BC%8C%E5%8D%B3OpenWRt%E7%9A%84Lan%E6%8E%A5%E5%8F%A3%E7%9A%84IP"><span class="toc-text">1.将主机venus(192.168.12.21)的默认网关设置为192.168.12.23，即OpenWRt的Lan接口的IP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%BB%8Evenus-PING-kali1%E5%92%8C223-5-5-5-%E9%98%BF%E9%87%8C%E4%BA%91%E7%9A%84%E5%85%AC%E5%85%B1DNS-%EF%BC%8C%E5%8F%AF%E4%BB%A5PING%E9%80%9A"><span class="toc-text">2.从venus PING kali1和223.5.5.5(阿里云的公共DNS)，可以PING通</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BB%8Ekali1-PING-OpenWRt%EF%BC%8CPING%E4%B8%8D%E9%80%9A"><span class="toc-text">3.从kali1 PING OpenWRt，PING不通</span></a></li></ol></li></ol></li></ol>
+</div>
+            </main>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8VMWare-Workstation%E4%B8%8A%E5%AE%89%E8%A3%85OpenWRt"><span class="toc-text">在VMWare Workstation上安装OpenWRt</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%8B%E8%BD%BDOpenWRt%E9%95%9C%E5%83%8F%E6%96%87%E4%BB%B6"><span class="toc-text">一、下载OpenWRt镜像文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-OpenWRt%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80"><span class="toc-text">1.OpenWRt下载地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%80%89%E6%8B%A9%E7%89%88%E6%9C%AC"><span class="toc-text">2.选择版本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%A7%A3%E5%8E%8B%E4%B8%8B%E8%BD%BD%E7%9A%84%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6%EF%BC%8C%E5%BE%97%E5%88%B0%E9%95%9C%E5%83%8F%E6%96%87%E4%BB%B6openwrt-21-02-7-x86-64-generic-ext4-combined-efi-img"><span class="toc-text">3.解压下载的压缩文件，得到镜像文件openwrt-21.02.7-x86-64-generic-ext4-combined-efi.img</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AE%89%E8%A3%85StarWindV2VConverter"><span class="toc-text">二、安装StarWindV2VConverter</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80"><span class="toc-text">1.下载地址</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E8%BD%AC%E6%8D%A2-img%E6%96%87%E4%BB%B6%E4%B8%BA-vmdk%E8%99%9A%E6%8B%9F%E7%A3%81%E7%9B%98%E6%96%87%E4%BB%B6"><span class="toc-text">三、转换.img文件为.vmdk虚拟磁盘文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%90%AF%E5%8A%A8StarWindV2VConverter"><span class="toc-text">1.启动StarWindV2VConverter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%BA%90%E6%96%87%E4%BB%B6%E9%80%89%E6%8B%A9local-file"><span class="toc-text">2.源文件选择local file</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E5%90%8C%E6%A0%B7%E9%80%89%E6%8B%A9local-file"><span class="toc-text">3.目标文件同样选择local file</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%80%89%E6%8B%A9VMDK"><span class="toc-text">4.目标文件格式选择VMDK</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E6%9C%80%E7%BB%88%E7%94%9F%E6%88%90-vmdk%E6%96%87%E4%BB%B6"><span class="toc-text">5.最终生成.vmdk文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">四、创建虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E9%80%89%E6%8B%A9%E7%A8%8D%E5%90%8E%E5%AE%89%E8%A3%85%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-text">1.选择稍后安装操作系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%BF%99%E9%87%8C%E6%88%91%E9%80%89%E6%8B%A9%E7%9A%84%E6%98%AF%E5%85%B6%E5%AE%83linux-5-x%E5%86%85%E6%A0%B864%E4%BD%8D"><span class="toc-text">2.这里我选择的是其它linux 5.x内核64位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%BF%99%E9%87%8C%E8%A6%81%E7%89%B9%E5%88%AB%E6%B3%A8%E6%84%8F%EF%BC%8C%E5%88%9B%E5%BB%BA%E5%A5%BD%E5%92%8C%E4%BD%A0%E9%80%89%E6%8B%A9%E7%9A%84%E4%BD%8D%E7%BD%AE%E4%B8%80%E8%87%B4%E7%9A%84%E7%9B%AE%E5%BD%95%EF%BC%8C%E5%90%8C%E6%97%B6%E5%90%91%E7%9B%AE%E5%BD%95%E4%B8%AD%E5%A4%8D%E5%88%B6%E4%B8%8A%E4%B8%80%E6%AD%A5%E7%94%9F%E6%88%90%E7%9A%84-vmdk%E6%96%87%E4%BB%B6"><span class="toc-text">3.这里要特别注意，创建好和你选择的位置一致的目录，同时向目录中复制上一步生成的.vmdk文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%A4%84%E7%90%86%E5%99%A8%E5%92%8C%E5%86%85%E5%AD%98%E6%88%91%E9%80%89%E7%9A%84%E6%98%AF2%E6%A0%B81G"><span class="toc-text">4.处理器和内存我选的是2核1G</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E6%9A%82%E6%97%B6%E4%B8%8D%E4%BD%BF%E7%94%A8%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5"><span class="toc-text">5.暂时不使用网络连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E9%80%89%E6%8B%A9%E4%BD%BF%E7%94%A8%E7%8E%B0%E6%9C%89%E8%99%9A%E6%8B%9F%E7%A3%81%E7%9B%98%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%89%E6%8B%A9%E7%AC%AC3%E6%AD%A5%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%BD%8D%E7%BD%AE%E9%87%8C%E7%9A%84-vmdk%E6%96%87%E4%BB%B6%EF%BC%8C%E6%88%91%E8%BF%99%E9%87%8C%E5%B0%B1%E6%98%AFC-VirtualMachines-OpenWRt5-openwrt-21-02-7-x86-64-generic-ext4-combined-efi-vmdk"><span class="toc-text">6.选择使用现有虚拟磁盘，然后选择第3步虚拟机位置里的.vmdk文件，我这里就是C:\VirtualMachines\OpenWRt5\openwrt-21.02.7-x86-64-generic-ext4-combined-efi.vmdk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-%E8%BF%99%E9%87%8C%E5%8F%AF%E8%83%BD%E4%BC%9A%E6%A0%B9%E6%8D%AE%E4%BD%A0%E4%BD%BF%E7%94%A8%E7%9A%84VMWare-Workstation%E7%89%88%E6%9C%AC%E7%9A%84%E4%B8%8D%E5%90%8C%E5%BC%B9%E5%87%BA%E6%9B%B4%E6%96%B0%E6%A0%BC%E5%BC%8F%E7%9A%84%E6%8F%90%E7%A4%BA%EF%BC%8C%E6%88%91%E9%80%89%E6%8B%A9%E7%9A%84%E6%98%AF%E4%BF%9D%E6%8C%81%E7%8E%B0%E6%9C%89%E6%A0%BC%E5%BC%8F"><span class="toc-text">7.这里可能会根据你使用的VMWare Workstation版本的不同弹出更新格式的提示，我选择的是保持现有格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-%E5%88%9B%E5%BB%BA%E5%A5%BD%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%90%8E%EF%BC%8C%E6%B7%BB%E5%8A%A0%E4%B8%A4%E4%B8%AA%E7%BD%91%E5%8D%A1%E9%80%82%E9%85%8D%E5%99%A8%EF%BC%8C%E5%8F%AF%E9%80%89%E6%8B%A9%E7%A7%BB%E9%99%A4CD-DVD%E3%80%81USB%E6%8E%A7%E5%88%B6%E5%99%A8%E3%80%81%E5%A3%B0%E5%8D%A1%E3%80%81%E6%89%93%E5%8D%B0%E6%9C%BA%EF%BC%8C%E6%9C%80%E7%BB%88%E7%9A%84%E8%AE%BE%E5%A4%87%E5%88%97%E8%A1%A8%E5%A6%82%E4%B8%8B%E5%9B%BE"><span class="toc-text">8.创建好虚拟机后，添加两个网卡适配器，可选择移除CD&#x2F;DVD、USB控制器、声卡、打印机，最终的设备列表如下图</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E9%85%8D%E7%BD%AEOpenWRt"><span class="toc-text">五、配置OpenWRt</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%90%AF%E5%8A%A8OpenWRt"><span class="toc-text">1.启动OpenWRt</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%BC%96%E8%BE%91%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%B9%B6%E9%87%8D%E5%90%AF"><span class="toc-text">2.编辑网络配置文件并重启</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8OpenWRt%E7%9A%84web%E6%8E%A5%E5%8F%A3%E8%BF%9B%E8%A1%8C%E7%AE%80%E5%8D%95%E7%9A%84%E5%90%8E%E7%BB%AD%E9%85%8D%E7%BD%AE"><span class="toc-text">3.使用OpenWRt的web接口进行简单的后续配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E5%88%9D%E5%A7%8B%E5%AF%86%E7%A0%81%E4%B8%BA%E7%A9%BA"><span class="toc-text">(1)初始密码为空</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E7%82%B9%E5%87%BB%E5%AF%BC%E8%88%AA%E6%A0%8F%E7%9A%84System-Administration%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81"><span class="toc-text">(2)点击导航栏的System-&gt;Administration设置密码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E7%82%B9%E5%87%BB%E5%AF%BC%E8%88%AA%E6%A0%8F%E7%9A%84Network-Interfaces%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="toc-text">(3)点击导航栏的Network-&gt;Interfaces进行网络配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E9%98%B2%E7%81%AB%E5%A2%99%E6%9A%82%E6%97%B6%E5%B0%B1%E7%94%A8%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE"><span class="toc-text">(4)防火墙暂时就用默认配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-%E6%9B%B4%E5%A4%9A%E5%85%B3%E4%BA%8EOpenWRt%E7%9A%84%E9%85%8D%E7%BD%AE%E8%A7%81%E6%96%87%E7%AB%A0-%E6%AD%A4%E5%A4%84%E9%A2%84%E7%95%99"><span class="toc-text">(5)更多关于OpenWRt的配置见文章(此处预留)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E7%AE%80%E5%8D%95%E6%B5%8B%E8%AF%95"><span class="toc-text">六、简单测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%B0%86%E4%B8%BB%E6%9C%BAvenus-192-168-12-21-%E7%9A%84%E9%BB%98%E8%AE%A4%E7%BD%91%E5%85%B3%E8%AE%BE%E7%BD%AE%E4%B8%BA192-168-12-23%EF%BC%8C%E5%8D%B3OpenWRt%E7%9A%84Lan%E6%8E%A5%E5%8F%A3%E7%9A%84IP"><span class="toc-text">1.将主机venus(192.168.12.21)的默认网关设置为192.168.12.23，即OpenWRt的Lan接口的IP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%BB%8Evenus-PING-kali1%E5%92%8C223-5-5-5-%E9%98%BF%E9%87%8C%E4%BA%91%E7%9A%84%E5%85%AC%E5%85%B1DNS-%EF%BC%8C%E5%8F%AF%E4%BB%A5PING%E9%80%9A"><span class="toc-text">2.从venus PING kali1和223.5.5.5(阿里云的公共DNS)，可以PING通</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%BB%8Ekali1-PING-OpenWRt%EF%BC%8CPING%E4%B8%8D%E9%80%9A"><span class="toc-text">3.从kali1 PING OpenWRt，PING不通</span></a></li></ol></li></ol></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-11-02</div>
+        <a href="/2022/11/02/SQL%E6%B3%A8%E5%85%A5%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C/"><div class="recent-posts-item-content">SQL注入基本原理实验</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-08-20</div>
+        <a href="/2022/08/20/%E5%9C%A8VMWare-Workstation%E4%B8%8A%E5%AE%89%E8%A3%85OpenWRt/"><div class="recent-posts-item-content">在VMWare Workstation上安装OpenWRt</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-07-11</div>
+        <a href="/2022/07/11/%E9%9D%92%E5%9F%8E%E5%B1%B1%E4%B8%8B%E7%99%BD%E7%B4%A0%E8%B4%9E/"><div class="recent-posts-item-content">青城山下白素贞</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-02-15</div>
+        <a href="/2022/02/15/%E4%BD%BF%E7%94%A8iptables%E5%AE%9E%E7%8E%B0NAT/"><div class="recent-posts-item-content">使用iptables实现NAT</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020
+          
+          
+                - 
+                2024
+          
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          pasiphae's blog
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+</footer>
+ 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+    
+    <script src="//instant.page/5.1.0" type="module"
+      integrity="sha384-by67kQnR+pyfy8yWP4kPO12fHKRLHZPfEsiSXR8u2IKcTdxD805MGUXBzVPnkLHw"></script>
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>
