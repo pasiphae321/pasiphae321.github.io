@@ -26,49 +26,12 @@
 <meta property="og:site_name" content="pasiphae&#39;s blog">
 <meta property="og:description" content="一、三种XSS特点和区别1.反射型XSS攻击者将恶意JS脚本作为请求的参数值发送到服务器，并立即在响应中反射回浏览器中执行。攻击者通常通过恶意链接诱使受害者点击，从而执行恶意JS脚本 例子假设一个搜索功能在 URL 中接受用户输入，并在页面上显示输入内容&lt;p&gt;&lt;script&gt;alert(&#39;Reflected XSS&#39;);&lt;&#x2F;script&gt;的搜索结">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/17.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/38.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/2.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/1.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/3.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/4.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/5.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/6.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/7.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/8.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/9.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/10.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/11.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/12.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/13.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/14.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/15.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/16.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/18.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/19.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/20.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/21.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/22.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/23.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/24.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/25.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/26.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/27.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/28.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/29.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/30.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/31.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/32.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/33.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/34.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/35.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/36.png">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/37.png">
+<meta property="og:image" content="https://www.pasiphae.top/images/uranus.jpg">
 <meta property="article:published_time" content="2024-08-29T07:45:49.000Z">
-<meta property="article:modified_time" content="2024-09-12T08:43:13.532Z">
+<meta property="article:modified_time" content="2024-09-21T18:16:46.520Z">
 <meta property="article:author" content="pasiphae">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/17.png">
+<meta name="twitter:image" content="https://www.pasiphae.top/images/uranus.jpg">
   
   
   
@@ -232,7 +195,7 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/supercar.png') no-repeat center center; background-size: cover;">
+     style="background: url('/images/SolarSystem.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
