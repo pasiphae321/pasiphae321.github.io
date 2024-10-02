@@ -1,0 +1,838 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/planet.png">
+  <link rel="icon" href="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/planet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="pasiphae">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、CSRF和XSS的区别1.攻击目标 CSRF的目标是利用用户已经认证的身份，伪造用户请求，从而在用户不知情的情况下执行未授权的操作。攻击者希望用户在已经登录的网站上执行特定的操作(例如转账、修改账户设置等) XSS的目标是向受害者注入恶意脚本(通常是 JavaScript)，并在用户的浏览器中执行这些脚本，从而窃取用户数据、劫持用户会话、重定向用户到恶意网站等  2.攻击方式 CSRF:攻击者">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实训第六天">
+<meta property="og:url" content="https://www.pasiphae.top/2024/09/03/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AD%E5%A4%A9/index.html">
+<meta property="og:site_name" content="pasiphae&#39;s blog">
+<meta property="og:description" content="一、CSRF和XSS的区别1.攻击目标 CSRF的目标是利用用户已经认证的身份，伪造用户请求，从而在用户不知情的情况下执行未授权的操作。攻击者希望用户在已经登录的网站上执行特定的操作(例如转账、修改账户设置等) XSS的目标是向受害者注入恶意脚本(通常是 JavaScript)，并在用户的浏览器中执行这些脚本，从而窃取用户数据、劫持用户会话、重定向用户到恶意网站等  2.攻击方式 CSRF:攻击者">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/jupiter2.jpg">
+<meta property="article:published_time" content="2024-09-03T12:56:30.000Z">
+<meta property="article:modified_time" content="2024-10-02T14:25:46.337Z">
+<meta property="article:author" content="pasiphae">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/jupiter2.jpg">
+  
+  
+  
+  <title>实训第六天 - pasiphae&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4627722_8afulm2ucfb.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.pasiphae.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":60,"cursorChar":"","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>pasiphae&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/SolarSystem.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="实训第六天"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-03 20:56" pubdate>
+          2024年9月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">实训第六天</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一、CSRF和XSS的区别"><a href="#一、CSRF和XSS的区别" class="headerlink" title="一、CSRF和XSS的区别"></a>一、CSRF和XSS的区别</h2><h3 id="1-攻击目标"><a href="#1-攻击目标" class="headerlink" title="1.攻击目标"></a>1.攻击目标</h3><ul>
+<li>CSRF的目标是利用用户已经认证的身份，伪造用户请求，从而在用户不知情的情况下执行未授权的操作。攻击者希望用户在已经登录的网站上执行特定的操作(例如转账、修改账户设置等)</li>
+<li>XSS的目标是向受害者注入恶意脚本(通常是 JavaScript)，并在用户的浏览器中执行这些脚本，从而窃取用户数据、劫持用户会话、重定向用户到恶意网站等</li>
+</ul>
+<h3 id="2-攻击方式"><a href="#2-攻击方式" class="headerlink" title="2.攻击方式"></a>2.攻击方式</h3><ul>
+<li>CSRF:攻击者通过诱导用户点击恶意链接、访问恶意网站或打开恶意邮件，导致用户在已认证的站点上执行未授权的操作。CSRF攻击依赖于用户已经在目标网站上登录并保持会话状态</li>
+<li>XSS:攻击者通过向网页中注入恶意脚本，使得这些脚本在其他用户的浏览器中执行。这些脚本可能通过输入表单、评论、消息等途径注入到网页中。XSS攻击可以直接在用户浏览器中运行恶意代码</li>
+</ul>
+<h3 id="3-防御措施"><a href="#3-防御措施" class="headerlink" title="3.防御措施"></a>3.防御措施</h3><ul>
+<li>CSRF:常见防御措施包括使用CSRF token、检查Referer头、使用SameSite Cookie属性等</li>
+<li>XSS:常见防御措施包括对用户输入进行严格的过滤和转义、避免在网页中直接插入未处理的用户输入等</li>
+</ul>
+<h2 id="二、CSRF攻击步骤"><a href="#二、CSRF攻击步骤" class="headerlink" title="二、CSRF攻击步骤"></a>二、CSRF攻击步骤</h2><p>参见我的文章<a href="https://www.pasiphae.top/2022/12/12/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/">CSRF原理浅析</a></p>
+<h2 id="三、构造GET和POST请求"><a href="#三、构造GET和POST请求" class="headerlink" title="三、构造GET和POST请求"></a>三、构造GET和POST请求</h2><p>参见我的文章<a href="https://www.pasiphae.top/2022/12/12/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/#GET%E8%A1%A8%E5%8D%95">CSRF原理浅析</a></p>
+<h2 id="四、token类CSRF利用方法"><a href="#四、token类CSRF利用方法" class="headerlink" title="四、token类CSRF利用方法"></a>四、token类CSRF利用方法</h2><p>当有token时，只有当原始服务器的网页上存在XSS漏洞时，将受害者的会话Cookie和token通过JS脚本读取然后发送到攻击者的服务器，攻击者伪造有token和会话Cookie的请求给原始服务器<br>而且严格意义上说，这并不能叫做跨站请求伪造了，因为这并没有跨站了而是攻击者主动伪造请求</p>
+<h2 id="五、PHP伪协议"><a href="#五、PHP伪协议" class="headerlink" title="五、PHP伪协议"></a>五、PHP伪协议</h2><h3 id="file"><a href="#file" class="headerlink" title="file:&#x2F;&#x2F;"></a>file:&#x2F;&#x2F;</h3><p>file:&#x2F;&#x2F;协议用于访问本地文件系统，在CTF中通常用来读取本地文件且不受allow_url_fopen与allow_url_include的影响<br>该协议的路径只能输入绝对路径，输入相对路径是不生效的</p>
+<h3 id="php"><a href="#php" class="headerlink" title="php:&#x2F;&#x2F;"></a>php:&#x2F;&#x2F;</h3><p>php:&#x2F;&#x2F;访问各个输入&#x2F;输出流（I&#x2F;O streams），在CTF中经常使用的是php:&#x2F;&#x2F;filter和php:&#x2F;&#x2F;input，php:&#x2F;&#x2F;filter用于读取源码，php:&#x2F;&#x2F;input用于执行php代码<br>不需要开启allow_url_fopen，仅php:&#x2F;&#x2F;input、php:&#x2F;&#x2F;stdin、 php:&#x2F;&#x2F;memory和php:&#x2F;&#x2F;temp需要开启allow_url_include</p>
+<p>php:&#x2F;&#x2F;filter<br>php:&#x2F;&#x2F;filter是一种元封装器，设计用于数据流打开时的筛选过滤应用。主要用于读取文件内容。不需要开启allow_url_fopen和allow_url_include</p>
+<p>php:&#x2F;&#x2F;input<br>php:&#x2F;&#x2F;input可以访问请求的原始数据的只读流，在CTF中多用于执行php代码，不需要开启allow_url_fopen和allow_url_include</p>
+<h3 id="data"><a href="#data" class="headerlink" title="data:&#x2F;&#x2F;"></a>data:&#x2F;&#x2F;</h3><p>data:&#x2F;&#x2F;即数据，在CTF中主要用于写入代码并包含该代码到当前页面中<br>必须同时开启allow_url_fopen和allow_url_include</p>
+<p>例如</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">data://text/plain;<span class="hljs-built_in">base64</span>, &lt;script&gt;alert(<span class="hljs-string">&#x27;xss&#x27;</span>)&lt;/script&gt;<br>data://text/plain;<span class="hljs-built_in">base64</span>,PHNjcmlwdD5hbGVydCgneHNzJyk8L3NjcmlwdD4=<br></code></pre></td></tr></table></figure>
+
+<h3 id="zip"><a href="#zip" class="headerlink" title="zip:&#x2F;&#x2F;"></a>zip:&#x2F;&#x2F;</h3><p>zip:&#x2F;&#x2F;压缩流，不需要开启allow_url_fopen和allow_url_include<br>zip:&#x2F;&#x2F; [压缩文件绝对路径]#[压缩文件内的子文件名]<br>文件路径必须为绝对路径<br>上传一个包含PHP代码文件的zip包，只要zip:&#x2F;&#x2F;访问该协议即触发文件包含漏洞、将任意文本文件中的内容当作PHP代码执行</p>
+<h3 id="zlib"><a href="#zlib" class="headerlink" title="zlib:&#x2F;&#x2F;"></a>zlib:&#x2F;&#x2F;</h3><p>zlib:&#x2F;&#x2F;压缩流，不需要开启allow_url_fopen和allow_url_include<br>使用方法:compress.zlib:&#x2F;&#x2F;file<br>文件无绝对路径限制</p>
+<h3 id="bzip2"><a href="#bzip2" class="headerlink" title="bzip2:&#x2F;&#x2F;"></a>bzip2:&#x2F;&#x2F;</h3><p>bzip2:&#x2F;&#x2F;压缩流，不需要开启allow_url_fopen和allow_url_include<br>使用方法:compress.bzip2:&#x2F;&#x2F;file<br>文件无绝对路径限制</p>
+<h3 id="phar"><a href="#phar" class="headerlink" title="phar:&#x2F;&#x2F;"></a>phar:&#x2F;&#x2F;</h3><p>phar:&#x2F;&#x2F;即PHP归档，常用于解析phar文件内容，多用于phar反序列化漏洞利用</p>
+<h2 id="六、pikachu靶场SSRF通关"><a href="#六、pikachu靶场SSRF通关" class="headerlink" title="六、pikachu靶场SSRF通关"></a>六、pikachu靶场SSRF通关</h2><h3 id="1-curl"><a href="#1-curl" class="headerlink" title="1.curl"></a>1.curl</h3><p>如果你点击<code>累了吧,来读一首诗吧</code>后显示空白同时使用的是ubuntu，说明没有安装php-curl扩展，通过<code>sudo apt install php-curl</code>安装</p>
+<p>如果你更改了服务器端口，那还要注意将<code>127.0.0.1</code>后面的端口改成和前面的一致<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AD%E5%A4%A9/2.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>根据curl猜测后端用的应该是curl_exec那一组函数进行文件读取<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AD%E5%A4%A9/4.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>详细内容见<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/book.curl.php">https://www.php.net/manual/zh/book.curl.php</a></p>
+<p>读取下&#x2F;etc&#x2F;passwd的内容</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">163.105</span>:<span class="hljs-number">8558</span><span class="hljs-regexp">/pikachu/</span>vul<span class="hljs-regexp">/ssrf/</span>ssrf_curl.php?url=file:<span class="hljs-regexp">//</span><span class="hljs-regexp">/etc/</span>passwd<br></code></pre></td></tr></table></figure>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AD%E5%A4%A9/3.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>读取下当前的ssrf_curl.php的源码</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">163.105</span>:<span class="hljs-number">8558</span><span class="hljs-regexp">/pikachu/</span>vul<span class="hljs-regexp">/ssrf/</span>ssrf_curl.php?url=file:<span class="hljs-regexp">//</span><span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>pikachu<span class="hljs-regexp">/vul/</span>ssrf/ssrf_curl.php<br></code></pre></td></tr></table></figure>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AD%E5%A4%A9/5.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>可以看到，确实是用的curl_exec相关函数</p>
+<h3 id="2-file-get-contents"><a href="#2-file-get-contents" class="headerlink" title="2.file_get_contents"></a>2.file_get_contents</h3><p>后端应该用的file_get_contents函数</p>
+<p>用file协议读取下&#x2F;etc&#x2F;passwd<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AD%E5%A4%A9/6.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>此函数可以用php伪协议，我们读取下当前的<code>ssrf_fgc.php</code>文件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span><span class="hljs-number">192.168</span>.<span class="hljs-number">163.105</span>:<span class="hljs-number">8558</span><span class="hljs-regexp">/pikachu/</span>vul<span class="hljs-regexp">/ssrf/</span>ssrf_fgc.php?file=php:<span class="hljs-regexp">//</span>filter<span class="hljs-regexp">/read=convert.base64-encode/</span>resource=<span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/html/</span>pikachu<span class="hljs-regexp">/vul/</span>ssrf/ssrf_fgc.php<br></code></pre></td></tr></table></figure>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AD%E5%A4%A9/7.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AD%E5%A4%A9/8.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>可以看到，ssrf_fgc.php文件确实用的是file_get_contents函数</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AE%9E%E8%AE%AD/" class="category-chain-item">实训</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>实训第六天</div>
+      <div>https://www.pasiphae.top/2024/09/03/实训第六天/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>pasiphae</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年9月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/09/04/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%83%E5%A4%A9/" title="实训第七天">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">实训第七天</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/08/31/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%BA%94%E5%A4%A9/" title="实训第五天">
+                        <span class="hidden-mobile">实训第五天</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.8.0/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"Ov23liLrR5TiUqomlpen","clientSecret":"8f84493c225143d48a06471c47289a42d61008ae","repo":"pasiphae321.github.io","owner":"pasiphae321","admin":["pasiphae321"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: 'bb60831f3c21c93e58d8449c4f456f0a'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-left: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="实训"
+        id="heading-3b1573675c5c6e1bc5a8cf7490d3db1a" role="tab" data-toggle="collapse" href="#collapse-3b1573675c5c6e1bc5a8cf7490d3db1a"
+        aria-expanded="true"
+      >
+        实训
+        <span class="list-group-count">(11)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-3b1573675c5c6e1bc5a8cf7490d3db1a"
+           role="tabpanel" aria-labelledby="heading-3b1573675c5c6e1bc5a8cf7490d3db1a">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2024/08/27/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/" title="实训第一天"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">实训第一天</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/09/04/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%83%E5%A4%A9/" title="实训第七天"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">实训第七天</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/08/28/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/" title="实训第三天"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">实训第三天</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/09/06/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B9%9D%E5%A4%A9/" title="实训第九天"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">实训第九天</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/08/28/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%BA%8C%E5%A4%A9/" title="实训第二天"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">实训第二天</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/08/31/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%BA%94%E5%A4%A9/" title="实训第五天"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">实训第五天</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/09/05/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/" title="实训第八天"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">实训第八天</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/09/03/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AD%E5%A4%A9/" title="实训第六天"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">实训第六天</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/09/09/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%8D%81%E4%B8%80%E5%A4%A9/" title="实训第十一天"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">实训第十一天</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/09/08/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%8D%81%E5%A4%A9/" title="实训第十天"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">实训第十天</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2024/08/29/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%9B%9B%E5%A4%A9/" title="实训第四天"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">实训第四天</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       copyright 2021 - 2024 & all rights reserved<br> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>powered by hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>theme fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
