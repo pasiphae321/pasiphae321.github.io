@@ -26,13 +26,15 @@
 <meta property="og:site_name" content="pasiphae&#39;s blog">
 <meta property="og:description" content="一、下载OpenWRt镜像文件1.OpenWRt下载地址 1https:&#x2F;&#x2F;downloads.openwrt.org&#x2F;releases&#x2F; 2.选择版本这里我选择的是21.02.7 3.解压下载的压缩文件，得到镜像文件openwrt-21.02.7-x86-64-generic-ext4-combined-efi.img 二、安装StarWindV2VConverter1.下载地址 1https:">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/jupiter2.jpg">
+<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/venus2.jpg">
 <meta property="article:published_time" content="2022-08-20T07:10:29.000Z">
-<meta property="article:modified_time" content="2024-10-02T14:21:42.138Z">
+<meta property="article:modified_time" content="2024-10-05T17:19:13.929Z">
 <meta property="article:author" content="pasiphae">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/jupiter2.jpg">
+<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/venus2.jpg">
   
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
   
   
   <title>在VMWare Workstation上安装OpenWRt - pasiphae&#39;s blog</title>
@@ -73,7 +75,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"www.pasiphae.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":60,"cursorChar":"","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"www.pasiphae.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":60,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -233,6 +235,15 @@
 
     
     
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span>次
+        </span>
+        
+
+      
+    
   </div>
 
 
@@ -373,9 +384,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/11/02/SQL%E6%B3%A8%E5%85%A5%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/" title="SQL注入原理浅析">
+                      <a href="/2022/08/25/OpenWRt%E9%98%B2%E7%81%AB%E5%A2%99%E8%AF%A6%E8%A7%A3/" title="OpenWRt防火墙详解">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">SQL注入原理浅析</span>
+                        <span class="hidden-mobile">OpenWRt防火墙详解</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -660,6 +671,8 @@
 
 
   <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
