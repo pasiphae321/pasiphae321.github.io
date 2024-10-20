@@ -19,23 +19,25 @@
   <meta name="author" content="pasiphae">
   <meta name="keywords" content="">
   
-    <meta name="description" content="I am currently a student at an unknown university in Chongqing.我目前是重庆某大学的一名学生。 my email: 我的邮箱:&#x70;&#97;&#x73;&#x69;&#x70;&#x68;&#97;&#x65;&#51;&#50;&#x31;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&amp;#">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="https://www.pasiphae.top/about/index.html">
+    <meta name="description" content="FTP基于C&#x2F;S架构，客户端和服务器之间会建立两条TCP连接，分别是控制连接和数据连接 控制连接控制连接上的FTP报文是纯文本的，基于请求-响应模型。客户端发送请求，服务器返回响应 请求格式 1&lt;命令&gt; &lt;参数&gt;\r\n  \r\n用于标识一个FTP请求报文的结束 例如 1234567USER xxx\r\n:发送用户名PASS xxx\r\n:发送密码LIST\">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FTP报文格式">
+<meta property="og:url" content="https://www.pasiphae.top/2023/10/30/FTP%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F/index.html">
 <meta property="og:site_name" content="pasiphae&#39;s blog">
-<meta property="og:description" content="I am currently a student at an unknown university in Chongqing.我目前是重庆某大学的一名学生。 my email: 我的邮箱:&#x70;&#97;&#x73;&#x69;&#x70;&#x68;&#97;&#x65;&#51;&#50;&#x31;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&amp;#">
+<meta property="og:description" content="FTP基于C&#x2F;S架构，客户端和服务器之间会建立两条TCP连接，分别是控制连接和数据连接 控制连接控制连接上的FTP报文是纯文本的，基于请求-响应模型。客户端发送请求，服务器返回响应 请求格式 1&lt;命令&gt; &lt;参数&gt;\r\n  \r\n用于标识一个FTP请求报文的结束 例如 1234567USER xxx\r\n:发送用户名PASS xxx\r\n:发送密码LIST\">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-09-21T14:18:40.000Z">
-<meta property="article:modified_time" content="2024-10-02T14:30:16.453Z">
+<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/neptune2.jpg">
+<meta property="article:published_time" content="2023-10-30T05:48:48.000Z">
+<meta property="article:modified_time" content="2024-10-20T06:19:58.968Z">
 <meta property="article:author" content="pasiphae">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/neptune2.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>关于 - pasiphae&#39;s blog</title>
+  <title>FTP报文格式 - pasiphae&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -201,9 +203,49 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="关于"></span>
+            <span id="subtitle" data-typed-text="FTP报文格式"></span>
           
         </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-10-30 13:48" pubdate>
+          2023年10月30日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          607 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span>次
+        </span>
+        
+
+      
+    
+  </div>
+
 
         
       </div>
@@ -219,71 +261,149 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div id="board"
-          >
-          
-            <div class="about-avatar">
-              <img src="https://q1.qlogo.cn/g?b=qq&amp;nk=1318952043&amp;s=640" srcset="/img/loading.gif" lazyload class="img-fluid" alt="avatar">
-            </div>
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="text-center">
-  <div class="about-info">
-    <div class="about-name">pasiphae</div>
-    <div class="about-intro"></div>
-    <div class="about-icons">
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
       
-        
-        
-        
-        <a  class="qr-trigger
-           "
-           
-           target="_self"
-        >
-          <i class="iconfont icon-weixin1" aria-hidden="true"></i>
-          
-            <img class="qr-img" src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/WeChat.jpg" srcset="/img/loading.gif" lazyload alt="qrcode" />
-          
-        </a>
-      
-        
-        
-        
-        <a  class="qr-trigger
-           "
-           
-           target="_self"
-        >
-          <i class="iconfont icon-douyin1" aria-hidden="true"></i>
-          
-            <img class="qr-img" src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/DouYin.jpg" srcset="/img/loading.gif" lazyload alt="qrcode" />
-          
-        </a>
-      
-    </div>
-  </div>
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
 </div>
 
-<article class="about-content page-content mt-5">
-  <div class="markdown-body">
-    <p>I am currently a student at an unknown university in Chongqing.<br>我目前是重庆某大学的一名学生。</p>
-<p>my email: 我的邮箱:<br><a href="mailto:&#x70;&#97;&#x73;&#x69;&#x70;&#x68;&#97;&#x65;&#51;&#50;&#x31;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#x6d;">&#x70;&#97;&#x73;&#x69;&#x70;&#x68;&#97;&#x65;&#51;&#50;&#x31;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#x6d;</a></p>
 
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">FTP报文格式</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>FTP基于C&#x2F;S架构，客户端和服务器之间会建立两条TCP连接，分别是控制连接和数据连接</p>
+<h2 id="控制连接"><a href="#控制连接" class="headerlink" title="控制连接"></a>控制连接</h2><p>控制连接上的FTP报文是纯文本的，基于请求-响应模型。客户端发送请求，服务器返回响应</p>
+<p>请求格式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">&lt;命令&gt; &lt;参数&gt;\r\n<br></code></pre></td></tr></table></figure>
+
+<p>\r\n用于标识一个FTP请求报文的结束</p>
+<p>例如</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">USER xxx\r\n:发送用户名<br>PASS xxx\r\n:发送密码<br>LIST\r\n:列出当前目录下的文件和目录<br>PASV\r\n:切换到被动模式<br>TYPE I\r\n:切换到binary模式<br>PORT 192,168,163,103,143,127\r\n:客户端给出主动模式下的数据连接监听端口<br>PASV\r\n:通知服务器本次数据连接采用被动模式<br></code></pre></td></tr></table></figure>
+
+<p>响应格式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">&lt;响应码&gt; &lt;说明文字&gt;\r\n<br></code></pre></td></tr></table></figure>
+
+<p>例如</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">331 Please specify the password.\r\n<br>230 Login successful.\r\n<br>227 Entering Passive Mode (192,168,163,105,208,45).\r\n:服务器给出被动模式下的监听端口<br></code></pre></td></tr></table></figure>
+
+<p>更多关于控制连接报文格式的信息，参考RFC文档</p>
+<p><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc959">https://datatracker.ietf.org/doc/html/rfc959</a></p>
+<h2 id="数据连接"><a href="#数据连接" class="headerlink" title="数据连接"></a>数据连接</h2><p>数据连接直接传输文件的<code>字节流</code>，没有报文格式</p>
+<h3 id="binary-ascii模式"><a href="#binary-ascii模式" class="headerlink" title="binary&#x2F;ascii模式"></a>binary&#x2F;ascii模式</h3><p>但数据连接有两个模式，binary和ascii模式</p>
+<p>数据连接的主被动模式是针对数据连接的建立方式而言，这里不阐述，可以参考我的另一篇文章 <a href="https://www.pasiphae.top/2023/10/30/FTP%E4%B8%BB%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/">FTP主被动模式与抓包分析</a></p>
+<p>binary模式直接传输文件的字节流，不做任何处理</p>
+<p>ascii模式用于处理不同操作系统的换行符的差异，举个例子</p>
+<p>假设是客户端处于windows下，服务器处于linux下。客户端下载文件，服务器会将发出的字节流中的<code>\n</code>转换为<code>\r\n</code>。客户端上传文件，服务器会将收到的字节流中<code>\r\n</code>转换为<code>\n</code>。也就是说，其实换行符的转换都是服务器在操作</p>
+<h4 id="如何切换模式"><a href="#如何切换模式" class="headerlink" title="如何切换模式"></a>如何切换模式</h4><p>在FTP客户端上输入ascii或binary即可，客户端会记住你选择的模式。如果你不指定模式，一般FTP客户端默认都是binary模式</p>
+<p>客户端在每次要上传或下载文件时，都会在控制连接上自动在控制连接上发出请求<code>TYPE I</code>(binary模式)或<code>TYPE A</code>(ascii模式)通知服务器本次数据连接的模式</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>FTP报文格式</div>
+      <div>https://www.pasiphae.top/2023/10/30/FTP报文格式/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>pasiphae</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年10月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
   </div>
 
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/10/30/FTP%E4%B8%BB%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/" title="FTP主被动模式与抓包分析">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">FTP主被动模式与抓包分析</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/10/26/3DSolarSystem/" title="3D太阳系">
+                        <span class="hidden-mobile">3D太阳系</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
   
-    <!-- Comments -->
+  
     <article id="comments" lazyload>
-      
-      
-        
-      
       
   <div id="gitalk-container"></div>
   <script type="text/javascript">
@@ -293,7 +413,7 @@
         var options = Object.assign(
           {"clientID":"Ov23liLrR5TiUqomlpen","clientSecret":"8f84493c225143d48a06471c47289a42d61008ae","repo":"pasiphae321.github.io","owner":"pasiphae321","admin":["pasiphae321"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: 'a7224db13f3a49096aa27c1876d1a947'
+            id: '8e4dafa1269856d7e150fc879b78db40'
           }
         )
         var gitalk = new Gitalk(options);
@@ -306,37 +426,61 @@
 
     </article>
   
-</article>
 
 
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-              </div>
-            </div>
-          </div>
+          </article>
         </div>
       </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-left: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
     
 
     
@@ -430,6 +574,46 @@
 
 
 
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
   <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
 
   <script>Fluid.plugins.codeWidget();</script>
@@ -482,6 +666,8 @@
 
 
   <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
