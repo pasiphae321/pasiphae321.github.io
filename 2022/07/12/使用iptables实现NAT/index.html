@@ -19,25 +19,25 @@
   <meta name="author" content="pasiphae">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、下载OpenWRt镜像文件1.OpenWRt下载地址 1https:&#x2F;&#x2F;downloads.openwrt.org&#x2F;releases&#x2F; 2.选择版本这里我选择的是21.02.7 3.解压下载的压缩文件，得到镜像文件openwrt-21.02.7-x86-64-generic-ext4-combined-efi.img 二、安装StarWindV2VConverter1.下载地址 1https:">
+    <meta name="description" content="一、网络拓扑图ubuntu版本为20.04kali版本为2023.4 二、预配置1.在mercury上stop并disable ufw服务 12sudo systemctl stop ufwsudo systemctl disable ufw 2.在mercury上安装软件包iptables-persistent，启动netfilter-persistent服务，这样就可以使用命令iptables">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在VMWare Workstation上安装OpenWRt">
-<meta property="og:url" content="https://www.pasiphae.top/2022/08/20/%E5%9C%A8VMWare-Workstation%E4%B8%8A%E5%AE%89%E8%A3%85OpenWRt/index.html">
+<meta property="og:title" content="使用iptables实现NAT">
+<meta property="og:url" content="https://www.pasiphae.top/2022/07/12/%E4%BD%BF%E7%94%A8iptables%E5%AE%9E%E7%8E%B0NAT/index.html">
 <meta property="og:site_name" content="pasiphae&#39;s blog">
-<meta property="og:description" content="一、下载OpenWRt镜像文件1.OpenWRt下载地址 1https:&#x2F;&#x2F;downloads.openwrt.org&#x2F;releases&#x2F; 2.选择版本这里我选择的是21.02.7 3.解压下载的压缩文件，得到镜像文件openwrt-21.02.7-x86-64-generic-ext4-combined-efi.img 二、安装StarWindV2VConverter1.下载地址 1https:">
+<meta property="og:description" content="一、网络拓扑图ubuntu版本为20.04kali版本为2023.4 二、预配置1.在mercury上stop并disable ufw服务 12sudo systemctl stop ufwsudo systemctl disable ufw 2.在mercury上安装软件包iptables-persistent，启动netfilter-persistent服务，这样就可以使用命令iptables">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/venus2.jpg">
-<meta property="article:published_time" content="2022-08-20T07:10:29.000Z">
-<meta property="article:modified_time" content="2024-10-05T17:19:13.929Z">
+<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/moon2.jpg">
+<meta property="article:published_time" content="2022-07-12T11:57:36.000Z">
+<meta property="article:modified_time" content="2024-10-21T17:13:08.497Z">
 <meta property="article:author" content="pasiphae">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/venus2.jpg">
+<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/moon2.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>在VMWare Workstation上安装OpenWRt - pasiphae&#39;s blog</title>
+  <title>使用iptables实现NAT - pasiphae&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="在VMWare Workstation上安装OpenWRt"></span>
+            <span id="subtitle" data-typed-text="使用iptables实现NAT"></span>
           
         </div>
 
@@ -214,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-08-20 15:10" pubdate>
-          2022年8月20日 下午
+        <time datetime="2022-07-12 19:57" pubdate>
+          2022年7月12日 晚上
         </time>
       </span>
     
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          688 字
+          509 字
         
       </span>
     
@@ -287,41 +287,44 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">在VMWare Workstation上安装OpenWRt</h1>
+            <h1 id="seo-header">使用iptables实现NAT</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="一、下载OpenWRt镜像文件"><a href="#一、下载OpenWRt镜像文件" class="headerlink" title="一、下载OpenWRt镜像文件"></a>一、下载OpenWRt镜像文件</h2><p>1.OpenWRt下载地址</p>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-symbol">https:</span>//downloads.openwrt<span class="hljs-meta">.org</span>/releases/<br></code></pre></td></tr></table></figure>
-<p>2.选择版本<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V1.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>这里我选择的是21.02.7<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V2.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>3.解压下载的压缩文件，得到镜像文件openwrt-21.02.7-x86-64-generic-ext4-combined-efi.img</p>
-<h2 id="二、安装StarWindV2VConverter"><a href="#二、安装StarWindV2VConverter" class="headerlink" title="二、安装StarWindV2VConverter"></a>二、安装StarWindV2VConverter</h2><p>1.下载地址</p>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-symbol">https:</span>//www.starwindsoftware.com/starwind-v2v-converter<span class="hljs-meta">#download</span><br></code></pre></td></tr></table></figure>
+                <h2 id="一、网络拓扑图"><a href="#一、网络拓扑图" class="headerlink" title="一、网络拓扑图"></a>一、网络拓扑图</h2><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/iptables_NAT/0.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>ubuntu版本为20.04<br>kali版本为2023.4</p>
+<h2 id="二、预配置"><a href="#二、预配置" class="headerlink" title="二、预配置"></a>二、预配置</h2><p>1.在mercury上stop并disable ufw服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> systemctl stop ufw<br><span class="hljs-built_in">sudo</span> systemctl <span class="hljs-built_in">disable</span> ufw<br></code></pre></td></tr></table></figure>
+<p>2.在mercury上安装软件包iptables-persistent，启动netfilter-persistent服务，这样就可以使用命令iptables了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt install iptables-persistent<br><span class="hljs-built_in">sudo</span> systemctl start iptables<br></code></pre></td></tr></table></figure>
 
-<h2 id="三、转换-img文件为-vmdk虚拟磁盘文件"><a href="#三、转换-img文件为-vmdk虚拟磁盘文件" class="headerlink" title="三、转换.img文件为.vmdk虚拟磁盘文件"></a>三、转换.img文件为.vmdk虚拟磁盘文件</h2><p>1.启动StarWindV2VConverter<br>2.源文件选择local file<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V3.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>3.目标文件同样选择local file<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V4.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>4.目标文件格式选择VMDK<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V5.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V6.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>5.最终生成.vmdk文件<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V7.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<h2 id="四、创建虚拟机"><a href="#四、创建虚拟机" class="headerlink" title="四、创建虚拟机"></a>四、创建虚拟机</h2><p>1.选择稍后安装操作系统<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V8.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>2.这里我选择的是其它linux 5.x内核64位<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V9.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>3.这里要特别注意，创建好和你选择的位置一致的目录，同时向目录中复制上一步生成的.vmdk文件<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V10.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>这时会弹出如下提示，这是因为VMWare检测到你选择的位置已经存在一个我们刚刚复制的.vmdk文件，我们点击继续<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V15.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>4.处理器和内存我选的是2核1G<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V11.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V12.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>5.暂时不使用网络连接<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V13.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>6.选择使用现有虚拟磁盘，然后选择第3步虚拟机位置里的.vmdk文件，我这里就是C:\VirtualMachines\OpenWRt5\openwrt-21.02.7-x86-64-generic-ext4-combined-efi.vmdk<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V14.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>7.这里可能会根据你使用的VMWare Workstation版本的不同弹出更新格式的提示，我选择的是保持现有格式<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V16.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>8.创建好虚拟机后，添加两个网卡适配器，可选择移除CD&#x2F;DVD、USB控制器、声卡、打印机，最终的设备列表如下图<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V17.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<h2 id="五、配置OpenWRt"><a href="#五、配置OpenWRt" class="headerlink" title="五、配置OpenWRt"></a>五、配置OpenWRt</h2><p>1.启动OpenWRt<br>2.编辑网络配置文件并重启</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">vim /etc/config/network<br></code></pre></td></tr></table></figure>
-<p>这里我们只修改eth0(也就是添加的连接到VMNet12的网络适配器)的IP，然后输入reboot重启<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V18.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>重启后OpenWRt就能够从192.168.12.1(也就是win11物理机)访问，之后我们就可以在物理机上通过web接口对OpenWRt进行配置了<br>但要注意，要让物理机接入VMNet12<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V30.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V29.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>3.使用OpenWRt的web接口进行简单的后续配置<br>(1)初始密码为空<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V19.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>(2)点击导航栏的System-&gt;Administration设置密码<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V20.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>(3)点击导航栏的Network-&gt;Interfaces进行网络配置<br>下图是初始状态<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V21.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>因为我的VMNet8即NAT模式使用的是静态IP，同时我想要禁用IPv6，那我就要修改WAN interface、删除WAN6 interface<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V22.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>修改后的状态<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V23.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V24.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>(4)防火墙暂时就用默认配置<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V26.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>(5)更多关于OpenWRt的配置见文章(此处预留)</p>
-<h2 id="六、简单测试"><a href="#六、简单测试" class="headerlink" title="六、简单测试"></a>六、简单测试</h2><p>1.将主机venus(192.168.12.21)的默认网关设置为192.168.12.23，即OpenWRt的Lan接口的IP<br>2.从venus PING kali1和223.5.5.5(阿里云的公共DNS)，可以PING通<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V25.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>3.从kali1 PING OpenWRt，PING不通<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V27.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>原因是防火墙默认配置的此处为reject<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V28.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+
+<h2 id="三、仅开启linux内核的IP转发功能，不使用iptables进行NAT"><a href="#三、仅开启linux内核的IP转发功能，不使用iptables进行NAT" class="headerlink" title="三、仅开启linux内核的IP转发功能，不使用iptables进行NAT"></a>三、仅开启linux内核的IP转发功能，不使用iptables进行NAT</h2><p>1.在mercury上开启IP转发<br>(1)编辑文件&#x2F;etc&#x2F;sysctl.conf</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> vim /etc/sysctl.conf<br></code></pre></td></tr></table></figure>
+<p>&#x2F;etc&#x2F;sysctl.conf 是一个配置文件，用于定义linux系统内核的各种参数。它允许你在系统启动时配置和调整内核参数，这些参数控制系统的行为，包括网络设置、内存管理、进程调度等</p>
+<p>(2)取消注释或者在文件末尾添加如下行</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">net.ipv4.ip_forward</span> = <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/iptables_NAT/1.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>(3)使配置生效</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> sysctl -p<br></code></pre></td></tr></table></figure>
+
+<p>2.在venus上PING kali1(192.168.163.138)</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">ping</span> <span class="hljs-number">192.168.163.138</span><br></code></pre></td></tr></table></figure>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/iptables_NAT/2.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>可以看到是PING不通的</p>
+<p>3.在kali1上开启WireShark进行抓包并分析<br>(1)由下图可以看到，ICMP的request包的源IP为mercury而并非venus的IP，说明只进行了IP转发没有进行NAT<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/iptables_NAT/3.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>(2)而且由上图，kali1回复了ICMP的reply包，那为啥merury PING不通呢？<br>这是因为kali1上没有关于192.168.12.21的路由项，于是会将IP包发给默认网关192.168.163.2,所以mercury收不到ICMP reply包，也就是PING不通了</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/iptables_NAT/4.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h2 id="四、使用iptables实现NAT"><a href="#四、使用iptables实现NAT" class="headerlink" title="四、使用iptables实现NAT"></a>四、使用iptables实现NAT</h2><p>1.在mercury上给iptables的nat表POSTROUTING链上增加一条规则</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs brainfuck"><span class="hljs-comment">sudo iptables</span> <span class="hljs-literal">--</span><span class="hljs-comment">table nat</span> <span class="hljs-literal">--</span><span class="hljs-comment">append POSTROUTING</span> <span class="hljs-literal">--</span><span class="hljs-comment">out</span><span class="hljs-literal">-</span><span class="hljs-comment">interface ens34</span> <span class="hljs-literal">--</span><span class="hljs-comment">jump MASQUERADE</span><br></code></pre></td></tr></table></figure>
+<p>这样，从内网要到外网的包的源IP地址就会被转换为venus的外网的接口ens34对应的IP 192.168.163.54</p>
+<p>查看下nat表，看是否成功添加规则</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs brainfuck"><span class="hljs-comment">sudo iptables</span> <span class="hljs-literal">--</span><span class="hljs-comment">table nat</span> <span class="hljs-literal">--</span><span class="hljs-comment">list</span><br></code></pre></td></tr></table></figure>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/iptables_NAT/5.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>2.此时我们再PING下kali1</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">ping</span> <span class="hljs-number">192.168.163.138</span><br></code></pre></td></tr></table></figure>
+<p>由下图可以看到，此时能够PING通kali1<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/iptables_NAT/6.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>3.再次在kali1上用WireShark进行抓包<br>可以看到，ICMP request包的源IP已经变成了192.168.163.54，说明成功实现了NAT<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/iptables_NAT/7.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>4.那为什么kali1回复的ICMP reply包到达了venus后，能顺利返回mercury呢？<br>这里应该是跟iptables是有状态防火墙、NAT映射表、conntrack相关，但具体原因因为个人水平太低还无法阐述</p>
 
                 
               </div>
@@ -339,8 +342,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>在VMWare Workstation上安装OpenWRt</div>
-      <div>https://www.pasiphae.top/2022/08/20/在VMWare-Workstation上安装OpenWRt/</div>
+      <div>使用iptables实现NAT</div>
+      <div>https://www.pasiphae.top/2022/07/12/使用iptables实现NAT/</div>
     </div>
     <div class="license-meta">
       
@@ -352,7 +355,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年8月20日</div>
+          <div>2022年7月12日</div>
         </div>
       
       
@@ -384,21 +387,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/08/25/OpenWRt%E9%98%B2%E7%81%AB%E5%A2%99%E8%AF%A6%E8%A7%A3/" title="OpenWRt防火墙详解">
+                      <a href="/2022/07/20/iptables%E7%9A%84%E5%9B%9B%E8%A1%A8%E4%BA%94%E9%93%BE%E5%92%8C%E5%86%85%E6%A0%B8%E7%9A%84netfilter/" title="iptables的四表五链和内核的netfilter">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">OpenWRt防火墙详解</span>
+                        <span class="hidden-mobile">iptables的四表五链和内核的netfilter</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
-                    
-                      <a href="/2022/08/11/%E9%9D%92%E5%9F%8E%E5%B1%B1%E4%B8%8B%E7%99%BD%E7%B4%A0%E8%B4%9E/" title="青城山下白素贞">
-                        <span class="hidden-mobile">青城山下白素贞</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
                     
                   </article>
                 </div>
@@ -418,7 +415,7 @@
         var options = Object.assign(
           {"clientID":"Ov23liLrR5TiUqomlpen","clientSecret":"8f84493c225143d48a06471c47289a42d61008ae","repo":"pasiphae321.github.io","owner":"pasiphae321","admin":["pasiphae321"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: '7c011c4c8bbff4bec5fb957649805848'
+            id: '84aa57827d7b3b3c7bd0ef7621b11670'
           }
         )
         var gitalk = new Gitalk(options);

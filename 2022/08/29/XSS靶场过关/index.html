@@ -19,25 +19,25 @@
   <meta name="author" content="pasiphae">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、下载OpenWRt镜像文件1.OpenWRt下载地址 1https:&#x2F;&#x2F;downloads.openwrt.org&#x2F;releases&#x2F; 2.选择版本这里我选择的是21.02.7 3.解压下载的压缩文件，得到镜像文件openwrt-21.02.7-x86-64-generic-ext4-combined-efi.img 二、安装StarWindV2VConverter1.下载地址 1https:">
+    <meta name="description" content="靶场网址 http:&#x2F;&#x2F;xss.tesla-space.com&#x2F; 第一关get传参name值为test，回显有test，直接在URL栏将参数值修改为&lt;script&gt;alert(12345);&lt;&#x2F;script&gt;(在URL栏输入还是在输入框输入都一样，但有细微差别)   过关 第二关感觉和第一关一样  直接在URL栏输入&lt;script&gt;alert(123);&lt;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在VMWare Workstation上安装OpenWRt">
-<meta property="og:url" content="https://www.pasiphae.top/2022/08/20/%E5%9C%A8VMWare-Workstation%E4%B8%8A%E5%AE%89%E8%A3%85OpenWRt/index.html">
+<meta property="og:title" content="XSS靶场过关">
+<meta property="og:url" content="https://www.pasiphae.top/2022/08/29/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/index.html">
 <meta property="og:site_name" content="pasiphae&#39;s blog">
-<meta property="og:description" content="一、下载OpenWRt镜像文件1.OpenWRt下载地址 1https:&#x2F;&#x2F;downloads.openwrt.org&#x2F;releases&#x2F; 2.选择版本这里我选择的是21.02.7 3.解压下载的压缩文件，得到镜像文件openwrt-21.02.7-x86-64-generic-ext4-combined-efi.img 二、安装StarWindV2VConverter1.下载地址 1https:">
+<meta property="og:description" content="靶场网址 http:&#x2F;&#x2F;xss.tesla-space.com&#x2F; 第一关get传参name值为test，回显有test，直接在URL栏将参数值修改为&lt;script&gt;alert(12345);&lt;&#x2F;script&gt;(在URL栏输入还是在输入框输入都一样，但有细微差别)   过关 第二关感觉和第一关一样  直接在URL栏输入&lt;script&gt;alert(123);&lt;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/venus2.jpg">
-<meta property="article:published_time" content="2022-08-20T07:10:29.000Z">
-<meta property="article:modified_time" content="2024-10-05T17:19:13.929Z">
+<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/moon2.jpg">
+<meta property="article:published_time" content="2022-08-29T07:02:12.000Z">
+<meta property="article:modified_time" content="2024-10-21T17:08:38.566Z">
 <meta property="article:author" content="pasiphae">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/venus2.jpg">
+<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/moon2.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>在VMWare Workstation上安装OpenWRt - pasiphae&#39;s blog</title>
+  <title>XSS靶场过关 - pasiphae&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="在VMWare Workstation上安装OpenWRt"></span>
+            <span id="subtitle" data-typed-text="XSS靶场过关"></span>
           
         </div>
 
@@ -214,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-08-20 15:10" pubdate>
-          2022年8月20日 下午
+        <time datetime="2022-08-29 15:02" pubdate>
+          2022年8月29日 下午
         </time>
       </span>
     
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          688 字
+          1.2k 字
         
       </span>
     
@@ -287,41 +287,142 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">在VMWare Workstation上安装OpenWRt</h1>
+            <h1 id="seo-header">XSS靶场过关</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="一、下载OpenWRt镜像文件"><a href="#一、下载OpenWRt镜像文件" class="headerlink" title="一、下载OpenWRt镜像文件"></a>一、下载OpenWRt镜像文件</h2><p>1.OpenWRt下载地址</p>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-symbol">https:</span>//downloads.openwrt<span class="hljs-meta">.org</span>/releases/<br></code></pre></td></tr></table></figure>
-<p>2.选择版本<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V1.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>这里我选择的是21.02.7<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V2.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>3.解压下载的压缩文件，得到镜像文件openwrt-21.02.7-x86-64-generic-ext4-combined-efi.img</p>
-<h2 id="二、安装StarWindV2VConverter"><a href="#二、安装StarWindV2VConverter" class="headerlink" title="二、安装StarWindV2VConverter"></a>二、安装StarWindV2VConverter</h2><p>1.下载地址</p>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-symbol">https:</span>//www.starwindsoftware.com/starwind-v2v-converter<span class="hljs-meta">#download</span><br></code></pre></td></tr></table></figure>
+                <p>靶场网址 <a target="_blank" rel="noopener" href="http://xss.tesla-space.com/">http://xss.tesla-space.com/</a></p>
+<h2 id="第一关"><a href="#第一关" class="headerlink" title="第一关"></a>第一关</h2><p>get传参name值为test，回显有test，直接在URL栏将参数值修改为<code>&lt;script&gt;alert(12345);&lt;/script&gt;</code>(在URL栏输入还是在输入框输入都一样，但有细微差别)</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/1.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/2.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>过关</p>
+<h2 id="第二关"><a href="#第二关" class="headerlink" title="第二关"></a>第二关</h2><p>感觉和第一关一样</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/3.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>直接在URL栏输入<code>&lt;script&gt;alert(123);&lt;/script&gt;</code>，发现行不通</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/4.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>&nbsp;</p>
+<p>查看网页源码，发现虽然<code>没要找到xxx的结果</code>那里尖括号在服务器端被转义了，但是输入框那里的尖括号没有被转义。那么我们可以在输入框那里闭合input标签，直接在浏览器URL栏输入<code>&quot;&gt;&lt;script&gt;alert(123)&lt;/script&gt;</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/5.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/6.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>成功过关</p>
+<h2 id="第三关"><a href="#第三关" class="headerlink" title="第三关"></a>第三关</h2><p>直接查看网页源码，可以看到参数名还是<code>keyword</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/7.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>&nbsp;</p>
+<p>在URL栏输入<code>&lt;script&gt;alert(123)&lt;/script&gt;</code>测试下</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/8.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>没成功</p>
+<p>&nbsp;</p>
+<p>查看源码发现这关两个地方的<code>尖括号</code>都被转义了</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/9.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>&nbsp;</p>
+<p>那就不用尖括号，输入<code>&#39; autofocus onblur=alert(); aaa=&#39;</code></p>
+<p>只要点击页面非输入框的部分，就会调用alert函数</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/10.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>成功过关</p>
+<p>但我还有一个未找到原因的问题，为什么输入<code>&#39; autofocus onfocus=alert(); aaa=&#39;</code>会一直循环调用alert</p>
+<h2 id="第四关"><a href="#第四关" class="headerlink" title="第四关"></a>第四关</h2><p>查看源码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/11.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>&nbsp;</p>
+<p>输入<code>&quot; autofocus onblur=alert(); aaa=&quot;</code>测试下</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/12.png" srcset="/img/loading.gif" lazyload alt="【这里有一个图片"></p>
+<p>成功过关，当然也要先点击下非输入框的部分</p>
+<h2 id="第五关"><a href="#第五关" class="headerlink" title="第五关"></a>第五关</h2><p>查看源码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/13.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>又变成了<code>双引号</code></p>
+<p>&nbsp;</p>
+<p>测试下<code>&quot; autofocus onfocus=alert(); aaa=&quot;</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/14.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>发现不行，后端把input标签位置的<code>on</code>给替换为了<code>o_n</code></p>
+<p>&nbsp;</p>
+<p>那再测试下<code>&lt;script&gt;alert();&lt;/script&gt;</code>看下过滤了尖括号没有</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/15.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>h2标签处过滤了，但input标签处没过滤，但过滤了script</p>
+<p>&nbsp;</p>
+<p>那直接基于input标签输入<code>&quot;&gt; &lt;a href=javascript:alert();&gt;111&lt;/a&gt;</code>，并点击链接</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/16.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>成功过关</p>
+<h2 id="第六关"><a href="#第六关" class="headerlink" title="第六关"></a>第六关</h2><p>查看源码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/17.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>&nbsp;</p>
+<p>先测试下<code>&quot;&gt;&lt;script&gt;alert(123);&lt;/script&gt;&lt;img src=&quot;</code>，没能成功，查看下源码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/18.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>可以看到，h2标签处后端将<code>&quot;、&lt;、&gt;</code>转义为了HTML实体，input标签处没有转义<code>&quot;、&lt;、&gt;</code>，但是将<code>script</code>替换为了<code>scr_ipt</code>，将<code>src</code>转换为了<code>sr_c</code></p>
+<p>但为什么<code>&lt;/script&gt;</code>中的<code>script</code>没有替换为<code>scr_ipt</code>呢？说明后端的替换规则为下面两种之一</p>
+<ul>
+<li><p><code>&lt;script</code>替换为<code>&lt;scr_ipt</code></p>
+</li>
+<li><p><code>&lt;script&gt;</code>替换为<code>&lt;scr_ipt&gt;</code></p>
+</li>
+</ul>
+<p>最终测试发现为第一种</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/19.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>&nbsp;</p>
+<p>这里利用浏览器的一个特性，DOM树生成过程中对HTML文件中的标签和属性名的大小写不敏感，但后端语言肯定对大小写是敏感的</p>
+<p>我们测试下后端在替换时会不会大小写敏感</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/20.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>看来是大小写敏感的</p>
+<p>&nbsp;</p>
+<p>直接<code>&quot;&gt;&lt;sCRipt&gt;alert();&lt;script&gt;&lt;img src=&quot;</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/21.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>成功过关</p>
+<h2 id="第七关"><a href="#第七关" class="headerlink" title="第七关"></a>第七关</h2><p>查看源码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/22.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>&nbsp;</p>
+<p>测试下<code>&quot;&gt;&lt;script&gt;alert(123);&lt;/script&gt;&lt;img src=&quot;</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/23.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>看来后端这次是将input标签处的script替换为空字符，那可以通过双写绕过</p>
+<p>&nbsp;</p>
+<p>URL栏输入<code>&quot;&gt;&lt;scrscriptipt&gt;alert();&lt;/scrscriptipt&gt;&lt;img src=&quot;</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/24.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>过关</p>
+<h2 id="第八关"><a href="#第八关" class="headerlink" title="第八关"></a>第八关</h2><p>老样子，查看源码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/25.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>&nbsp;</p>
+<p>老样子，测试下<code>&quot;&gt;&lt;script&gt;alert(123);&lt;/script&gt;&lt;img src=&quot;</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/26.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>过不了</p>
+<p>查看源码，这次后端在input标签将<code>&quot;、&lt;、&gt;</code>转换为HTML实体，而在a标签处只将<code>&quot;</code>转换为HTML实体，把<code>script</code>替换为<code>scr_ipt</code></p>
+<p>&nbsp;</p>
+<p>基于a标签，用Javascript伪协议和大小写绕过试试，<code>javascrIpt:alert();</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/27.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>看来对大小写做了防范</p>
+<p>&nbsp;</p>
+<p>那试试将<code>script</code>替换为对应的HTML实体</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/28.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p><code>&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;</code></p>
+<p><strong>如果在输入框输入</strong>，payload为<code>java&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;:alert();</code>，因为此时浏览器会对payload自动进行URL编码</p>
+<p><strong>如果直接在URL栏输入</strong>，要在HTML实体编码后再进行一次URL编码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/29.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>此时payload为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">java%26%23115%3B%26%2399%3B%26%23114%3B%26%23105%3B%26%23112%3B%26%23116%3B:alert();<br></code></pre></td></tr></table></figure>
 
-<h2 id="三、转换-img文件为-vmdk虚拟磁盘文件"><a href="#三、转换-img文件为-vmdk虚拟磁盘文件" class="headerlink" title="三、转换.img文件为.vmdk虚拟磁盘文件"></a>三、转换.img文件为.vmdk虚拟磁盘文件</h2><p>1.启动StarWindV2VConverter<br>2.源文件选择local file<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V3.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>3.目标文件同样选择local file<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V4.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>4.目标文件格式选择VMDK<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V5.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V6.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>5.最终生成.vmdk文件<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V7.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<h2 id="四、创建虚拟机"><a href="#四、创建虚拟机" class="headerlink" title="四、创建虚拟机"></a>四、创建虚拟机</h2><p>1.选择稍后安装操作系统<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V8.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>2.这里我选择的是其它linux 5.x内核64位<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V9.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>3.这里要特别注意，创建好和你选择的位置一致的目录，同时向目录中复制上一步生成的.vmdk文件<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V10.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>这时会弹出如下提示，这是因为VMWare检测到你选择的位置已经存在一个我们刚刚复制的.vmdk文件，我们点击继续<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V15.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>4.处理器和内存我选的是2核1G<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V11.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V12.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>5.暂时不使用网络连接<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V13.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>6.选择使用现有虚拟磁盘，然后选择第3步虚拟机位置里的.vmdk文件，我这里就是C:\VirtualMachines\OpenWRt5\openwrt-21.02.7-x86-64-generic-ext4-combined-efi.vmdk<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V14.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>7.这里可能会根据你使用的VMWare Workstation版本的不同弹出更新格式的提示，我选择的是保持现有格式<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V16.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>8.创建好虚拟机后，添加两个网卡适配器，可选择移除CD&#x2F;DVD、USB控制器、声卡、打印机，最终的设备列表如下图<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V17.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<h2 id="五、配置OpenWRt"><a href="#五、配置OpenWRt" class="headerlink" title="五、配置OpenWRt"></a>五、配置OpenWRt</h2><p>1.启动OpenWRt<br>2.编辑网络配置文件并重启</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">vim /etc/config/network<br></code></pre></td></tr></table></figure>
-<p>这里我们只修改eth0(也就是添加的连接到VMNet12的网络适配器)的IP，然后输入reboot重启<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V18.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>重启后OpenWRt就能够从192.168.12.1(也就是win11物理机)访问，之后我们就可以在物理机上通过web接口对OpenWRt进行配置了<br>但要注意，要让物理机接入VMNet12<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V30.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V29.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>3.使用OpenWRt的web接口进行简单的后续配置<br>(1)初始密码为空<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V19.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>(2)点击导航栏的System-&gt;Administration设置密码<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V20.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>(3)点击导航栏的Network-&gt;Interfaces进行网络配置<br>下图是初始状态<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V21.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>因为我的VMNet8即NAT模式使用的是静态IP，同时我想要禁用IPv6，那我就要修改WAN interface、删除WAN6 interface<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V22.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>修改后的状态<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V23.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V24.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>(4)防火墙暂时就用默认配置<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V26.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>(5)更多关于OpenWRt的配置见文章(此处预留)</p>
-<h2 id="六、简单测试"><a href="#六、简单测试" class="headerlink" title="六、简单测试"></a>六、简单测试</h2><p>1.将主机venus(192.168.12.21)的默认网关设置为192.168.12.23，即OpenWRt的Lan接口的IP<br>2.从venus PING kali1和223.5.5.5(阿里云的公共DNS)，可以PING通<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V25.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>3.从kali1 PING OpenWRt，PING不通<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V27.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>原因是防火墙默认配置的此处为reject<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/VMWare_OpenWRt/V28.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/30.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>过关</p>
+<h2 id="第九关"><a href="#第九关" class="headerlink" title="第九关"></a>第九关</h2><p>用上一关的payload试试</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/31.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>过不了，显示链接不合法，难道是会检查参数值里有没有javascript？最终查看网站源码，原来是检查有没有<code>http://</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/32.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>&nbsp;</p>
+<p>那直接在第八关的payload后面加上<code>var a =  %26%2334%3Bhttp://%26%2334%3B;</code></p>
+<p>最终的payload如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">java%26%23115%3B%26%2399%3B%26%23114%3B%26%23105%3B%26%23112%3B%26%23116%3B:alert();var a = %26%2334%3Bhttp://%26%2334%3B;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/33.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>过关</p>
+<h2 id="第十关"><a href="#第十关" class="headerlink" title="第十关"></a>第十关</h2><p>查看源码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/34.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>三个隐藏的输入框，三个参数，那都添加在URL里</p>
+<p>&nbsp;</p>
+<p>在URL栏输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">?t_link=<span class="hljs-string">&quot;&lt;script&gt;alert();&lt;/script&gt;&lt;input name=&quot;</span>abc&amp;t_history=<span class="hljs-string">&quot;&lt;script&gt;alert();&lt;/script&gt;&lt;input name=&quot;</span>abd&amp;t_sort=<span class="hljs-string">&quot;&lt;script&gt;alert();&lt;/script&gt;&lt;input name=&quot;</span>abe<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/35.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>看来t_sort参数会有回显，但是后端将<code>&lt;、&gt;</code>替换为了空字符</p>
+<p>&nbsp;</p>
+<p>那输入<code>&quot; type=&quot;text&quot; autofocus oublur=alert(); ccc=&quot;</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/36.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>不知为啥这里调用不了alert</p>
 
                 
               </div>
@@ -339,8 +440,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>在VMWare Workstation上安装OpenWRt</div>
-      <div>https://www.pasiphae.top/2022/08/20/在VMWare-Workstation上安装OpenWRt/</div>
+      <div>XSS靶场过关</div>
+      <div>https://www.pasiphae.top/2022/08/29/XSS靶场过关/</div>
     </div>
     <div class="license-meta">
       
@@ -352,7 +453,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年8月20日</div>
+          <div>2022年8月29日</div>
         </div>
       
       
@@ -384,9 +485,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/08/25/OpenWRt%E9%98%B2%E7%81%AB%E5%A2%99%E8%AF%A6%E8%A7%A3/" title="OpenWRt防火墙详解">
+                      <a href="/2022/11/02/SQL%E6%B3%A8%E5%85%A5%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/" title="SQL注入原理浅析">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">OpenWRt防火墙详解</span>
+                        <span class="hidden-mobile">SQL注入原理浅析</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -394,8 +495,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/08/11/%E9%9D%92%E5%9F%8E%E5%B1%B1%E4%B8%8B%E7%99%BD%E7%B4%A0%E8%B4%9E/" title="青城山下白素贞">
-                        <span class="hidden-mobile">青城山下白素贞</span>
+                      <a href="/2022/08/25/OpenWRt%E9%98%B2%E7%81%AB%E5%A2%99%E8%AF%A6%E8%A7%A3/" title="OpenWRt防火墙详解">
+                        <span class="hidden-mobile">OpenWRt防火墙详解</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -418,7 +519,7 @@
         var options = Object.assign(
           {"clientID":"Ov23liLrR5TiUqomlpen","clientSecret":"8f84493c225143d48a06471c47289a42d61008ae","repo":"pasiphae321.github.io","owner":"pasiphae321","admin":["pasiphae321"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: '7c011c4c8bbff4bec5fb957649805848'
+            id: 'dda36a264dbb6cc9e96e721300f8ccc7'
           }
         )
         var gitalk = new Gitalk(options);
