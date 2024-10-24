@@ -19,25 +19,25 @@
   <meta name="author" content="pasiphae">
   <meta name="keywords" content="">
   
-    <meta name="description" content="FTP基于C&#x2F;S架构，客户端和服务器会建立两条TCP连接，分别是控制连接和数据连接 FTP的主动和被动模式指的是FTP服务器在数据连接建立上的主、被动性 每次文件传输前客户端都要通过控制连接向服务器表明本次数据连接建立采用主&#x2F;被动模式，然后建立数据连接 在了解主动和被动模式之前，最好对FTP的报文格式有一个清晰的认识，这部分可以参考我的另一篇文章 FTP报文格式 一、主动模式首">
+    <meta name="description" content="当我们在终端输入docker pull xxx时，docker服务会去DockerHub拉取镜像 但因为国家政策的相关原因，DockerHub是被禁止访问的 因此你大概会得到以下报错 123Error response from daemon: Get &quot;https:&#x2F;&#x2F;registry-1.docker.io&#x2F;v2&#x2F;&quot;: net&#x2F;http: request canceled">
 <meta property="og:type" content="article">
-<meta property="og:title" content="FTP主被动模式与抓包分析">
-<meta property="og:url" content="https://www.pasiphae.top/2023/10/30/FTP%E4%B8%BB%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/index.html">
+<meta property="og:title" content="为docker设置代理">
+<meta property="og:url" content="https://www.pasiphae.top/2023/12/24/%E4%B8%BAdocker%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/index.html">
 <meta property="og:site_name" content="pasiphae&#39;s blog">
-<meta property="og:description" content="FTP基于C&#x2F;S架构，客户端和服务器会建立两条TCP连接，分别是控制连接和数据连接 FTP的主动和被动模式指的是FTP服务器在数据连接建立上的主、被动性 每次文件传输前客户端都要通过控制连接向服务器表明本次数据连接建立采用主&#x2F;被动模式，然后建立数据连接 在了解主动和被动模式之前，最好对FTP的报文格式有一个清晰的认识，这部分可以参考我的另一篇文章 FTP报文格式 一、主动模式首">
+<meta property="og:description" content="当我们在终端输入docker pull xxx时，docker服务会去DockerHub拉取镜像 但因为国家政策的相关原因，DockerHub是被禁止访问的 因此你大概会得到以下报错 123Error response from daemon: Get &quot;https:&#x2F;&#x2F;registry-1.docker.io&#x2F;v2&#x2F;&quot;: net&#x2F;http: request canceled">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/venus2.jpg">
-<meta property="article:published_time" content="2023-10-30T05:50:39.000Z">
-<meta property="article:modified_time" content="2024-10-21T14:13:33.967Z">
+<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E4%B8%BAdocker%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/docker1.png">
+<meta property="article:published_time" content="2023-12-24T11:43:57.000Z">
+<meta property="article:modified_time" content="2024-10-24T12:26:37.931Z">
 <meta property="article:author" content="pasiphae">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/venus2.jpg">
+<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E4%B8%BAdocker%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/docker1.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>FTP主被动模式与抓包分析 - pasiphae&#39;s blog</title>
+  <title>为docker设置代理 - pasiphae&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="FTP主被动模式与抓包分析"></span>
+            <span id="subtitle" data-typed-text="为docker设置代理"></span>
           
         </div>
 
@@ -214,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-10-30 13:50" pubdate>
-          2023年10月30日 下午
+        <time datetime="2023-12-24 19:43" pubdate>
+          2023年12月24日 晚上
         </time>
       </span>
     
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          806 字
+          248 字
         
       </span>
     
@@ -287,47 +287,36 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">FTP主被动模式与抓包分析</h1>
+            <h1 id="seo-header">为docker设置代理</h1>
             
             
               <div class="markdown-body">
                 
-                <p>FTP基于C&#x2F;S架构，客户端和服务器会建立两条TCP连接，分别是控制连接和数据连接</p>
-<p>FTP的主动和被动模式指的是FTP服务器在数据连接建立上的主、被动性</p>
-<p>每次文件传输前客户端都要通过控制连接向服务器表明本次数据连接建立采用主&#x2F;被动模式，然后建立数据连接</p>
-<p>在了解主动和被动模式之前，最好对FTP的报文格式有一个清晰的认识，这部分可以参考我的另一篇文章 <a href="https://www.pasiphae.top/2023/10/30/FTP%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F/">FTP报文格式</a></p>
-<h2 id="一、主动模式"><a href="#一、主动模式" class="headerlink" title="一、主动模式"></a>一、主动模式</h2><p>首先客户端以一个随机的端口a向服务器的21端口发起TCP控制连接</p>
-<p>当客户端<strong>每次有文件要传输</strong>时，其会开始监听另一个随机的用于数据连接的端口b，然后以PORT请求告知服务器本次建立采用主动模式，且客户端监听端口为b，例如</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">PORT 192,168,163,103,143,127\r\n<br>前四个逗号为IP，后两个为端口，此时客户端监听的端口为143*256+127=36735<br></code></pre></td></tr></table></figure>
+                <p>当我们在终端输入<code>docker pull xxx</code>时，docker服务会去<a target="_blank" rel="noopener" href="https://hub.docker.com/">DockerHub</a>拉取镜像</p>
+<p>但因为国家政策的相关原因，DockerHub是被禁止访问的</p>
+<p>因此你大概会得到以下报错</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">Error response from daemon: Get <span class="hljs-string">&quot;https://registry-1.docker.io/v2/&quot;</span>: <br>net/http: request canceled <span class="hljs-keyword">while</span> waiting <span class="hljs-keyword">for</span> connection <br>(Client.Timeout exceeded <span class="hljs-keyword">while</span> awaiting headers)<br></code></pre></td></tr></table></figure>
 
-<p>服务器以20端口主动向客户端监听的端口b发起TCP连接</p>
-<p>数据连接建立成功后，进行文件的传输，传输完成断开数据连接</p>
-<p>注意，如果FTP服务器处在公网上，客户端位于NAT设备之后，则服务器无法主动建立与客户端的数据连接，此时只能选择被动模式</p>
-<p>当服务器和客户端所在主机处于同一局域网，则可以使用主动模式</p>
-<h2 id="二、被动模式"><a href="#二、被动模式" class="headerlink" title="二、被动模式"></a>二、被动模式</h2><p>首先客户端以一个随机的端口a向服务器的21端口发起TCP控制连接</p>
-<p>客户端<strong>每次有文件要传输</strong>时，其在控制连接上发送PASV请求告知服务器本次数据连接使用被动模式</p>
-<p>服务器收到PASV请求后开始监听另一个随机的用于数据连接的端口b，并作为PASV请求的相应，例如</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">227 Entering Passive Mode (192,168,163,105,109,134).\r\n<br>此时服务器监听的端口为109*256+134=28038<br></code></pre></td></tr></table></figure>
+<p>&nbsp;</p>
+<p>我们如果想要拉取镜像就需要为docker配置代理</p>
+<p>但是docker是C&#x2F;S架构的，你直接</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">https_proxy=<span class="hljs-string">&quot;xxxx&quot;</span> docker pull xxx<br></code></pre></td></tr></table></figure>
 
-<p>客户端收到响应后以另一个随机的端口c向服务器的端口b发起TCP数据连接</p>
-<p>数据连接建立成功后，进行文件传输，传输完成断开数据连接</p>
-<h2 id="三、主被动模式切换"><a href="#三、主被动模式切换" class="headerlink" title="三、主被动模式切换"></a>三、主被动模式切换</h2><p>在linux自带的FTP客户端下，默认的模式为主动模式</p>
-<p>输入passive，客户端会切换到被动模式，每次当有文件要传输时会发出PASV请求</p>
-<p>再次输入passive，客户端会切换到主动模式，每次当有文件要传输时会发出PORT请求</p>
-<h2 id="四、抓包分析"><a href="#四、抓包分析" class="headerlink" title="四、抓包分析"></a>四、抓包分析</h2><p>通过WireShark进行抓包分析</p>
-<p>服务器: VSFTPD(Very Secure File Transfer Protocol Daemon) ubuntu</p>
-<p>客户端: ubuntu自带FTP客户端 </p>
-<h3 id="主动模式抓包"><a href="#主动模式抓包" class="headerlink" title="主动模式抓包"></a>主动模式抓包</h3><p>终端输入ftp启动linux自带的FTP客户端</p>
-<p>输入help列出的命令并非和FTP命令报文格式中的命令一一对应，但大多能对上</p>
-<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/FTP%E4%B8%BB%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/2.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/FTP%E4%B8%BB%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/3.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/FTP%E4%B8%BB%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/4.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/FTP%E4%B8%BB%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/5.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<h3 id="被动模式抓包"><a href="#被动模式抓包" class="headerlink" title="被动模式抓包"></a>被动模式抓包</h3><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/FTP%E4%B8%BB%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/8.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/FTP%E4%B8%BB%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/6.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/FTP%E4%B8%BB%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/7.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>更多关于FTP的主被动模式的信息，请参阅RFC文档</p>
-<p><a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc959">https://datatracker.ietf.org/doc/html/rfc959</a></p>
+<p>是无法成功的，这只是为客户端设置了代理，并没有为服务器设置代理</p>
+<p>&nbsp;</p>
+<p>正确的做法如下</p>
+<p>前往docker的配置目录，ubuntu下是<code>/etc/docker</code></p>
+<p>新建一个daemon.json文件，里面填写你的代理地址</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;proxies&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;http-proxy&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;http://proxy.example.com:3128&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;https-proxy&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://proxy.example.com:3129&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;no-proxy&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;*.test.example.com,.example.org,127.0.0.0/8&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>然后重启docker服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> systemctl restart docker<br></code></pre></td></tr></table></figure>
+
+<p>此时再<code>docker pull xxx</code>就能成功了</p>
+<p>&nbsp;</p>
+<p>更多关于docker代理的资料，请参阅官方文档</p>
+<p><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/daemon/proxy/">Daemon proxy configuration</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/cli/proxy/">Use a proxy server with the Docker CLI</a></p>
 
                 
               </div>
@@ -345,8 +334,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>FTP主被动模式与抓包分析</div>
-      <div>https://www.pasiphae.top/2023/10/30/FTP主被动模式与抓包分析/</div>
+      <div>为docker设置代理</div>
+      <div>https://www.pasiphae.top/2023/12/24/为docker设置代理/</div>
     </div>
     <div class="license-meta">
       
@@ -358,7 +347,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年10月30日</div>
+          <div>2023年12月24日</div>
         </div>
       
       
@@ -390,9 +379,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/12/24/%E4%B8%BAdocker%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/" title="为docker设置代理">
+                      <a href="/2024/02/03/%E8%B7%A8%E7%AB%99%E4%B8%8E%E8%B7%A8%E6%BA%90%E3%80%81CORS%E3%80%81Cookie%E7%9A%84SameSite%E5%B1%9E%E6%80%A7%E6%B5%85%E6%9E%90/" title="跨源与跨站、CORS、Cookie的SameSite属性详解">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">为docker设置代理</span>
+                        <span class="hidden-mobile">跨源与跨站、CORS、Cookie的SameSite属性详解</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -400,8 +389,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/10/30/FTP%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F/" title="FTP报文格式">
-                        <span class="hidden-mobile">FTP报文格式</span>
+                      <a href="/2023/10/30/FTP%E4%B8%BB%E8%A2%AB%E5%8A%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/" title="FTP主被动模式与抓包分析">
+                        <span class="hidden-mobile">FTP主被动模式与抓包分析</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -424,7 +413,7 @@
         var options = Object.assign(
           {"clientID":"Ov23liLrR5TiUqomlpen","clientSecret":"8f84493c225143d48a06471c47289a42d61008ae","repo":"pasiphae321.github.io","owner":"pasiphae321","admin":["pasiphae321"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: 'ad4f36d2f56134f9f6df2f8568c4b13a'
+            id: 'f5b816188444726e6dc73e57cb9f5747'
           }
         )
         var gitalk = new Gitalk(options);
