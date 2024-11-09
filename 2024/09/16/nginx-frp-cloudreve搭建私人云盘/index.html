@@ -19,16 +19,16 @@
   <meta name="author" content="pasiphae">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、架构nginx在VPS上作反向代理 cloudreve运行在内网服务器上 frp用于实现内网穿透，连接VPS和内网服务器 二、demo嗣徽云盘">
+    <meta name="description" content="一、架构nginx在VPS上作反向代理 cloudreve运行在内网服务器上 frp用于实现内网穿透，连接VPS和内网服务器 二、demo嗣徽云盘   三、配置nginx配置VPS上的nginx配置文件cloudreve.nginx 12345678910111213141516171819202122server &#123;        listen 33333 ssl;        se">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nginx+frp+cloudreve搭建私人云盘">
 <meta property="og:url" content="https://www.pasiphae.top/2024/09/16/nginx-frp-cloudreve%E6%90%AD%E5%BB%BA%E7%A7%81%E4%BA%BA%E4%BA%91%E7%9B%98/index.html">
 <meta property="og:site_name" content="pasiphae&#39;s blog">
-<meta property="og:description" content="一、架构nginx在VPS上作反向代理 cloudreve运行在内网服务器上 frp用于实现内网穿透，连接VPS和内网服务器 二、demo嗣徽云盘">
+<meta property="og:description" content="一、架构nginx在VPS上作反向代理 cloudreve运行在内网服务器上 frp用于实现内网穿透，连接VPS和内网服务器 二、demo嗣徽云盘   三、配置nginx配置VPS上的nginx配置文件cloudreve.nginx 12345678910111213141516171819202122server &#123;        listen 33333 ssl;        se">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/nginx%2Bfrp%2Bcloudreve%E6%90%AD%E5%BB%BA%E7%A7%81%E4%BA%BA%E4%BA%91%E7%9B%98/demo.png">
 <meta property="article:published_time" content="2024-09-15T16:29:06.000Z">
-<meta property="article:modified_time" content="2024-10-21T17:17:53.521Z">
+<meta property="article:modified_time" content="2024-11-08T15:41:02.453Z">
 <meta property="article:author" content="pasiphae">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/nginx%2Bfrp%2Bcloudreve%E6%90%AD%E5%BB%BA%E7%A7%81%E4%BA%BA%E4%BA%91%E7%9B%98/demo.png">
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          43 字
+          462 字
         
       </span>
     
@@ -298,6 +298,21 @@
 <h2 id="二、demo"><a href="#二、demo" class="headerlink" title="二、demo"></a>二、demo</h2><p><a target="_blank" rel="noopener" href="https://14.103.157.111:33333/">嗣徽云盘</a></p>
 <p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/nginx%2Bfrp%2Bcloudreve%E6%90%AD%E5%BB%BA%E7%A7%81%E4%BA%BA%E4%BA%91%E7%9B%98/demo.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
 <p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/nginx%2Bfrp%2Bcloudreve%E6%90%AD%E5%BB%BA%E7%A7%81%E4%BA%BA%E4%BA%91%E7%9B%98/demo2.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h2 id="三、配置"><a href="#三、配置" class="headerlink" title="三、配置"></a>三、配置</h2><h3 id="nginx配置"><a href="#nginx配置" class="headerlink" title="nginx配置"></a>nginx配置</h3><p>VPS上的nginx配置文件cloudreve.nginx</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>        <span class="hljs-attribute">listen</span> <span class="hljs-number">33333</span> ssl;<br>        <span class="hljs-attribute">server_name</span> <span class="hljs-number">14.103.157.111</span>;<br>        <span class="hljs-attribute">client_max_body_size</span> <span class="hljs-number">200M</span>;<br>        <span class="hljs-comment"># 请求体最大大小。如果超过该大小，nginx会返回413 Request Entity Too Large</span><br>        <span class="hljs-attribute">client_body_timeout</span> <span class="hljs-number">300s</span>;<br>        <span class="hljs-comment"># 接收请求体的最大时间。超过</span><br>        <span class="hljs-attribute">proxy_connect_timeout</span> <span class="hljs-number">60s</span>;    <span class="hljs-comment"># 和后端服务器建立TCP连接的最大时间</span><br>        <span class="hljs-attribute">proxy_read_timeout</span> <span class="hljs-number">300s</span>;    <span class="hljs-comment"># 从后端服务器接收响应的最大时间</span><br>        <span class="hljs-attribute">proxy_send_timeout</span> <span class="hljs-number">300s</span>;    <span class="hljs-comment"># 向后端服务器转发请求的超时时间</span><br>        <span class="hljs-attribute">proxy_request_buffering</span> <span class="hljs-literal">off</span>;    <span class="hljs-comment"># 关闭请求缓冲，直接转发给后端服务器</span><br>        <span class="hljs-attribute">proxy_buffering</span> <span class="hljs-literal">off</span>;    <span class="hljs-comment"># 关闭响应缓冲，直接转发给浏览器</span><br><br>        <span class="hljs-attribute">ssl_certificate</span> /etc/nginx/TLS/ZeroSSL/cat.crt;    <span class="hljs-comment"># TLS证书</span><br>        <span class="hljs-attribute">ssl_certificate_key</span> /etc/nginx/TLS/ZeroSSL/private.key;    <span class="hljs-comment"># 私钥</span><br><br>        <span class="hljs-section">location</span> / &#123;<br>                <span class="hljs-attribute">proxy_pass</span> http://127.0.0.1:26051;    <span class="hljs-comment"># 转发到frp服务器</span><br>                <span class="hljs-attribute">proxy_set_header</span> X-Real-IP <span class="hljs-variable">$remote_addr</span>;<br>                <span class="hljs-comment"># 添加X-Real-IP字段，用于告知后端服务器访问者的IP</span><br>        &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="frp配置"><a href="#frp配置" class="headerlink" title="frp配置"></a>frp配置</h3><p>frp，一个流行的内网穿透工具   <a target="_blank" rel="noopener" href="https://github.com/fatedier/frp">GitHub地址</a>   <a target="_blank" rel="noopener" href="https://gofrp.org/zh-cn/">官网</a></p>
+<p>其原理可以参阅我写的另一篇文章</p>
+<p>frps配置文件frps.toml</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs toml"><span class="hljs-attr">bindPort</span> = xxx    <span class="hljs-comment"># frps监听的端口，用于和frpc建立TCP连接</span><br><span class="hljs-attr">auth.token</span> = <span class="hljs-string">&quot;xxx&quot;</span><br><span class="hljs-comment"># 和frpc进行双向身份验证的令牌，必须和frpc.toml的auth.token字段一致</span><br><br><span class="hljs-comment"># 以下部分是设置web监控，可忽略</span><br><span class="hljs-attr">webServer.addr</span> = <span class="hljs-string">&quot;127.0.0.1&quot;</span><br><span class="hljs-attr">webServer.port</span> = xxx<br><span class="hljs-attr">webServer.user</span> = <span class="hljs-string">&quot;xxx&quot;</span><br><span class="hljs-attr">webServer.password</span> = <span class="hljs-string">&quot;xxx&quot;</span> <br></code></pre></td></tr></table></figure>
+
+<p>frpc配置文件frpc.toml</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs toml"><span class="hljs-attr">serverAddr</span> = <span class="hljs-string">&quot;xxx&quot;</span>    <span class="hljs-comment"># 你的VPS的IP</span><br><span class="hljs-attr">serverPort</span> = xxx    <span class="hljs-comment"># VPS上frps监听的端口</span><br><span class="hljs-attr">auth.token</span> = <span class="hljs-string">&quot;xxx&quot;</span><br><br><span class="hljs-section">[[proxies]]</span><br><span class="hljs-attr">name</span> = <span class="hljs-string">&quot;tcp1&quot;</span><br><span class="hljs-attr">type</span> = <span class="hljs-string">&quot;tcp&quot;</span><br><span class="hljs-attr">localIP</span> = <span class="hljs-string">&quot;127.0.0.1&quot;</span><br><span class="hljs-attr">localPort</span> = xxx    <span class="hljs-comment"># 内网服务器的端口，要与</span><br><span class="hljs-attr">remotePort</span> = <span class="hljs-number">22344</span>    <span class="hljs-comment"># frps监听的端口，用于和nginx建立TCP连接</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="cloudreve配置"><a href="#cloudreve配置" class="headerlink" title="cloudreve配置"></a>cloudreve配置</h2><p>cloudreve，一个流行的云盘系统   <a target="_blank" rel="noopener" href="https://github.com/cloudreve/Cloudreve">GitHub地址</a>   <a target="_blank" rel="noopener" href="https://cloudreve.org/">官网</a></p>
+<p>正常安装即可</p>
+<p>配置文件conf.ini</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[System]</span><br><span class="hljs-attr">Debug</span> = <span class="hljs-literal">false</span><br><span class="hljs-attr">Mode</span> = master<br><span class="hljs-attr">Listen</span> = <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:端口    <span class="hljs-comment"># 端口要和frpc.toml中</span><br><span class="hljs-attr">SessionSecret</span> = ijaQ7BPer2BTQ87Y6PnqdHEWlAnO5dkrToLCNIsSs9Ry9r22FWouiZQvrdIdIffx<br><span class="hljs-attr">HashIDSalt</span> = EUknjCTsIi5aNCxHXC99JYgdmSrYW5ZidRoJxWkHeL0HcvrunTdyvy7TH5x8DhJP<br></code></pre></td></tr></table></figure>
 
                 
               </div>
