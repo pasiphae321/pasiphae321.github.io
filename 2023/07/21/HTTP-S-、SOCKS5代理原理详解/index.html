@@ -19,25 +19,25 @@
   <meta name="author" content="pasiphae">
   <meta name="keywords" content="">
   
-    <meta name="description" content="靶场搭建在ubuntu20.04下 sqli-labs项目地址 https:&#x2F;&#x2F;github.com&#x2F;Audi-1&#x2F;sqli-labs 因sqli-labs只支持PHP5，而我使用的ubuntu20.04只支持PHP7以上版本，所以我使用了另一个项目sqli-labs-php7 https:&#x2F;&#x2F;github.com&#x2F;skyblueee&#x2F;sqli-labs-php7 克隆项目克隆项目到目录&amp;#x2F">
+    <meta name="description" content="一、HTTP(S)代理首先，我们要清楚，HTTP代理一词中的HTTP指的是客户端和代理服务器之间正式的应用层消息转发前进行协商使用的协议。HTTPS代理严格来说并不存在，只是TLS消息也可以走HTTP代理 我们通过WireShark抓帧来分析HTTP代理的原理，这里我们使用到开源软件goproxy，GitHub地址https:&#x2F;&#x2F;github.com&#x2F;snail007&#x2F;goproxy，它可以作为H">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ubuntu下sqli-labs靶场搭建">
-<meta property="og:url" content="https://www.pasiphae.top/2022/11/09/ubuntu%E4%B8%8Bsqli-labs%E9%9D%B6%E5%9C%BA%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:title" content="HTTP(S)、SOCKS5代理原理详解">
+<meta property="og:url" content="https://www.pasiphae.top/2023/07/21/HTTP-S-%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="pasiphae&#39;s blog">
-<meta property="og:description" content="靶场搭建在ubuntu20.04下 sqli-labs项目地址 https:&#x2F;&#x2F;github.com&#x2F;Audi-1&#x2F;sqli-labs 因sqli-labs只支持PHP5，而我使用的ubuntu20.04只支持PHP7以上版本，所以我使用了另一个项目sqli-labs-php7 https:&#x2F;&#x2F;github.com&#x2F;skyblueee&#x2F;sqli-labs-php7 克隆项目克隆项目到目录&amp;#x2F">
+<meta property="og:description" content="一、HTTP(S)代理首先，我们要清楚，HTTP代理一词中的HTTP指的是客户端和代理服务器之间正式的应用层消息转发前进行协商使用的协议。HTTPS代理严格来说并不存在，只是TLS消息也可以走HTTP代理 我们通过WireShark抓帧来分析HTTP代理的原理，这里我们使用到开源软件goproxy，GitHub地址https:&#x2F;&#x2F;github.com&#x2F;snail007&#x2F;goproxy，它可以作为H">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/moon2.jpg">
-<meta property="article:published_time" content="2022-11-09T14:10:57.000Z">
-<meta property="article:modified_time" content="2024-10-21T15:43:15.431Z">
+<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/saturn2.jpg">
+<meta property="article:published_time" content="2023-07-21T13:30:57.000Z">
+<meta property="article:modified_time" content="2024-10-05T17:20:05.642Z">
 <meta property="article:author" content="pasiphae">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/moon2.jpg">
+<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/saturn2.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>ubuntu下sqli-labs靶场搭建 - pasiphae&#39;s blog</title>
+  <title>HTTP(S)、SOCKS5代理原理详解 - pasiphae&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="ubuntu下sqli-labs靶场搭建"></span>
+            <span id="subtitle" data-typed-text="HTTP(S)、SOCKS5代理原理详解"></span>
           
         </div>
 
@@ -214,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-11-09 22:10" pubdate>
-          2022年11月9日 晚上
+        <time datetime="2023-07-21 21:30" pubdate>
+          2023年7月21日 晚上
         </time>
       </span>
     
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          340 字
+          1.3k 字
         
       </span>
     
@@ -287,44 +287,36 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">ubuntu下sqli-labs靶场搭建</h1>
+            <h1 id="seo-header">HTTP(S)、SOCKS5代理原理详解</h1>
             
             
               <div class="markdown-body">
                 
-                <p>靶场搭建在ubuntu20.04下</p>
-<p>sqli-labs项目地址 <a target="_blank" rel="noopener" href="https://github.com/Audi-1/sqli-labs">https://github.com/Audi-1/sqli-labs</a></p>
-<p>因sqli-labs只支持PHP5，而我使用的ubuntu20.04只支持PHP7以上版本，所以我使用了另一个项目sqli-labs-php7 <a target="_blank" rel="noopener" href="https://github.com/skyblueee/sqli-labs-php7">https://github.com/skyblueee/sqli-labs-php7</a></p>
-<h2 id="克隆项目"><a href="#克隆项目" class="headerlink" title="克隆项目"></a>克隆项目</h2><p>克隆项目到目录&#x2F;var&#x2F;www&#x2F;html下</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> git <span class="hljs-built_in">clone</span> https://github.com/skyblueee/sqli-labs-php7 /var/www/html<br></code></pre></td></tr></table></figure>
-
-<h2 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h2><p>通过apt安装需要的软件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt install php php-fpm php-mysql mysql-server nginx<br></code></pre></td></tr></table></figure>
-
-<p>注意，一定要安装php-mysql</p>
-<p>启动相关的服务</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> systemctl restart php7.4-fpm mysql nginx<br></code></pre></td></tr></table></figure>
-
-<h2 id="配置MySQL-Server"><a href="#配置MySQL-Server" class="headerlink" title="配置MySQL Server"></a>配置MySQL Server</h2><p>以root身份登录MySQL Server</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> mysql<br></code></pre></td></tr></table></figure>
-
-<p>创建名为sqli_labs_php7密码为sqli_labs_php7_test的用户，并为用户<code>sqli_labs@127.0.0.1</code>赋予除grant权限外的所有权限</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs mysql">create user &#x27;sqli_labs_php7&#x27;@&#x27;127.0.0.1&#x27; identified by &#x27;sqli_labs_php7_test&#x27;;<br>grant all privileges on *.* to &#x27;sqli_labs_php7&#x27;@&#x27;127.0.0.1&#x27;;<br></code></pre></td></tr></table></figure>
-
-<h2 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h2><p>删除文件&#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;default</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">rm</span> /etc/nginx/sites-enabled/default<br></code></pre></td></tr></table></figure>
-
-<p>创建文件&#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;sqli_labs_php7.conf，并写入如下内容</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">8080</span> default_server;<br>    <span class="hljs-attribute">server_name</span> _;<br>    <span class="hljs-attribute">root</span> /var/www/html/sqli-labs-php7;<br>    <span class="hljs-attribute">index</span> index.html index.php;<br>    <span class="hljs-section">location</span> / &#123;<br>        <span class="hljs-attribute">try_files</span> <span class="hljs-variable">$uri</span> <span class="hljs-variable">$uri</span>/ =<span class="hljs-number">404</span>;<br>    &#125;<br>    <span class="hljs-section">location</span> <span class="hljs-regexp">~ \.php$</span> &#123;<br>        <span class="hljs-attribute">include</span> snippets/fastcgi-php.conf<br>        fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>重启nginx</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> systemctl restart nginx<br></code></pre></td></tr></table></figure>
-
-<h2 id="配置sqli-labs-php7"><a href="#配置sqli-labs-php7" class="headerlink" title="配置sqli-labs-php7"></a>配置sqli-labs-php7</h2><p>修改&#x2F;var&#x2F;www&#x2F;html&#x2F;sqli-labs-php7&#x2F;sql-connections&#x2F;db-creds.inc，将其中的<code>dbuser</code>和<code>dbpass</code>改为<code>sqli_labs_php7</code>和<code>sqli-labs_php7_test</code></p>
-<h2 id="初始化数据库"><a href="#初始化数据库" class="headerlink" title="初始化数据库"></a>初始化数据库</h2><p>通过浏览器访问<code>http://你的虚拟机IP:8080/index.html</code></p>
-<p>点击<code>Set/reset Database for labs</code>进行数据库初始化</p>
-<p>至此，sqli-labs-php7靶场搭建完毕，enjoy~</p>
-<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/ubuntu%E4%B8%8Bsqli-labs%E9%9D%B6%E5%9C%BA%E6%90%AD%E5%BB%BA/1.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+                <h2 id="一、HTTP-S-代理"><a href="#一、HTTP-S-代理" class="headerlink" title="一、HTTP(S)代理"></a>一、HTTP(S)代理</h2><p>首先，我们要清楚，<code>HTTP代理</code>一词中的<code>HTTP</code>指的是客户端和代理服务器之间正式的应用层消息转发前进行协商使用的协议。HTTPS代理严格来说并不存在，只是TLS消息也可以走HTTP代理</p>
+<p>我们通过WireShark抓帧来分析HTTP代理的原理，这里我们使用到开源软件<code>goproxy</code>，GitHub地址<a target="_blank" rel="noopener" href="https://github.com/snail007/goproxy">https://github.com/snail007/goproxy</a>，它可以作为HTTP、SOCKS5代理，同时其还有很多有关计算机网络的强大功能</p>
+<p>1.网络拓扑图<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/HTTP%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86/10.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>2.我们在192.168.163.103(后文省略为103，充当HTTP代理服务器)上开启WireShark，捕获IP为103对应的网络适配器的流量<br><code>sudo wireshark</code></p>
+<p>3.在103的8080端口启动HTTP代理服务器<br><code>proxy http --local-type tcp --local 192.168.163.103:8080</code></p>
+<p>4.在192.168.163.101(后文省略为101，充当客户端)上输入<br><code>curl --proxy http://192.168.163.103:8080 http://httpforever.com/</code><br>等待HTML的内容输出到终端<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/HTTP%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86/2.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>5.在103的WireShark过滤栏上输入<br><code>((ip.src == 192.168.163.101 and  ip.dst == 192.168.163.103) or (ip.src == 192.168.163.103 and  ip.dst == 192.168.163.101)) or ((ip.src == 192.168.163.103 and  ip.dst == 146.190.62.39) or (ip.src == 146.190.62.39 and  ip.dst == 192.168.163.103))</code><br>这样，就能过滤出103-101和103-146.190.62.39(httpforever.com的IP地址，后文省略为39)之间的帧<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/HTTP%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86/3.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>6.分析捕获到的帧<br>首先是101和103之间进行的TCP三次握手，101和103建立起TCP连接</p>
+<p>然后101发送给103一个HTTP消息<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/HTTP%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86/4.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>在一般HTTP消息的红框部分本应该是不包含协议、域名、端口的URL，如下图<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/HTTP%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86/5.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>但这里URL是完整的，此处的<code>http://httpforever.com/</code>被称为absolute URI</p>
+<p>当这个HTTP请求被代理服务器接收后，代理服务器通过DNS解析得到httpforever.com的IP地址，然后也通过TCP三次握手，建立起103和39之间的TCP连接(一般来说，代理服务器的IP应该是公网IP，这样才能起到掩盖客户端真实公网IP的作用。但我们这里是分析HTTP代理的原理，所以给代理服务器的是私有IP)<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/HTTP%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86/6.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>代理服务器将收到的HTTP消息的absolute URI部分更改为不带协议、域名、端口的URL，此处也就是<code>/</code>，其余地方不变，发送给39。39返回响应消息给103，103将其转发给101<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/HTTP%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86/7.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>在上图中我有一个尚未解决的问题，网络适配器设置以太帧的mtu最大为1500，帧的长度大约1518，但捕获到的帧中有些完全超出了1518。我怀疑其可能和网络适配器为虚拟网络适配器有关</p>
+<p>后面的帧就是与101和103、103和39之间的四次挥手有关<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/HTTP%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86/8.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>下面我们通过抓帧分析TLS消息是否也能走HTTP代理<br>1.让103上的WireShark重新捕获帧</p>
+<p>2.在101上输入<br><code>curl --proxy http://192.168.163.103 https://www.zhihu.com/</code><br>注意此时的协议为<code>HTTPS</code><br>后面的帧就是与101和103、103和39之间的四次挥手有关<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/HTTP%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86/11.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>3.分析捕获到的帧<br>在过滤栏输入<br><code>((ip.src == 192.168.163.103 and ip.dst == 192.168.163.101) or (ip.src == 192.168.163.101 and ip.dst == 192.168.163.103)) or ((ip.src == 192.168.163.103 and ip.dst == 182.131.24.233) or (ip.src ==  182.131.24.233 and ip.dst == 192.168.163.103))</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/HTTP%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86/12.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/HTTP%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86/13.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>同样，首先是101和103的三次握手</p>
+<p>然后101给103发送了一个HTTP请求，该请求的请求方法为<code>CONNECT</code>，同时后面跟着<code>域名:端口</code>。代理服务器进行DNS解析，获取域名对应的IP，然后建立103和182.131.24.233(后面省略为233)之间的TCP连接<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/HTTP%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86/9.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>如果代理服务器和待访问服务器之间的TCP连接建立成功，那么103会给101发送一个请求行中包含<code>connection established</code>的响应。如果TCP连接建立失败，则不会发送<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/HTTP%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86/14.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>客户端收到来自代理服务器的响应消息，便直接将TLS握手消息发送给代理服务器，代理服务器不做任何处理直接转发给待访问服务器。待访问服务器的响应经代理服务器之手不做任何修改转发给客户端。此时就好像客户端和待访问服务器之间的代理服务器不存在一样，就好像客户端和待访问服务器之间建立了一条隧道</p>
+<p>因为HTTPS的对称加密的密钥是通过公钥加密得到的，代理服务器也无法获取对称加密的密钥，进而无法获取HTTPS的未加密内容</p>
+<h2 id="二、SOCKS5代理"><a href="#二、SOCKS5代理" class="headerlink" title="二、SOCKS5代理"></a>二、SOCKS5代理</h2><p>SOCKS5是一个应用层协议，用于在客户端和代理服务器之间进行协商</p>
+<p>客户端首先建立与SOCKS5代理服务器的TCP连接，在TCP连接上双方基于SOCKS5协议进行协商。协商内容包括客户端是否有使用该代理服务器的权限、客户端待访问的服务器的域名或IP和端口</p>
+<p>之后代理服务器建立与待访问服务器之间的TCP连接，连接建立成功则代理服务器通过SOCKS5协议告知客户端可以开始发送报文。此时，就好像客户端和待访问服务器之间建立了一条隧道</p>
+<p>SOCKS5协议的内容可以参考<a target="_blank" rel="noopener" href="https://jiajunhuang.com/articles/2019_06_06-socks5.md.html">https://jiajunhuang.com/articles/2019_06_06-socks5.md.html</a><br>关于SOCK5的WireShark抓帧分析暂时就不写了，以后可能会补上</p>
 
                 
               </div>
@@ -342,8 +334,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>ubuntu下sqli-labs靶场搭建</div>
-      <div>https://www.pasiphae.top/2022/11/09/ubuntu下sqli-labs靶场搭建/</div>
+      <div>HTTP(S)、SOCKS5代理原理详解</div>
+      <div>https://www.pasiphae.top/2023/07/21/HTTP-S-、SOCKS5代理原理详解/</div>
     </div>
     <div class="license-meta">
       
@@ -355,7 +347,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年11月9日</div>
+          <div>2023年7月21日</div>
         </div>
       
       
@@ -387,9 +379,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/11/13/apt-update%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3/" title="apt update报错解决">
+                      <a href="/2023/07/29/RSA%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3/" title="RSA算法详解">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">apt update报错解决</span>
+                        <span class="hidden-mobile">RSA算法详解</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -397,8 +389,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/11/02/SQL%E6%B3%A8%E5%85%A5%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/" title="SQL注入原理浅析">
-                        <span class="hidden-mobile">SQL注入原理浅析</span>
+                      <a href="/2022/12/12/CSRF%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3/" title="CSRF原理详解">
+                        <span class="hidden-mobile">CSRF原理详解</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -421,7 +413,7 @@
         var options = Object.assign(
           {"clientID":"Ov23liLrR5TiUqomlpen","clientSecret":"8f84493c225143d48a06471c47289a42d61008ae","repo":"pasiphae321.github.io","owner":"pasiphae321","admin":["pasiphae321"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: '828de37b194e5bf5491806eb74209c12'
+            id: 'cdf97b27028ba4fc4b17e03144949a29'
           }
         )
         var gitalk = new Gitalk(options);
