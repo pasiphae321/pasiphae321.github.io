@@ -1,0 +1,801 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/planet.png">
+  <link rel="icon" href="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/planet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="pasiphae">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="RESTful API是基于REST架构风格构建的API，其设计遵循REST(Representational State Transfer，表现层状态转移)架构的一组原则和约束条件 RESTful API的核心思想是以资源为中心，通过统一的接口(通常是HTTP协议)进行通信，使客户端和服务器能够实现无状态的交互 资源在RESTful API中，资源是web服务的核心，所有数据和功能都被视为资源。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RESTful API详解">
+<meta property="og:url" content="https://www.pasiphae.top/2024/09/01/RESTful-API%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="pasiphae&#39;s blog">
+<meta property="og:description" content="RESTful API是基于REST架构风格构建的API，其设计遵循REST(Representational State Transfer，表现层状态转移)架构的一组原则和约束条件 RESTful API的核心思想是以资源为中心，通过统一的接口(通常是HTTP协议)进行通信，使客户端和服务器能够实现无状态的交互 资源在RESTful API中，资源是web服务的核心，所有数据和功能都被视为资源。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/uranus2.jpg">
+<meta property="article:published_time" content="2024-09-01T05:40:39.000Z">
+<meta property="article:modified_time" content="2025-03-16T12:45:17.140Z">
+<meta property="article:author" content="pasiphae">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/uranus2.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>RESTful API详解 - pasiphae&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4627722_bg34xk7tmbs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.pasiphae.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":60,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>pasiphae&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/SolarSystem.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="RESTful API详解"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-01 13:40" pubdate>
+          2024年9月1日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span>次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">RESTful API详解</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>RESTful API是基于REST架构风格构建的API，其设计遵循REST(Representational State Transfer，表现层状态转移)架构的一组原则和约束条件</p>
+<p>RESTful API的核心思想是以资源为中心，通过统一的接口(通常是HTTP协议)进行通信，使客户端和服务器能够实现无状态的交互</p>
+<h2 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h2><p>在RESTful API中，资源是web服务的核心，所有数据和功能都被视为资源。资源可以是任何事物，例如用户、订单、文件等</p>
+<p>资源通过URI(统一资源标识符)来进行唯一标识。URI通常采用路径结构，指向具体的资源，例如</p>
+<ul>
+<li><p><code>GET /users</code>获取所有用户资源</p>
+</li>
+<li><p><code>GET /users/123</code>获取 ID 为 123 的具体用户</p>
+</li>
+<li><p><code>POST /users</code>创建新用户</p>
+</li>
+<li><p><code>PUT /users/123</code>更新 ID 为 123 的用户</p>
+</li>
+<li><p><code>DELETE /users/123</code>删除 ID 为 123 的用户</p>
+</li>
+</ul>
+<h2 id="HTTP方法"><a href="#HTTP方法" class="headerlink" title="HTTP方法"></a>HTTP方法</h2><p>RESTful API通过标准的HTTP方法操作资源，这些方法代表了不同的操作语义</p>
+<ul>
+<li><p><code>GET</code>从服务器获取资源，此操作是只读的，不会改变服务器状态</p>
+</li>
+<li><p><code>POST</code>在服务器创建新资源</p>
+</li>
+<li><p><code>PUT</code>更新资源，可以是替换整个资源或创建资源</p>
+</li>
+<li><p><code>PATCH</code>局部更新资源，只修改资源的某一部分</p>
+</li>
+<li><p><code>DELETE</code>从服务器删除资源</p>
+</li>
+</ul>
+<p>我们举几个例子</p>
+<ul>
+<li><p><code>GET /books</code>获取所有书籍</p>
+</li>
+<li><p><code>GET /books/5</code>获取 ID 为 5 的具体书籍</p>
+</li>
+<li><p><code>POST /books</code>创建新书籍</p>
+</li>
+<li><p><code>PUT /books/5</code>更新 ID 为 5 的书籍</p>
+</li>
+<li><p><code>DELETE /books/5</code>删除 ID 为 5 的书籍</p>
+</li>
+</ul>
+<h2 id="HTTP状态码"><a href="#HTTP状态码" class="headerlink" title="HTTP状态码"></a>HTTP状态码</h2><p>RESTful API使用HTTP状态码向客户端反馈操作结果。常见的状态码包括</p>
+<ul>
+<li><p><code>200 OK</code>请求成功，返回资源或执行成功</p>
+</li>
+<li><p><code>201 Created:</code>资源创建成功，通常用于POST操作</p>
+</li>
+<li><p><code>204 No Content</code>操作成功但不返回内容，常用于DELETE请求</p>
+</li>
+<li><p><code>400 Bad Request</code>请求无效，客户端发送的数据格式或参数有误</p>
+</li>
+<li><p><code>401 Unauthorized</code>客户端未授权</p>
+</li>
+<li><p><code>403 Forbidden</code>客户端无权访问资源</p>
+</li>
+<li><p><code>404 Not Found</code>请求的资源不存在</p>
+</li>
+<li><p><code>500 Internal Server Error</code>服务器内部错误</p>
+</li>
+</ul>
+<h2 id="路径设计"><a href="#路径设计" class="headerlink" title="路径设计"></a>路径设计</h2><p>RESTful API的路径设计应尽量清晰、简洁，并且语义明确。以下是一些路径设计的最佳实践</p>
+<ul>
+<li><p>使用名词表示资源:路径中不应包含动词，操作逻辑由HTTP方法决定</p>
+</li>
+<li><p>使用复数形式表示资源集合:例如，<code>/users</code>代表用户集合，<code>/users/123</code>代表具体用户</p>
+</li>
+<li><p>层次结构:URI 路径应体现资源之间的层次关系，例如:</p>
+<ul>
+<li><p><code>GET /users/123/posts</code>获取用户123的所有帖子</p>
+</li>
+<li><p><code>GET /users/123/posts/456</code>获取用户123的具体帖子456</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="无状态性"><a href="#无状态性" class="headerlink" title="无状态性"></a>无状态性</h2><p>RESTful API遵循无状态性原则，即服务器不应在不同请求之间存储客户端的状态信息。每个请求都应该是独立的，并且包含处理该请求所需的所有信息，例如身份验证令牌等</p>
+<p>这种设计简化了服务器端的实现，提高了系统的可扩展性</p>
+<h2 id="使用JSON作为数据格式"><a href="#使用JSON作为数据格式" class="headerlink" title="使用JSON作为数据格式"></a>使用JSON作为数据格式</h2><p>虽然RESTful API并不强制使用特定的数据格式，但JSON是目前最流行的选择，因其简洁且易于解析</p>
+<p>JSON格式的请求体，创建新用户</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pasiphae&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pasiphae321@gmail.com&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>响应体，获取用户</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">123</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pasiphae&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pasiphae321@gmail.com&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><p>RESTful API 支持缓存机制，以减少服务器负载并提高性能。服务器可以通过HTTP响应头(如Cache-Control)指示客户端是否可以缓存响应</p>
+<p>GET请求通常可以通过缓存优化，而POST、PUT、DELETE等请求则不应该缓存</p>
+<h2 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h2><p>API在迭代过程中可能会引入不兼容的变更，因此需要对API进行版本控制。常见的版本控制方式包括</p>
+<ul>
+<li><p>URI中的版本号:例如&#x2F;v1&#x2F;users</p>
+</li>
+<li><p>HTTP头中的版本号:例如在Accept头中指定版本号</p>
+</li>
+<li><p>查询参数中的版本号:例如GET &#x2F;users?version&#x3D;1</p>
+</li>
+</ul>
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><p>当请求失败时，RESTful API应返回明确的错误信息和相应的HTTP状态码，以便客户端理解错误原因，错误信息应包含足够的细节，下面是一个响应体例子</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;error&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Bad Request&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;User ID must be a positive integer.&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="HATEOAS-超媒体即应用状态引擎"><a href="#HATEOAS-超媒体即应用状态引擎" class="headerlink" title="HATEOAS(超媒体即应用状态引擎)"></a>HATEOAS(超媒体即应用状态引擎)</h2><p>RESTful API的一个可选特性是HATEOAS</p>
+<p>它规定服务器应在响应中提供相关资源的链接，以便客户端可以发现和导航 API 的其他部分，HATEOAS使API更加自描述</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">123</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pasiphae&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;_links&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;self&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;href&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/users/123&quot;</span> <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;friends&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;href&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/users/123/friends&quot;</span> <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h2><p>RESTful API的安全性至关重要，特别是在生产环境中。常见的安全措施包括</p>
+<ul>
+<li><p>HTTPS:所有通信应通过HTTPS进行加密</p>
+</li>
+<li><p>身份验证:通常使用令牌(如 JWT)或OAuth进行用户身份验证</p>
+</li>
+<li><p>权限控制:确保用户仅能访问自己有权访问的资源</p>
+</li>
+</ul>
+<h2 id="分页、排序、过滤"><a href="#分页、排序、过滤" class="headerlink" title="分页、排序、过滤"></a>分页、排序、过滤</h2><p>对于大数据集，RESTful API通常需要提供分页、排序和过滤功能</p>
+<p>分页通常通过查询参数来实现</p>
+<ul>
+<li><p><code>GET /users?page=2&amp;limit=50</code>获取第 2 页，每页 50 个用户</p>
+</li>
+<li><p><code>GET /users?sort=name&amp;order=asc</code>按名称升序排序</p>
+</li>
+<li><p><code>GET /users?role=admin</code>只获取管理员用户</p>
+</li>
+</ul>
+<h2 id="RESTful-API设计的关键原则"><a href="#RESTful-API设计的关键原则" class="headerlink" title="RESTful API设计的关键原则"></a>RESTful API设计的关键原则</h2><ul>
+<li><p>表现层状态转移:客户端通过操作资源的表现层(通常是JSON或XML数据)来管理资源的状态</p>
+</li>
+<li><p>统一接口:通过简单、固定的HTTP方法和标准化的资源URI进行操作</p>
+</li>
+<li><p>无状态性:请求独立，服务器不保留会话状态</p>
+</li>
+<li><p>可缓存性:合理设置缓存机制以提高性能</p>
+</li>
+<li><p>分层系统:客户端无需知道服务器的具体实现，可以通过中间层(如负载均衡、缓存代理)提高可扩展性</p>
+</li>
+</ul>
+<p>&nbsp;</p>
+<p>本文参考的文章</p>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%A1%A8%E7%8E%B0%E5%B1%82%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2">表现层状态转移</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2014/05/restful_api.html">RESTful API 设计指南</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.redhat.com/en/topics/api/what-is-a-rest-api">What is a REST API?</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>RESTful API详解</div>
+      <div>https://www.pasiphae.top/2024/09/01/RESTful-API详解/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>pasiphae</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年9月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/09/04/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%83%E5%A4%A9/" title="实训第七天">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">实训第七天</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/02/03/%E8%B7%A8%E7%AB%99%E4%B8%8E%E8%B7%A8%E6%BA%90%E3%80%81CORS%E3%80%81Cookie%E7%9A%84SameSite%E5%B1%9E%E6%80%A7%E6%B5%85%E6%9E%90/" title="跨源与跨站、CORS、Cookie的SameSite属性详解">
+                        <span class="hidden-mobile">跨源与跨站、CORS、Cookie的SameSite属性详解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.8.0/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"Ov23liLrR5TiUqomlpen","clientSecret":"8f84493c225143d48a06471c47289a42d61008ae","repo":"pasiphae321.github.io","owner":"pasiphae321","admin":["pasiphae321"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: 'e550cc30c11e85f2f29e8a1659bc240f'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-left: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       copyright 2021 - 2024 & all rights reserved<br> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>powered by hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>theme fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

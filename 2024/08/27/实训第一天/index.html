@@ -1,0 +1,672 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/planet.png">
+  <link rel="icon" href="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/planet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="pasiphae">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、网络拓扑图 二、python和JDK安装截图kali2023.4自带python3.11.6、python2.7.18、OpenJDK17.0.9 ubuntu20.4可通过apt一键安装python2、python3和OpenJDK8，我这里就不安装python2了 12sudo apt install python3sudo apt install openjdk-8-jdk   三、pi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实训第一天">
+<meta property="og:url" content="https://www.pasiphae.top/2024/08/27/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/index.html">
+<meta property="og:site_name" content="pasiphae&#39;s blog">
+<meta property="og:description" content="一、网络拓扑图 二、python和JDK安装截图kali2023.4自带python3.11.6、python2.7.18、OpenJDK17.0.9 ubuntu20.4可通过apt一键安装python2、python3和OpenJDK8，我这里就不安装python2了 12sudo apt install python3sudo apt install openjdk-8-jdk   三、pi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/mercury2.jpg">
+<meta property="article:published_time" content="2024-08-27T11:02:31.000Z">
+<meta property="article:modified_time" content="2025-03-16T12:45:17.140Z">
+<meta property="article:author" content="pasiphae">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/mercury2.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>实训第一天 - pasiphae&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4627722_bg34xk7tmbs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.pasiphae.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":60,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>pasiphae&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/SolarSystem.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="实训第一天"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-27 19:02" pubdate>
+          2024年8月27日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.1k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span>次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">实训第一天</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一、网络拓扑图"><a href="#一、网络拓扑图" class="headerlink" title="一、网络拓扑图"></a>一、网络拓扑图</h2><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/27.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h2 id="二、python和JDK安装截图"><a href="#二、python和JDK安装截图" class="headerlink" title="二、python和JDK安装截图"></a>二、python和JDK安装截图</h2><p>kali2023.4自带python3.11.6、python2.7.18、OpenJDK17.0.9<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/1.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/2.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<p>ubuntu20.4可通过apt一键安装python2、python3和OpenJDK8，我这里就不安装python2了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt install python3<br>sudo apt install openjdk-8-jdk<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/24.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h2 id="三、pikachu靶场第一关"><a href="#三、pikachu靶场第一关" class="headerlink" title="三、pikachu靶场第一关"></a>三、pikachu靶场第一关</h2><h3 id="1-靶场搭建"><a href="#1-靶场搭建" class="headerlink" title="1.靶场搭建"></a>1.靶场搭建</h3><p>通过nginx1.18、php7.4、php7.4-fpm、mysql8.0搭建pikachu漏洞练习平台<br>通过apt一键安装nginx、php、php-fpm、mysql</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt install nginx<br><span class="hljs-built_in">sudo</span> apt install php<br><span class="hljs-built_in">sudo</span> apt install php-fpm<br><span class="hljs-built_in">sudo</span> apt install mysql<br></code></pre></td></tr></table></figure>
+
+<br>
+
+<p>修改nginx的配置文件&#x2F;etc&#x2F;nginx&#x2F;sites-enable&#x2F;switch<br>修改绑定端口为8558<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/9.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>将index.php加入索引，将.php后缀文件交给php-fpm处理<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/10.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<p>在mysql中创建用户<code>test@127.0.0.1</code>密码<code>pasiphae</code>，并赋予所有权限。创建数据库pikachu</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">user</span> <span class="hljs-string">&#x27;test&#x27;</span>@<span class="hljs-string">&#x27;127.0.0.1&#x27;</span> identified <span class="hljs-keyword">by</span> <span class="hljs-string">&#x27;pasiphae&#x27;</span>;<br><span class="hljs-keyword">grant</span> <span class="hljs-keyword">all</span> <span class="hljs-keyword">privileges</span> <span class="hljs-keyword">on</span> *.* <span class="hljs-keyword">to</span> <span class="hljs-string">&#x27;test&#x27;</span>@<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>;<br>flush <span class="hljs-keyword">privileges</span>;<br><span class="hljs-keyword">create</span> <span class="hljs-keyword">database</span> pikachu;<br></code></pre></td></tr></table></figure>
+
+<br>
+
+<p>将GitClone的pikachu项目移动到&#x2F;var&#x2F;www&#x2F;html，并修改&#x2F;var&#x2F;www&#x2F;html&#x2F;pikachu&#x2F;inc&#x2F;config.inc.php<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/11.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<p>启动nginx、php7.4-fpm、mysql服务</p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs smali">sudo<span class="hljs-keyword"> system</span>ctl restart nginx<br>sudo<span class="hljs-keyword"> system</span>ctl restart php7.4-fpm<br>sudo<span class="hljs-keyword"> system</span>ctl restart mysql<br></code></pre></td></tr></table></figure>
+
+<br>
+
+<p>访问192.168.163.105:8558&#x2F;pikachu&#x2F;install.php，点击按钮进行系统初始化</p>
+<h3 id="2-repeater模块"><a href="#2-repeater模块" class="headerlink" title="2.repeater模块"></a>2.repeater模块</h3><p>通过使用repeater模块，拦截请求并重复多次尝试弱口令</p>
+<p>在192.168.163.138上启动BurpSuite，并修改下代理服务器的配置<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/13.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<p>在物理机192.168.163.1的浏览器里设置代理服务器(我之所以用物理机的浏览器，是因为在虚拟机打开浏览器会使本就内存不大的虚拟机卡顿)，我这里使用了谷歌浏览器的SwitchyOmega插件，可快速切换代理<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/12.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>这里的192.168.163.138:8080就是kali的BurpSuite监听的IP和端口<br><br></p>
+<p>切换到情景模式BP，输入弱口令用户名<code>admin</code>和密码<code>admin</code>，然后打开BurpSuite的<code>intercept is on</code>(开启对浏览器请求的拦截)，点击login<br>由下图可见，BP拦截到了浏览器的请求<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/14.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<p>将其放入repeater模块，并send，显示用户名或密码错误<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/15.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>修改密码为123456再次尝试，可以看到登录成功，说明找到了弱口令<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/16.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<h3 id="3-intruder模块"><a href="#3-intruder模块" class="headerlink" title="3.intruder模块"></a>3.intruder模块</h3><p>通过intruder模块进行爆破</p>
+<h4 id="sniper模式"><a href="#sniper模式" class="headerlink" title="sniper模式"></a>sniper模式</h4><p>将请求发送到intruder，并仅将password参数设置为payload，模式选择sniper，将一个字典文件导入，线程和时延那些就用默认的<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/17.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<p>在爆破结果中，有两个个响应消息的长度和其它的不一样<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/18.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>最终发现长度34957的应该是传输过程出了点错，34978的为成功登录<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/19.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<h4 id="pitchfork模式"><a href="#pitchfork模式" class="headerlink" title="pitchfork模式"></a>pitchfork模式</h4><p>该模式的爆破次数取决于最小的字典的条目数<br>此时我的密码字典加上原值只有32个值，所以只会爆破32次，且全为35002说明没有找到弱口令<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/22.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<h4 id="cluster-bomb模式"><a href="#cluster-bomb模式" class="headerlink" title="cluster bomb模式"></a>cluster bomb模式</h4><p>该模式的爆破次数是所有字典的条目数的乘积<br>此时我的用户名和密码字典的条目数的乘积为32x1001&#x3D;32032<br>在第33次尝试时就发现了弱口令<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/23.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h3 id="4-proxy模块"><a href="#4-proxy模块" class="headerlink" title="4.proxy模块"></a>4.proxy模块</h3><p>仅使用proxy模块，同时拦截服务器的响应</p>
+<p>回到proxy模块，将下图所示勾选上，这样BP将该请求放行到服务器，服务器返回的响应BP不会放行给浏览器<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/20.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<p>点击forward，放行该HTTP请求<br>该请求对应的响应会直接显示在proxy模块，同时不会转发给浏览器<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/21.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h2 id="四、内外网互联方式"><a href="#四、内外网互联方式" class="headerlink" title="四、内外网互联方式"></a>四、内外网互联方式</h2><h3 id="1-NAT"><a href="#1-NAT" class="headerlink" title="1.NAT"></a>1.NAT</h3><p>我对NAT的简单理解见文章<br><a href="https://www.pasiphae.top/2022/02/15/%E4%BD%BF%E7%94%A8iptables%E5%AE%9E%E7%8E%B0NAT/">https://www.pasiphae.top/2022/02/15/%E4%BD%BF%E7%94%A8iptables%E5%AE%9E%E7%8E%B0NAT/</a><br><br></p>
+<h3 id="2-代理服务器"><a href="#2-代理服务器" class="headerlink" title="2.代理服务器"></a>2.代理服务器</h3><p>代理服务器分为HTTP、SOCKS5代理。但其实代理服务器并非完全用于内外网互联，当它拥有两块网卡一块属于内网一块属于外网时可实现内外网互联</p>
+<p>我对HTTP、SOCKS5代理的简单理解见文章<br><a href="https://www.pasiphae.top/2023/07/21/HTTP%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86/">https://www.pasiphae.top/2023/07/21/HTTP%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86/</a></p>
+<p>这里还有两篇分别对HTTP代理原理和SOCKS5协议内容我觉得讲得较好的文章<br><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/86168">https://www.anquanke.com/post/id/86168</a><br><a target="_blank" rel="noopener" href="https://jiajunhuang.com/articles/2019_06_06-socks5.md.html">https://jiajunhuang.com/articles/2019_06_06-socks5.md.html</a><br><br></p>
+<h3 id="3-VPN"><a href="#3-VPN" class="headerlink" title="3.VPN"></a>3.VPN</h3><p>VPN我简单理解为就是将Internet当作一个隧道，将不处于同一局域网的主机弄到一个局域网</p>
+<p>VPN的分类<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/25.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E5%AE%9E%E8%AE%AD%E7%AC%AC%E4%B8%80%E5%A4%A9/26.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><br></p>
+<h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h3><p>我以我浅薄的学识简单地总结了如下两点</p>
+<ul>
+<li>NAT和代理服务器的区别是，NAT不会经过应用级进程，其只经过内核并由内核进行转发，而代理服务器则要经过应用级进程而被应用级进程转发</li>
+<li>无论哪种内外网互联的方式，要使两个网络能够进行通信，必然有一个主机拥有两块网卡，两个网络分别一块</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>实训第一天</div>
+      <div>https://www.pasiphae.top/2024/08/27/实训第一天/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>pasiphae</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.8.0/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"Ov23liLrR5TiUqomlpen","clientSecret":"8f84493c225143d48a06471c47289a42d61008ae","repo":"pasiphae321.github.io","owner":"pasiphae321","admin":["pasiphae321"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: 'ae3703ef814633d80bc0c3bfd808fae2'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       copyright 2021 - 2024 & all rights reserved<br> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>powered by hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>theme fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

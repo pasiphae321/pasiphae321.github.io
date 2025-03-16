@@ -1,0 +1,700 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/planet.png">
+  <link rel="icon" href="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/planet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="pasiphae">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="一、简述CSRF，Cross Sites Request Forgery，跨站请求伪造，发生在两个网站之间。一个网站是黑客的钓鱼网站，一个是受害者在浏览器上已登录的具有会话cookie的网站 简单例子假如一家银行用以执行转账操作的URL地址如下 https:&#x2F;&#x2F;bank.example.com&#x2F;withdraw?account&#x3D;AccoutName&amp;amount&#x3D;1000&amp;for&#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSRF原理详解">
+<meta property="og:url" content="https://www.pasiphae.top/2022/12/12/CSRF%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="pasiphae&#39;s blog">
+<meta property="og:description" content="一、简述CSRF，Cross Sites Request Forgery，跨站请求伪造，发生在两个网站之间。一个网站是黑客的钓鱼网站，一个是受害者在浏览器上已登录的具有会话cookie的网站 简单例子假如一家银行用以执行转账操作的URL地址如下 https:&#x2F;&#x2F;bank.example.com&#x2F;withdraw?account&#x3D;AccoutName&amp;amount&#x3D;1000&amp;for&#x3D;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/jupiter2.jpg">
+<meta property="article:published_time" content="2022-12-12T08:51:23.000Z">
+<meta property="article:modified_time" content="2025-03-16T12:45:17.140Z">
+<meta property="article:author" content="pasiphae">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/jupiter2.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>CSRF原理详解 - pasiphae&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4627722_bg34xk7tmbs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.pasiphae.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":60,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>pasiphae&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/SolarSystem.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CSRF原理详解"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-12 16:51" pubdate>
+          2022年12月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span>次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">CSRF原理详解</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一、简述"><a href="#一、简述" class="headerlink" title="一、简述"></a>一、简述</h2><p>CSRF，Cross Sites Request Forgery，跨站请求伪造，发生在两个网站之间。一个网站是黑客的钓鱼网站，一个是受害者在浏览器上<strong>已登录</strong>的具有会话cookie的网站</p>
+<p>简单例子<br>假如一家银行用以执行转账操作的URL地址如下 <code>https://bank.example.com/withdraw?account=AccoutName&amp;amount=1000&amp;for=PayeeName</code></p>
+<p>那么，一个恶意攻击者可以在另一个网站上放上<br><code>&lt;img src=&quot;http://www.examplebank.com/withdraw?account=Alice&amp;amp;amount=1000&amp;amp;for=Badman&quot; /&gt;</code></p>
+<p>如果有账户名为Alice的用户访问了恶意站点，而她之前刚访问过银行不久，登录信息尚未过期，那么她就会损失1000资金</p>
+<p>这种恶意的网址可以有很多种形式，藏身于网页中的许多地方。此外，攻击者也不需要控制放置恶意网址的网站。例如他可以将这种地址藏在论坛，博客等任何用户生成内容的网站中。这意味着如果服务端没有合适的防御措施的话，用户即使访问熟悉的可信网站也有受攻击的危险</p>
+<p>透过例子能够看出，攻击者并不能通过CSRF攻击来直接获取用户的账户控制权，也不能直接窃取用户的任何信息。他们能做到的，是欺骗用户的浏览器，让其以用户的名义执行操作</p>
+<h2 id="二、以具体实验分析原理"><a href="#二、以具体实验分析原理" class="headerlink" title="二、以具体实验分析原理"></a>二、以具体实验分析原理</h2><p>这里我们以一个实验分析CSRF的原理</p>
+<h3 id="1-书店系统搭建"><a href="#1-书店系统搭建" class="headerlink" title="1.书店系统搭建"></a>1.书店系统搭建</h3><p>首先在192.168.163.103上基于nginx搭建一个BookstoreSystem<br>项目地址<a target="_blank" rel="noopener" href="https://github.com/pasiphae321/BookstoreSystem">https://github.com/pasiphae321/BookstoreSystem</a></p>
+<p>在192.168.163.101上基于nginx搭建一个钓鱼网站，其上有个网页test.html内容如下<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/3.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>在192.168.163.1(后文省略为1，假设为受害者主机)上，修改本地的DNS文件，win11的路径为<code>C:\Windows\System32\drivers\etc\hosts</code><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/1.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>在1的浏览器上访问<code>http://test.pasiphae.net/BookstoreSystem/login.php</code>，以<code>what/cccccc</code>进行登录<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/2.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/4.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>成功登录进去了</p>
+<h3 id="2-Cookie的SameSite属性"><a href="#2-Cookie的SameSite属性" class="headerlink" title="2.Cookie的SameSite属性"></a>2.Cookie的SameSite属性</h3><p>Cookie的SameSite属性规定是否在跨站请求中携带该Cookie，SameSite属性有三个值</p>
+<ul>
+<li>Strict:所有的跨站请求都不携带Cookie，那么CSRF攻击将不存在</li>
+<li>Lax:部分跨站请求携带Cookie</li>
+<li>None:所有跨站请求都携带Cookie，不过此时需满足Secure属性为true，即该请求为HTTPS请求</li>
+</ul>
+<p>此时还要注意<strong>跨源</strong>和<strong>跨站</strong>的区别，可以参考我的文章<a href="https://www.pasiphae.top/2024/02/03/%E8%B7%A8%E6%BA%90%E4%B8%8E%E8%B7%A8%E7%AB%99%E3%80%81CORS%E3%80%81Cookie%E7%9A%84SameSite%E5%B1%9E%E6%80%A7%E6%B5%85%E6%9E%90/">跨源与跨站、CORS、Cookie的SameSite属性浅析</a></p>
+<h4 id="Lax"><a href="#Lax" class="headerlink" title="Lax"></a>Lax</h4><p>因为此时Cookie的SameSite属性为<strong>Lax</strong>，那么只有下图中的前三项会在跨站请求中携带Cookie<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/%E8%B7%A8%E6%BA%90%E4%B8%8E%E8%B7%A8%E7%AB%99%E3%80%81CORS%E3%80%81Cookie%E7%9A%84SameSite%E5%B1%9E%E6%80%A7%E6%B5%85%E6%9E%90/1.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h5 id="超链接"><a href="#超链接" class="headerlink" title="超链接"></a>超链接</h5><p>此时，受害者没有关闭浏览器，其test.pasiphae.net的会话cookie还未消失。他此时访问了<code>www.pasiphae.com/test.html</code>，点击了领取礼包的超链接。虽然此时属于跨站，同时属于跨源，但跨站的Lax如上图所示在超链接情况下会携带cookie，跨源但属于简单跨源请求，不会进行CORS预检</p>
+<p>那么，携带会话cookie的请求就会被发送，what用户的密码就会被从<code>cccccc</code>修改为<code>1894787</code><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/5.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/6.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>可以看到，what的密码确实被修改为了<code>1894787</code></p>
+<h5 id="GET表单"><a href="#GET表单" class="headerlink" title="GET表单"></a>GET表单</h5><p>将<code>www.pasiphae.com/test.html</code>更改成一个GET表单<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/12.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/13.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>重新登录what<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/14.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>受害者填写了收货信息并点击提交<br>此时的跨站请求也携带了会话Cookie，密码被修改<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/15.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/16.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h5 id="POST表单"><a href="#POST表单" class="headerlink" title="POST表单"></a>POST表单</h5><p>将<code>www.pasiphae.com/test.html</code>更改成一个POST表单<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/17.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>重新登录what<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/18.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>受害者填写收获信息并点击提交<br>POST表单确实不会携带上Cookie，这和上面的那个表格相吻合<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/19.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<h4 id="Strict"><a href="#Strict" class="headerlink" title="Strict"></a>Strict</h4><p>我们在test.pasiphae.net的后端，将SameSite属性设置为<strong>Strict</strong>，那么此时点击链接发送的请求不会再包含cookie，下面我们进行验证<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/7.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>在<a target="_blank" rel="noopener" href="http://www.neptune.com上将test.html修改下/">www.neptune.com上将test.html修改下</a><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/9.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>我们对此进行验证<br>重新登录what<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/8.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>会话cookie跟刚才肯定是不一样的</p>
+<p>这次就没有携带cookie了，所以也就修改不了密码<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/10.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/CSRF%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/11.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>同样，GET表单和POST表单也不会携带cookie，这里就不作验证了</p>
+<h4 id="None"><a href="#None" class="headerlink" title="None"></a>None</h4><p>因为None需要结合https使用，这里暂时不做验证</p>
+<h2 id="三、防范CSRF攻击措施"><a href="#三、防范CSRF攻击措施" class="headerlink" title="三、防范CSRF攻击措施"></a>三、防范CSRF攻击措施</h2><h3 id="1-令牌同步模式"><a href="#1-令牌同步模式" class="headerlink" title="1.令牌同步模式"></a>1.令牌同步模式</h3><p>令牌同步模式(Synchronizer token pattern，简称STP)<br>原理是，当用户发送请求时，服务器端应用将令牌(token，一个保密且唯一的值)嵌入HTML表格，并发送给客户端。客户端提交HTML表格时候，会将令牌发送到服务端，令牌的验证是由服务端实行的。令牌可以通过任何方式生成，只要确保随机性和唯一性(如：使用随机种子的哈希链 )。这样确保攻击者发送请求时候，由于没有该令牌而无法通过验证</p>
+<p>STP能在HTML下运作顺利，但会导致服务端的复杂度升高，复杂度源于令牌的生成和验证。因为令牌是唯一且随机，如果每个表格都使用一个唯一的令牌，那么当页面过多时，服务器由于生产令牌而导致的负担也会增加。而使用会话等级的令牌代替的话，服务器的负担将没有那么重</p>
+<h3 id="2-检查Referer字段"><a href="#2-检查Referer字段" class="headerlink" title="2.检查Referer字段"></a>2.检查Referer字段</h3><p>HTTP头中有一个Referer字段，这个字段用以标明请求来源于哪个地址。在处理敏感数据请求时，通常来说，Referer字段应和请求的地址位于同一域名下。以上文银行操作为例，Referer字段地址通常应该是转账按钮所在的网页地址，应该也位于bank.example.com之下。而如果是CSRF攻击传来的请求，Referer字段会是包含恶意网址的地址，不会位于bank.example.com之下，这时候服务器就能识别出恶意的访问</p>
+<p>这种办法简单易行，工作量低，仅需要在关键访问处增加一步校验。但这种办法也有其局限性，因其完全依赖浏览器发送正确的Referer字段。虽然http协议对此字段的内容有明确的规定，但并无法保证来访的浏览器的具体实现，亦无法保证浏览器没有安全漏洞影响到此字段。并且也存在攻击者攻击某些浏览器，篡改其Referer字段的可能</p>
+<h3 id="3-添加校验token"><a href="#3-添加校验token" class="headerlink" title="3.添加校验token"></a>3.添加校验token</h3><p>由于CSRF的本质在于攻击者欺骗用户去访问自己设置的地址，所以如果要求在访问敏感数据请求时，要求用户浏览器提供不保存在cookie中，并且攻击者无法伪造的数据作为校验，那么攻击者就无法再执行CSRF攻击。这种数据通常是窗体中的一个数据项。服务器将其生成并附加在窗体中，其内容是一个伪随机数。当客户端通过窗体提交请求时，这个伪随机数也一并提交上去以供校验。正常的访问时，客户端浏览器能够正确得到并传回这个伪随机数，而通过CSRF传来的欺骗性攻击中，攻击者无从事先得知这个伪随机数的值，服务端就会因为校验token的值为空或者错误，拒绝这个可疑请求</p>
+<h3 id="4-设置会话Cookie的SameSite属性为Strict"><a href="#4-设置会话Cookie的SameSite属性为Strict" class="headerlink" title="4.设置会话Cookie的SameSite属性为Strict"></a>4.设置会话Cookie的SameSite属性为Strict</h3><p>此时任何跨站请求都不会携带会话Cookie，CSRF攻击也就不存在了</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CSRF原理详解</div>
+      <div>https://www.pasiphae.top/2022/12/12/CSRF原理详解/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>pasiphae</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/07/21/HTTP-S-%E3%80%81SOCKS5%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3/" title="HTTP(S)、SOCKS5代理原理详解">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HTTP(S)、SOCKS5代理原理详解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/20/sqli-labs%E8%BF%87%E5%85%B3/" title="sqli-labs过关">
+                        <span class="hidden-mobile">sqli-labs过关</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.8.0/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"Ov23liLrR5TiUqomlpen","clientSecret":"8f84493c225143d48a06471c47289a42d61008ae","repo":"pasiphae321.github.io","owner":"pasiphae321","admin":["pasiphae321"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '09b04b34da0b00c5dd7265bb53c59f4e'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-left: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       copyright 2021 - 2024 & all rights reserved<br> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>powered by hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>theme fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

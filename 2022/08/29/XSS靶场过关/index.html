@@ -1,0 +1,793 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/planet.png">
+  <link rel="icon" href="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/planet.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="pasiphae">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="靶场网址 http:&#x2F;&#x2F;xss.tesla-space.com&#x2F; 第一关get传参name值为test，回显有test，直接在URL栏将参数值修改为&lt;script&gt;alert(12345);&lt;&#x2F;script&gt;(在URL栏输入还是在输入框输入都一样，但有细微差别)   过关 第二关感觉和第一关一样  直接在URL栏输入&lt;script&gt;alert(123);&lt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XSS靶场过关">
+<meta property="og:url" content="https://www.pasiphae.top/2022/08/29/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/index.html">
+<meta property="og:site_name" content="pasiphae&#39;s blog">
+<meta property="og:description" content="靶场网址 http:&#x2F;&#x2F;xss.tesla-space.com&#x2F; 第一关get传参name值为test，回显有test，直接在URL栏将参数值修改为&lt;script&gt;alert(12345);&lt;&#x2F;script&gt;(在URL栏输入还是在输入框输入都一样，但有细微差别)   过关 第二关感觉和第一关一样  直接在URL栏输入&lt;script&gt;alert(123);&lt;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/moon2.jpg">
+<meta property="article:published_time" content="2022-08-29T07:02:12.000Z">
+<meta property="article:modified_time" content="2025-03-16T12:45:17.140Z">
+<meta property="article:author" content="pasiphae">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/moon2.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>XSS靶场过关 - pasiphae&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4627722_bg34xk7tmbs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"www.pasiphae.top","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":60,"cursorChar":"|","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":2},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>pasiphae&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/SolarSystem.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="XSS靶场过关"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-29 15:02" pubdate>
+          2022年8月29日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span>次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">XSS靶场过关</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>靶场网址 <a target="_blank" rel="noopener" href="https://xss.tesla-space.com/">http://xss.tesla-space.com/</a></p>
+<h2 id="第一关"><a href="#第一关" class="headerlink" title="第一关"></a>第一关</h2><p>get传参name值为test，回显有test，直接在URL栏将参数值修改为<code>&lt;script&gt;alert(12345);&lt;/script&gt;</code>(在URL栏输入还是在输入框输入都一样，但有细微差别)</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/1.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/2.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>过关</p>
+<h2 id="第二关"><a href="#第二关" class="headerlink" title="第二关"></a>第二关</h2><p>感觉和第一关一样</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/3.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>直接在URL栏输入<code>&lt;script&gt;alert(123);&lt;/script&gt;</code>，发现行不通</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/4.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>&nbsp;</p>
+<p>查看网页源码，发现虽然<code>没要找到xxx的结果</code>那里尖括号在服务器端被转义了，但是输入框那里的尖括号没有被转义。那么我们可以在输入框那里闭合input标签，直接在浏览器URL栏输入<code>&quot;&gt;&lt;script&gt;alert(123)&lt;/script&gt;</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/5.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/6.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>成功过关</p>
+<h2 id="第三关"><a href="#第三关" class="headerlink" title="第三关"></a>第三关</h2><p>直接查看网页源码，可以看到参数名还是<code>keyword</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/7.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>&nbsp;</p>
+<p>在URL栏输入<code>&lt;script&gt;alert(123)&lt;/script&gt;</code>测试下</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/8.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>没成功</p>
+<p>&nbsp;</p>
+<p>查看源码发现这关两个地方的<code>尖括号</code>都被转义了</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/9.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>&nbsp;</p>
+<p>那就不用尖括号，输入<code>&#39; autofocus onblur=alert(); aaa=&#39;</code></p>
+<p>只要点击页面非输入框的部分，就会调用alert函数</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/10.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>成功过关</p>
+<p>但我还有一个未找到原因的问题，为什么输入<code>&#39; autofocus onfocus=alert(); aaa=&#39;</code>会一直循环调用alert</p>
+<h2 id="第四关"><a href="#第四关" class="headerlink" title="第四关"></a>第四关</h2><p>查看源码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/11.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>&nbsp;</p>
+<p>输入<code>&quot; autofocus onblur=alert(); aaa=&quot;</code>测试下</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/12.png" srcset="/img/loading.gif" lazyload alt="【这里有一个图片"></p>
+<p>成功过关，当然也要先点击下非输入框的部分</p>
+<h2 id="第五关"><a href="#第五关" class="headerlink" title="第五关"></a>第五关</h2><p>查看源码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/13.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>又变成了<code>双引号</code></p>
+<p>&nbsp;</p>
+<p>测试下<code>&quot; autofocus onfocus=alert(); aaa=&quot;</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/14.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>发现不行，后端把input标签位置的<code>on</code>给替换为了<code>o_n</code></p>
+<p>&nbsp;</p>
+<p>那再测试下<code>&lt;script&gt;alert();&lt;/script&gt;</code>看下过滤了尖括号没有</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/15.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>h2标签处过滤了，但input标签处没过滤，但过滤了script</p>
+<p>&nbsp;</p>
+<p>那直接基于input标签输入<code>&quot;&gt; &lt;a href=javascript:alert();&gt;111&lt;/a&gt;</code>，并点击链接</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/16.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>成功过关</p>
+<h2 id="第六关"><a href="#第六关" class="headerlink" title="第六关"></a>第六关</h2><p>查看源码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/17.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>&nbsp;</p>
+<p>先测试下<code>&quot;&gt;&lt;script&gt;alert(123);&lt;/script&gt;&lt;img src=&quot;</code>，没能成功，查看下源码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/18.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>可以看到，h2标签处后端将<code>&quot;、&lt;、&gt;</code>转义为了HTML实体，input标签处没有转义<code>&quot;、&lt;、&gt;</code>，但是将<code>script</code>替换为了<code>scr_ipt</code>，将<code>src</code>转换为了<code>sr_c</code></p>
+<p>但为什么<code>&lt;/script&gt;</code>中的<code>script</code>没有替换为<code>scr_ipt</code>呢？说明后端的替换规则为下面两种之一</p>
+<ul>
+<li><p><code>&lt;script</code>替换为<code>&lt;scr_ipt</code></p>
+</li>
+<li><p><code>&lt;script&gt;</code>替换为<code>&lt;scr_ipt&gt;</code></p>
+</li>
+</ul>
+<p>最终测试发现为第一种</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/19.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>&nbsp;</p>
+<p>这里利用浏览器的一个特性，DOM树生成过程中对HTML文件中的标签和属性名的大小写不敏感，但后端语言肯定对大小写是敏感的</p>
+<p>我们测试下后端在替换时会不会大小写敏感</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/20.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>看来是大小写敏感的</p>
+<p>&nbsp;</p>
+<p>直接<code>&quot;&gt;&lt;sCRipt&gt;alert();&lt;script&gt;&lt;img src=&quot;</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/21.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>成功过关</p>
+<h2 id="第七关"><a href="#第七关" class="headerlink" title="第七关"></a>第七关</h2><p>查看源码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/22.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>&nbsp;</p>
+<p>测试下<code>&quot;&gt;&lt;script&gt;alert(123);&lt;/script&gt;&lt;img src=&quot;</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/23.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>看来后端这次是将input标签处的script替换为空字符，那可以通过双写绕过</p>
+<p>&nbsp;</p>
+<p>URL栏输入<code>&quot;&gt;&lt;scrscriptipt&gt;alert();&lt;/scrscriptipt&gt;&lt;img src=&quot;</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/24.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>过关</p>
+<h2 id="第八关"><a href="#第八关" class="headerlink" title="第八关"></a>第八关</h2><p>老样子，查看源码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/25.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>&nbsp;</p>
+<p>老样子，测试下<code>&quot;&gt;&lt;script&gt;alert(123);&lt;/script&gt;&lt;img src=&quot;</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/26.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>过不了</p>
+<p>查看源码，这次后端在input标签将<code>&quot;、&lt;、&gt;</code>转换为HTML实体，而在a标签处只将<code>&quot;</code>转换为HTML实体，把<code>script</code>替换为<code>scr_ipt</code></p>
+<p>&nbsp;</p>
+<p>基于a标签，用Javascript伪协议和大小写绕过试试，<code>javascrIpt:alert();</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/27.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>看来对大小写做了防范</p>
+<p>&nbsp;</p>
+<p>那试试将<code>script</code>替换为对应的HTML实体</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/28.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p><code>&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;</code></p>
+<p><strong>如果在输入框输入</strong>，payload为<code>java&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;:alert();</code>，因为此时浏览器会对payload自动进行URL编码</p>
+<p><strong>如果直接在URL栏输入</strong>，要在HTML实体编码后再进行一次URL编码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/29.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>此时payload为</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">java%26%23115%3B%26%2399%3B%26%23114%3B%26%23105%3B%26%23112%3B%26%23116%3B:alert();<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/30.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>过关</p>
+<h2 id="第九关"><a href="#第九关" class="headerlink" title="第九关"></a>第九关</h2><p>用上一关的payload试试</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/31.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>过不了，显示链接不合法，难道是会检查参数值里有没有javascript？最终查看网站源码，原来是检查有没有<code>http://</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/32.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>&nbsp;</p>
+<p>那直接在第八关的payload后面加上<code>var a =  %26%2334%3Bhttp://%26%2334%3B;</code></p>
+<p>最终的payload如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">java%26%23115%3B%26%2399%3B%26%23114%3B%26%23105%3B%26%23112%3B%26%23116%3B:alert();var a = %26%2334%3Bhttp://%26%2334%3B;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/33.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>过关</p>
+<h2 id="第十关"><a href="#第十关" class="headerlink" title="第十关"></a>第十关</h2><p>查看源码</p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/34.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p>三个隐藏的输入框，三个参数，那都添加在URL里</p>
+<p>&nbsp;</p>
+<p>在URL栏输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">?t_link=<span class="hljs-string">&quot;&lt;script&gt;alert();&lt;/script&gt;&lt;input name=&quot;</span>abc&amp;t_history=<span class="hljs-string">&quot;&lt;script&gt;alert();&lt;/script&gt;&lt;input name=&quot;</span>abd&amp;t_sort=<span class="hljs-string">&quot;&lt;script&gt;alert();&lt;/script&gt;&lt;input name=&quot;</span>abe<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/35.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>看来t_sort参数会有回显，但是后端将<code>&lt;、&gt;</code>替换为了空字符</p>
+<p>&nbsp;</p>
+<p>那输入<code>&quot; type=&quot;text&quot; autofocus oublur=alert(); ccc=&quot;</code></p>
+<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/XSS%E9%9D%B6%E5%9C%BA%E8%BF%87%E5%85%B3/36.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
+<p>不知为啥这里调用不了alert</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>XSS靶场过关</div>
+      <div>https://www.pasiphae.top/2022/08/29/XSS靶场过关/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>pasiphae</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年8月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/02/SQL%E6%B3%A8%E5%85%A5%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/" title="SQL注入原理浅析">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SQL注入原理浅析</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/25/OpenWRt%E9%98%B2%E7%81%AB%E5%A2%99%E8%AF%A6%E8%A7%A3/" title="OpenWRt防火墙详解">
+                        <span class="hidden-mobile">OpenWRt防火墙详解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.8.0/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"Ov23liLrR5TiUqomlpen","clientSecret":"8f84493c225143d48a06471c47289a42d61008ae","repo":"pasiphae321.github.io","owner":"pasiphae321","admin":["pasiphae321"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: 'dda36a264dbb6cc9e96e721300f8ccc7'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-left: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       copyright 2021 - 2024 & all rights reserved<br> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>powered by hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>theme fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
