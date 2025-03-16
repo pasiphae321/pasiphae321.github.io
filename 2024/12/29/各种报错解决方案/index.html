@@ -19,25 +19,25 @@
   <meta name="author" content="pasiphae">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、网络拓扑图ubuntu版本为20.04kali版本为2023.4 二、预配置1.在mercury上stop并disable ufw服务 12sudo systemctl stop ufwsudo systemctl disable ufw 2.在mercury上安装软件包iptables-persistent，启动netfilter-persistent服务，这样就可以使用命令iptables">
+    <meta name="description" content="此文章用于记录我在操作计算机过程中产生的各种类型的报错以及对应的解决方案，方便我在遇到同类型问题时进行查阅，同时希望帮助那些遇到同样问题的人 一、">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用iptables实现NAT">
-<meta property="og:url" content="https://www.pasiphae.top/2022/07/12/%E4%BD%BF%E7%94%A8iptables%E5%AE%9E%E7%8E%B0NAT/index.html">
+<meta property="og:title" content="各种报错解决方案">
+<meta property="og:url" content="https://www.pasiphae.top/2024/12/29/%E5%90%84%E7%A7%8D%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
 <meta property="og:site_name" content="pasiphae&#39;s blog">
-<meta property="og:description" content="一、网络拓扑图ubuntu版本为20.04kali版本为2023.4 二、预配置1.在mercury上stop并disable ufw服务 12sudo systemctl stop ufwsudo systemctl disable ufw 2.在mercury上安装软件包iptables-persistent，启动netfilter-persistent服务，这样就可以使用命令iptables">
+<meta property="og:description" content="此文章用于记录我在操作计算机过程中产生的各种类型的报错以及对应的解决方案，方便我在遇到同类型问题时进行查阅，同时希望帮助那些遇到同样问题的人 一、">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/moon2.jpg">
-<meta property="article:published_time" content="2022-07-12T11:57:36.000Z">
-<meta property="article:modified_time" content="2025-03-16T12:45:17.140Z">
+<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/earth2.jpg">
+<meta property="article:published_time" content="2024-12-29T12:48:39.000Z">
+<meta property="article:modified_time" content="2025-03-16T13:55:38.865Z">
 <meta property="article:author" content="pasiphae">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/moon2.jpg">
+<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/earth2.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>使用iptables实现NAT - pasiphae&#39;s blog</title>
+  <title>各种报错解决方案 - pasiphae&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="使用iptables实现NAT"></span>
+            <span id="subtitle" data-typed-text="各种报错解决方案"></span>
           
         </div>
 
@@ -214,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-07-12 19:57" pubdate>
-          2022年7月12日 晚上
+        <time datetime="2024-12-29 20:48" pubdate>
+          2024年12月29日 晚上
         </time>
       </span>
     
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          509 字
+          69 字
         
       </span>
     
@@ -287,45 +287,13 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">使用iptables实现NAT</h1>
+            <h1 id="seo-header">各种报错解决方案</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="一、网络拓扑图"><a href="#一、网络拓扑图" class="headerlink" title="一、网络拓扑图"></a>一、网络拓扑图</h2><p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/iptables_NAT/0.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>ubuntu版本为20.04<br>kali版本为2023.4</p>
-<h2 id="二、预配置"><a href="#二、预配置" class="headerlink" title="二、预配置"></a>二、预配置</h2><p>1.在mercury上stop并disable ufw服务</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> systemctl stop ufw<br><span class="hljs-built_in">sudo</span> systemctl <span class="hljs-built_in">disable</span> ufw<br></code></pre></td></tr></table></figure>
-<p>2.在mercury上安装软件包iptables-persistent，启动netfilter-persistent服务，这样就可以使用命令iptables了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt install iptables-persistent<br><span class="hljs-built_in">sudo</span> systemctl start iptables<br></code></pre></td></tr></table></figure>
-
-
-<h2 id="三、仅开启linux内核的IP转发功能，不使用iptables进行NAT"><a href="#三、仅开启linux内核的IP转发功能，不使用iptables进行NAT" class="headerlink" title="三、仅开启linux内核的IP转发功能，不使用iptables进行NAT"></a>三、仅开启linux内核的IP转发功能，不使用iptables进行NAT</h2><p>1.在mercury上开启IP转发<br>(1)编辑文件&#x2F;etc&#x2F;sysctl.conf</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> vim /etc/sysctl.conf<br></code></pre></td></tr></table></figure>
-<p>&#x2F;etc&#x2F;sysctl.conf 是一个配置文件，用于定义linux系统内核的各种参数。它允许你在系统启动时配置和调整内核参数，这些参数控制系统的行为，包括网络设置、内存管理、进程调度等</p>
-<p>(2)取消注释或者在文件末尾添加如下行</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">net.ipv4.ip_forward</span> = <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
-<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/iptables_NAT/1.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>(3)使配置生效</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> sysctl -p<br></code></pre></td></tr></table></figure>
-
-<p>2.在venus上PING kali1(192.168.163.138)</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">ping</span> <span class="hljs-number">192.168.163.138</span><br></code></pre></td></tr></table></figure>
-<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/iptables_NAT/2.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"><br>可以看到是PING不通的</p>
-<p>3.在kali1上开启WireShark进行抓包并分析<br>(1)由下图可以看到，ICMP的request包的源IP为mercury而并非venus的IP，说明只进行了IP转发没有进行NAT<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/iptables_NAT/3.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>(2)而且由上图，kali1回复了ICMP的reply包，那为啥merury PING不通呢？<br>这是因为kali1上没有关于192.168.12.21的路由项，于是会将IP包发给默认网关192.168.163.2,所以mercury收不到ICMP reply包，也就是PING不通了</p>
-<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/iptables_NAT/4.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<h2 id="四、使用iptables实现NAT"><a href="#四、使用iptables实现NAT" class="headerlink" title="四、使用iptables实现NAT"></a>四、使用iptables实现NAT</h2><p>1.在mercury上给iptables的nat表POSTROUTING链上增加一条规则</p>
-<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs brainfuck"><span class="hljs-comment">sudo iptables</span> <span class="hljs-literal">--</span><span class="hljs-comment">table nat</span> <span class="hljs-literal">--</span><span class="hljs-comment">append POSTROUTING</span> <span class="hljs-literal">--</span><span class="hljs-comment">out</span><span class="hljs-literal">-</span><span class="hljs-comment">interface ens34</span> <span class="hljs-literal">--</span><span class="hljs-comment">jump MASQUERADE</span><br></code></pre></td></tr></table></figure>
-<p>这样，从内网要到外网的包的源IP地址就会被转换为venus的外网的接口ens34对应的IP 192.168.163.54</p>
-<p>查看下nat表，看是否成功添加规则</p>
-<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs brainfuck"><span class="hljs-comment">sudo iptables</span> <span class="hljs-literal">--</span><span class="hljs-comment">table nat</span> <span class="hljs-literal">--</span><span class="hljs-comment">list</span><br></code></pre></td></tr></table></figure>
-<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/iptables_NAT/5.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>2.此时我们再PING下kali1</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">ping</span> <span class="hljs-number">192.168.163.138</span><br></code></pre></td></tr></table></figure>
-<p>由下图可以看到，此时能够PING通kali1<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/iptables_NAT/6.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>3.再次在kali1上用WireShark进行抓包<br>可以看到，ICMP request包的源IP已经变成了192.168.163.54，说明成功实现了NAT<br><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/iptables_NAT/7.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p>4.那为什么kali1回复的ICMP reply包到达了venus后，能顺利返回mercury呢？<br>这里应该是跟iptables是有状态防火墙、NAT映射表、conntrack相关，但具体原因因为个人水平太低还无法阐述</p>
-
+                <p>此文章用于记录我在操作计算机过程中产生的各种类型的报错以及对应的解决方案，方便我在遇到同类型问题时进行查阅，同时希望帮助那些遇到同样问题的人</p>
+<h2 id="一、"><a href="#一、" class="headerlink" title="一、"></a>一、</h2>
                 
               </div>
             
@@ -342,8 +310,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>使用iptables实现NAT</div>
-      <div>https://www.pasiphae.top/2022/07/12/使用iptables实现NAT/</div>
+      <div>各种报错解决方案</div>
+      <div>https://www.pasiphae.top/2024/12/29/各种报错解决方案/</div>
     </div>
     <div class="license-meta">
       
@@ -355,7 +323,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年7月12日</div>
+          <div>2024年12月29日</div>
         </div>
       
       
@@ -387,15 +355,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/07/20/iptables%E7%9A%84%E5%9B%9B%E8%A1%A8%E4%BA%94%E9%93%BE%E5%92%8C%E5%86%85%E6%A0%B8%E7%9A%84netfilter/" title="iptables的四表五链和内核的netfilter">
+                      <a href="/2025/03/16/hello-world/" title="Hello World">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">iptables的四表五链和内核的netfilter</span>
+                        <span class="hidden-mobile">Hello World</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2024/10/21/%E4%B8%BA%E5%9F%9F%E5%90%8D%E6%88%96IP%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/" title="为域名或IP生成自签名TLS证书">
+                        <span class="hidden-mobile">为域名或IP生成自签名TLS证书</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
@@ -415,7 +389,7 @@
         var options = Object.assign(
           {"clientID":"Ov23liLrR5TiUqomlpen","clientSecret":"8f84493c225143d48a06471c47289a42d61008ae","repo":"pasiphae321.github.io","owner":"pasiphae321","admin":["pasiphae321"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: '84aa57827d7b3b3c7bd0ef7621b11670'
+            id: '5b7a06857afacbbc6d1c8a0f8c54a450'
           }
         )
         var gitalk = new Gitalk(options);
