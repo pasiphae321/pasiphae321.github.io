@@ -19,25 +19,25 @@
   <meta name="author" content="pasiphae">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、架构nginx在VPS上作反向代理 cloudreve运行在内网服务器上 frp用于实现内网穿透，连接VPS和内网服务器 二、demo嗣徽云盘   三、配置该部分修改中…">
+    <meta name="description" content="开头的伴奏一出来直接是直击灵魂，整体也很好听^_^ 加油站旁的海鸥机场路上的松柏挥挥手眼泪就掉下来~ 飘在黄昏的雪覆盖了黑夜我不能在清晨睁开眼~">
 <meta property="og:type" content="article">
-<meta property="og:title" content="nginx+frp+cloudreve搭建私人云盘">
-<meta property="og:url" content="https://www.pasiphae.top/2024/09/16/nginx-frp-cloudreve%E6%90%AD%E5%BB%BA%E7%A7%81%E4%BA%BA%E4%BA%91%E7%9B%98/index.html">
+<meta property="og:title" content="玛丽_赵雷">
+<meta property="og:url" content="https://www.pasiphae.top/2022/03/23/%E7%8E%9B%E4%B8%BD-%E8%B5%B5%E9%9B%B7/index.html">
 <meta property="og:site_name" content="Pasiphae&#39;s Blog">
-<meta property="og:description" content="一、架构nginx在VPS上作反向代理 cloudreve运行在内网服务器上 frp用于实现内网穿透，连接VPS和内网服务器 二、demo嗣徽云盘   三、配置该部分修改中…">
+<meta property="og:description" content="开头的伴奏一出来直接是直击灵魂，整体也很好听^_^ 加油站旁的海鸥机场路上的松柏挥挥手眼泪就掉下来~ 飘在黄昏的雪覆盖了黑夜我不能在清晨睁开眼~">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/nginx%2Bfrp%2Bcloudreve%E6%90%AD%E5%BB%BA%E7%A7%81%E4%BA%BA%E4%BA%91%E7%9B%98/demo.png">
-<meta property="article:published_time" content="2024-09-15T16:29:06.000Z">
-<meta property="article:modified_time" content="2025-03-16T12:45:17.140Z">
+<meta property="og:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/Mary_ZhaoLei.jpg">
+<meta property="article:published_time" content="2022-03-23T03:04:49.000Z">
+<meta property="article:modified_time" content="2025-03-23T07:44:39.646Z">
 <meta property="article:author" content="pasiphae">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/nginx%2Bfrp%2Bcloudreve%E6%90%AD%E5%BB%BA%E7%A7%81%E4%BA%BA%E4%BA%91%E7%9B%98/demo.png">
+<meta name="twitter:image" content="https://callisto.oss-cn-chengdu.aliyuncs.com/images/background/Mary_ZhaoLei.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>nginx+frp+cloudreve搭建私人云盘 - Pasiphae&#39;s Blog</title>
+  <title>玛丽_赵雷 - Pasiphae&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="nginx+frp+cloudreve搭建私人云盘"></span>
+            <span id="subtitle" data-typed-text="玛丽_赵雷"></span>
           
         </div>
 
@@ -214,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-09-16 00:29" pubdate>
-          2024年9月16日 凌晨
+        <time datetime="2022-03-23 11:04" pubdate>
+          2022年3月23日 上午
         </time>
       </span>
     
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          52 字
+          65 字
         
       </span>
     
@@ -287,18 +287,16 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">nginx+frp+cloudreve搭建私人云盘</h1>
+            <h1 id="seo-header">玛丽_赵雷</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="一、架构"><a href="#一、架构" class="headerlink" title="一、架构"></a>一、架构</h2><p>nginx在VPS上作反向代理</p>
-<p>cloudreve运行在内网服务器上</p>
-<p>frp用于实现内网穿透，连接VPS和内网服务器</p>
-<h2 id="二、demo"><a href="#二、demo" class="headerlink" title="二、demo"></a>二、demo</h2><p><a target="_blank" rel="noopener" href="https://14.103.157.111:33333/">嗣徽云盘</a></p>
-<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/nginx%2Bfrp%2Bcloudreve%E6%90%AD%E5%BB%BA%E7%A7%81%E4%BA%BA%E4%BA%91%E7%9B%98/demo.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<p><img src="https://callisto.oss-cn-chengdu.aliyuncs.com/images/nginx%2Bfrp%2Bcloudreve%E6%90%AD%E5%BB%BA%E7%A7%81%E4%BA%BA%E4%BA%91%E7%9B%98/demo2.png" srcset="/img/loading.gif" lazyload alt="这里有一个图片"></p>
-<h2 id="三、配置"><a href="#三、配置" class="headerlink" title="三、配置"></a>三、配置</h2><p>该部分修改中…</p>
+                <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=447925058&auto=1&height=66"></iframe>
+
+<p>开头的伴奏一出来直接是直击灵魂，整体也很好听^_^</p>
+<p>加油站旁的海鸥<br>机场路上的松柏<br>挥挥手眼泪就掉下来~</p>
+<p>飘在黄昏的雪<br>覆盖了黑夜<br>我不能在清晨睁开眼~</p>
 
                 
               </div>
@@ -306,6 +304,27 @@
             <hr/>
             <div>
               <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%9F%B3%E4%B9%90/" class="category-chain-item">音乐</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
   
   
 </div>
@@ -316,8 +335,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>nginx+frp+cloudreve搭建私人云盘</div>
-      <div>https://www.pasiphae.top/2024/09/16/nginx-frp-cloudreve搭建私人云盘/</div>
+      <div>玛丽_赵雷</div>
+      <div>https://www.pasiphae.top/2022/03/23/玛丽-赵雷/</div>
     </div>
     <div class="license-meta">
       
@@ -329,7 +348,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年9月16日</div>
+          <div>2022年3月23日</div>
         </div>
       
       
@@ -361,21 +380,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/21/%E4%B8%BA%E5%9F%9F%E5%90%8D%E6%88%96IP%E7%94%9F%E6%88%90%E8%87%AA%E7%AD%BE%E5%90%8DTLS%E8%AF%81%E4%B9%A6/" title="为域名或IP生成自签名TLS证书">
+                      <a href="/2022/04/12/%E8%AE%B8%E5%B5%A9/" title="许嵩">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">为域名或IP生成自签名TLS证书</span>
+                        <span class="hidden-mobile">许嵩</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
-                    
-                      <a href="/2024/09/01/RESTful-API%E8%AF%A6%E8%A7%A3/" title="RESTful API详解">
-                        <span class="hidden-mobile">RESTful API详解</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
                     
                   </article>
                 </div>
@@ -395,7 +408,7 @@
         var options = Object.assign(
           {"clientID":"Ov23liLrR5TiUqomlpen","clientSecret":"8f84493c225143d48a06471c47289a42d61008ae","repo":"pasiphae321.github.io","owner":"pasiphae321","admin":["pasiphae321"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: '90eb126fae1492c3585af6090f83c143'
+            id: '4425c263d48d56cd2fbbe1eeeab131f5'
           }
         )
         var gitalk = new Gitalk(options);
@@ -426,6 +439,61 @@
 
 <div class="category-list">
   
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="音乐"
+        id="heading-95521bb744463633c858cc50abb44e7d" role="tab" data-toggle="collapse" href="#collapse-95521bb744463633c858cc50abb44e7d"
+        aria-expanded="true"
+      >
+        音乐
+        <span class="list-group-count">(3)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-95521bb744463633c858cc50abb44e7d"
+           role="tabpanel" aria-labelledby="heading-95521bb744463633c858cc50abb44e7d">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2025/02/17/%E6%95%91%E5%A7%BB%E7%BC%98-%E9%BB%84%E5%AE%89/" title="救姻缘_黄安"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">救姻缘_黄安</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/03/23/%E7%8E%9B%E4%B8%BD-%E8%B5%B5%E9%9B%B7/" title="玛丽_赵雷"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">玛丽_赵雷</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2022/08/11/%E9%9D%92%E5%9F%8E%E5%B1%B1%E4%B8%8B%E7%99%BD%E7%B4%A0%E8%B4%9E/" title="青城山下白素贞"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">青城山下白素贞</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
   
 </div>
 
